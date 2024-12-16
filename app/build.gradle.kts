@@ -69,6 +69,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
     // Ktor
     implementation(libs.ktor.ktor.client.core)
     implementation(libs.ktor.client.android)

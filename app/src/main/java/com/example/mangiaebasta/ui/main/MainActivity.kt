@@ -20,6 +20,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// ciao sono giorgio
+
 @Composable
 fun Display() {
     Column {

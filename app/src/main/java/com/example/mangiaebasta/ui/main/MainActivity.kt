@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
 }
 
 // ciao sono giorgio
-//io sono carlotta
+//io sono carlottaaa
 
 @Composable
 fun Display() {

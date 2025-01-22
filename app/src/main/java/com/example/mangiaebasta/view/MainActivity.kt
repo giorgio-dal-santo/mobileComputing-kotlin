@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import com.example.mangiaebasta.view.styles.MangiaEBastaTheme
 
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

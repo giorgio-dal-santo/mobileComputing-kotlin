@@ -2,11 +2,11 @@ package com.example.mangiaebasta.model.dataSource
 
 import android.net.Uri
 import android.util.Log
-import com.example.mangiaebasta.model.dto.APILocation
-import com.example.mangiaebasta.model.dto.Menu
-import com.example.mangiaebasta.model.dto.MenuDetails
-import com.example.mangiaebasta.model.dto.MenuImage
-import com.example.mangiaebasta.model.dto.Order
+import com.example.mangiaebasta.model.dataClasses.APILocation
+import com.example.mangiaebasta.model.dataClasses.Menu
+import com.example.mangiaebasta.model.dataClasses.MenuDetails
+import com.example.mangiaebasta.model.dataClasses.MenuImage
+import com.example.mangiaebasta.model.dataClasses.Order
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
@@ -22,9 +22,9 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import com.example.mangiaebasta.model.dto.User
-import com.example.mangiaebasta.model.dto.UserDetail
-import com.example.mangiaebasta.model.dto.ResponseError
+import com.example.mangiaebasta.model.dataClasses.User
+import com.example.mangiaebasta.model.dataClasses.UserDetail
+import com.example.mangiaebasta.model.dataClasses.ResponseError
 
 
 object CommunicationController {

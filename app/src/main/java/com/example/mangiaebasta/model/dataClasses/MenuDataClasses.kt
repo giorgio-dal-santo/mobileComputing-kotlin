@@ -1,5 +1,7 @@
-package com.example.mangiaebasta.model.dto
+package com.example.mangiaebasta.model.dataClasses
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -28,4 +30,11 @@ data class MenuDetails (
 @Serializable
 data class MenuImage (
     val string64 : String,
+)
+
+@Entity
+data class MenuImageWithVersion(
+    @PrimaryKey val mid: Int,
+    val imageVersion: Int,
+    val image: String
 )

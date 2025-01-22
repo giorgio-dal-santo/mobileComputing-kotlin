@@ -1,4 +1,4 @@
-package com.example.mangiaebasta.model.dto
+package com.example.mangiaebasta.model.dataClasses
 
 import kotlinx.serialization.Serializable
 import java.util.TimeZone

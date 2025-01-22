@@ -3,7 +3,13 @@ package com.example.mangiaebasta.model.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserDetailResponse(
+data class User(
+    val sid: String,
+    val uid: Int
+)
+
+@Serializable
+data class UserDetail(
     val firstName: String?,
     val lastName: String?,
     val cardFullName: String?,
@@ -15,3 +21,4 @@ data class UserDetailResponse(
     val lastOid: Int?,
     val orderStatus: String?
 )
+

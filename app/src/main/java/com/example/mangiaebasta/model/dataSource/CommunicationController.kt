@@ -2,9 +2,11 @@ package com.example.mangiaebasta.model.dataSource
 
 import android.net.Uri
 import android.util.Log
-import com.example.mangiaebasta.model.dto.ResponseError
-import com.example.mangiaebasta.model.dto.UserDetailResponse
-import com.example.mangiaebasta.model.dto.UserResponse
+import com.example.mangiaebasta.model.dto.APILocation
+import com.example.mangiaebasta.model.dto.Menu
+import com.example.mangiaebasta.model.dto.MenuDetails
+import com.example.mangiaebasta.model.dto.MenuImage
+import com.example.mangiaebasta.model.dto.Order
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
@@ -20,11 +22,14 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import com.example.mangiaebasta.model.dto.User
+import com.example.mangiaebasta.model.dto.UserDetail
+import com.example.mangiaebasta.model.dto.ResponseError
+
 
 object CommunicationController {
     private val TAG = CommunicationController::class.simpleName
     private const val BASE_URL = "https://develop.ewlab.di.unimi.it/mc/2425"
-    var sid : String? = null
     private val client = HttpClient(Android) {
         install(ContentNegotiation) {
             json(Json {
@@ -40,9 +45,11 @@ object CommunicationController {
         PUT
     }
 
-    suspend fun genericRequest(url: String, method: HttpMethod,
-                               queryParameters: Map<String, Any> = emptyMap(),
-                               requestBody: Any? = null) : HttpResponse {
+    suspend fun genericRequest(
+        url: String, method: HttpMethod,
+        queryParameters: Map<String, Any> = emptyMap(),
+        bodyParams: Any? = null
+    ): HttpResponse {
 
         val urlUri = Uri.parse(url)
         val urlBuilder = urlUri.buildUpon()
@@ -52,9 +59,9 @@ object CommunicationController {
         val completeUrlString = urlBuilder.build().toString()
         Log.d(TAG, completeUrlString)
         val request: HttpRequestBuilder.() -> Unit = {
-            requestBody?.let {
+            bodyParams?.let {
                 contentType(ContentType.Application.Json)
-                setBody(requestBody)
+                setBody(bodyParams)
             }
         }
 
@@ -78,21 +85,77 @@ object CommunicationController {
         }
     }
 
-    suspend fun createUser(): UserResponse {
-        Log.d(TAG, "createUser")
+    // User data management
+    suspend fun registerUser(): User {
+        Log.d(TAG, "registerUser")
         val url = "$BASE_URL/user"
-        val httpResponse = genericRequest (url, HttpMethod.POST)
-        val result : UserResponse = httpResponse.body()
+        val httpResponse = genericRequest(url, HttpMethod.POST)
+        val result: User = httpResponse.body()
         return result
     }
 
-    suspend fun getUserDetail(sid: String, uid: Int): UserDetailResponse {
-        Log.d(TAG, "getUserDetail")
+    suspend fun getUserData(sid: String, uid: Int): UserDetail {
+        Log.d(TAG, "getUserData")
         val url = "$BASE_URL/user/$uid"
         val queryParameters = mapOf("sid" to sid, "uid" to uid)
-        val httpResponse = genericRequest (url, HttpMethod.GET, queryParameters)
-        val result : UserDetailResponse = httpResponse.body()
+        val httpResponse = genericRequest(url, HttpMethod.GET, queryParameters)
+        val result: UserDetail = httpResponse.body()
         return result
     }
+
+    suspend fun putUserData(uid: Int, updateData: UserDetail): HttpResponse {
+        Log.d(TAG, "putUserData")
+        val url = "$BASE_URL/user/$uid"
+        val httpResponse = genericRequest(url, HttpMethod.PUT, bodyParams = updateData)
+        return httpResponse
+    }
+
+    // Menu data management
+    suspend fun getNearbyMenus(lat: Double, lng: Double, sid: String): List<Menu> {
+        Log.d(TAG, "getNearbyMenus")
+        val url = "$BASE_URL/menu"
+        val queryParameters = mapOf("lat" to lat, "lng" to lng, "sid" to sid)
+        val httpResponse = genericRequest(url, HttpMethod.GET, queryParameters)
+        val result: List<Menu> = httpResponse.body()
+        return result
+    }
+
+    suspend fun getMenuImage(mid: Int, sid: String): MenuImage {
+        Log.d(TAG, "getMenuImage")
+        val url = "$BASE_URL/menu/$mid/image"
+        val queryParameters = mapOf("sid" to sid)
+        val httpResponse = genericRequest(url, HttpMethod.GET, queryParameters)
+        val result: MenuImage = httpResponse.body()
+        return result
+    }
+
+    suspend fun getMenuDetail(mid: Int, lat: Double, lng: Double, sid: String): MenuDetails {
+        Log.d(TAG, "getMenuDetail")
+        val url = "$BASE_URL/menu/$mid"
+        val queryParameters = mapOf("lat" to lat, "lng" to lng, "sid" to sid)
+        val httpResponse = genericRequest(url, HttpMethod.GET, queryParameters)
+        val result: MenuDetails = httpResponse.body()
+        return result
+    }
+
+    suspend fun buyMenu(sid: String, deliveryLocation: APILocation, mid: Int): Order {
+        Log.d(TAG, "buyMenu")
+        val url = "$BASE_URL/menu/$mid/buy"
+        val bodyParams = mapOf("sid" to sid, "deliveryLocation" to deliveryLocation)
+        val httpResponse = genericRequest(url, HttpMethod.POST, bodyParams = bodyParams)
+        val result: Order = httpResponse.body()
+        return result
+    }
+
+    // Order data management
+    suspend fun getOrderDetail (oid: Int, sid: String) : Order {
+        Log.d(TAG, "getOrderDetail")
+        val url = "$BASE_URL/order/$oid"
+        val queryParameters = mapOf("oid" to oid, "sid" to sid)
+        val httpResponse = genericRequest(url, HttpMethod.GET, queryParameters)
+        val result: Order = httpResponse.body()
+        return result
+    }
+
 
 }

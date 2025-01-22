@@ -1,4 +1,4 @@
-package com.example.mangiaebasta.data.dto
+package com.example.mangiaebasta.model.dto
 
 import kotlinx.serialization.Serializable
 

@@ -1,8 +1,8 @@
-package com.example.mangiaebasta.data.dataSource.room
+package com.example.mangiaebasta.model.dataSource.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.mangiaebasta.data.dataSource.room.MenuImageDao
+import com.example.mangiaebasta.model.dataSource.room.MenuImageDao
 
 @Database(entities = [MenuImageEntity::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {

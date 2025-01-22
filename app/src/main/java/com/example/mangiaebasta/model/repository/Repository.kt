@@ -1,4 +1,4 @@
-package com.example.mangiaebasta.data.repository
+package com.example.mangiaebasta.model.repository
 
 // data un'immagine richiesta il repository si occupa di recuperarla dal db locale o dal server
 

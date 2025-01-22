@@ -1,4 +1,4 @@
-package com.example.mangiaebasta.ui.theme
+package com.example.mangiaebasta.view.styles
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

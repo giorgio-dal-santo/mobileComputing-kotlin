@@ -1,10 +1,10 @@
-package com.example.mangiaebasta.data.remoteDataSource
+package com.example.mangiaebasta.model.dataSource
 
 import android.net.Uri
 import android.util.Log
-import com.example.mangiaebasta.data.dto.ResponseError
-import com.example.mangiaebasta.data.dto.UserDetailResponse
-import com.example.mangiaebasta.data.dto.UserResponse
+import com.example.mangiaebasta.model.dto.ResponseError
+import com.example.mangiaebasta.model.dto.UserDetailResponse
+import com.example.mangiaebasta.model.dto.UserResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android

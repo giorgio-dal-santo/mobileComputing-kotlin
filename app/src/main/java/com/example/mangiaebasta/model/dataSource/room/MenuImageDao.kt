@@ -1,10 +1,10 @@
-package com.example.mangiaebasta.data.dataSource.room
+package com.example.mangiaebasta.model.dataSource.room
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.mangiaebasta.data.dataSource.room.MenuImageEntity
+import com.example.mangiaebasta.model.dataSource.room.MenuImageEntity
 
 @Dao
 interface MenuImageDao {

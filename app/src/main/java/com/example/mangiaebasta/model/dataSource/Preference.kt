@@ -1,4 +1,4 @@
-package com.example.mangiaebasta.data.dataSource.preference
+package com.example.mangiaebasta.model.dataSource
 
 import android.content.Context
 import androidx.datastore.core.DataStore

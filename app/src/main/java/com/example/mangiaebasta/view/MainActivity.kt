@@ -1,4 +1,4 @@
-package com.example.mangiaebasta.ui.main
+package com.example.mangiaebasta.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.example.mangiaebasta.ui.theme.MangiaEBastaTheme
+import com.example.mangiaebasta.view.styles.MangiaEBastaTheme
 
 
 class MainActivity : ComponentActivity() {

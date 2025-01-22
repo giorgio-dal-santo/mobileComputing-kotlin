@@ -1,4 +1,4 @@
-package com.example.mangiaebasta.data.dataSource.room
+package com.example.mangiaebasta.model.dataSource.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

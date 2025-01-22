@@ -1,4 +1,4 @@
-package com.example.mangiaebasta.ui.theme
+package com.example.mangiaebasta.view.styles
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

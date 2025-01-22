@@ -12,7 +12,6 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import kotlinx.coroutines.flow.first
 import androidx.datastore.preferences.core.edit
 
-// sistemare configurazione: installare dipendenze
 
 class PreferencesController private constructor(
     private val dataStore: DataStore<Preferences>

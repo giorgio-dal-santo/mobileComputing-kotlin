@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.*
 import com.example.mangiaebasta.model.dataClasses.MenuImageWithVersion
 
-// sistemare configurazione: installare dipendenze
 
 @Dao
 interface MenuImageDao {

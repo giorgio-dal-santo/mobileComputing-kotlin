@@ -29,7 +29,19 @@ data class MenuDetails (
 
 @Serializable
 data class MenuImage (
-    val string64 : String,
+    var string64 : String,
+)
+
+@Serializable
+data class MenuDetailsWithImage (
+    val menuDetails : MenuDetails,
+    val image : MenuImage
+)
+
+@Serializable
+data class MenuWithImage (
+    val menu : Menu,
+    val image : MenuImage
 )
 
 @Entity

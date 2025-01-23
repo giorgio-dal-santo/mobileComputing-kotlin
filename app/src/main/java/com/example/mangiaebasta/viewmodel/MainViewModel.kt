@@ -87,8 +87,8 @@ class MainViewModel(
     init {
         setLoading(true)
         viewModelScope.launch {
-            fetchUserSession()
-            fetchUserDetails()
+            //fetchUserSession()
+            //fetchUserDetails()
             setLoading(false)
         }
     }

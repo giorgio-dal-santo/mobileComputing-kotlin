@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     id("kotlinx-serialization")
 }
 
@@ -40,14 +41,15 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
+
+    //composeOptions {
+        //kotlinCompilerExtensionVersion = "1.5.3"
+    //}
+    //packaging {
+        //resources {
+            //excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        //}
+    //}
 }
 
 dependencies {
@@ -60,6 +62,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.common.ktx)
+    implementation(libs.androidx.navigation.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,4 +84,16 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.io.ktor.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json.v210)
+    //Navigation
+    //implementation(libs.androidx.navigation.compose)
+    //implementation (libs.androidx.material)
+    //implementation (libs.ui.tooling)
+    //implementation (libs.androidx.activity.compose.v172)
+    //compose
+    implementation (libs.ui)
+    implementation (libs.material3)
+    implementation (libs.androidx.navigation.compose.v273)
+
+    // Compose Navigation
+    implementation(libs.androidx.navigation.compose)
 }

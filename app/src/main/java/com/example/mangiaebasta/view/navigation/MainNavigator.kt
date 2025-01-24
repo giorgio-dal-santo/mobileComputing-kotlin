@@ -6,11 +6,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.mangiaebasta.view.screens.OrderScreen
+import com.example.mangiaebasta.viewmodel.MainViewModel
 
 @Composable
 fun MainNavigator(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel
 ) {
     NavHost(
         navController = navController,
@@ -18,14 +20,14 @@ fun MainNavigator(
         modifier = modifier
     ) {
         // Home stack
-        homeStack(navController)
+        homeStack(navController, viewModel)
 
         // Order tab
         composable("order") {
-            OrderScreen(navController)
+            OrderScreen(navController, viewModel)
         }
 
         // Profile stack
-        profileStack(navController)
+        profileStack(navController, viewModel)
     }
 }

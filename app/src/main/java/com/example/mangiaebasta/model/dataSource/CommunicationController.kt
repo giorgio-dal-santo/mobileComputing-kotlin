@@ -27,9 +27,22 @@ import com.example.mangiaebasta.model.dataClasses.UserDetail
 import com.example.mangiaebasta.model.dataClasses.ResponseError
 
 
-object CommunicationController {
-    private val TAG = CommunicationController::class.simpleName
-    private const val BASE_URL = "https://develop.ewlab.di.unimi.it/mc/2425"
+class CommunicationController (
+
+) {
+    companion object {
+        private val BASE_URL = "https://develop.ewlab.di.unimi.it/mc/2425/"
+        private val TAG = CommunicationController::class.simpleName
+
+        enum class HttpMethod {
+            GET,
+            POST,
+            DELETE,
+            PUT
+        }
+    }
+
+
     private val client = HttpClient(Android) {
         install(ContentNegotiation) {
             json(Json {

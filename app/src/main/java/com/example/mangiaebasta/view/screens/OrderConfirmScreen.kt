@@ -5,9 +5,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import com.example.mangiaebasta.viewmodel.MainViewModel
 
 @Composable
-fun OrderConfirmScreen(onOrderStatusClick: () -> Unit, onBackwardClick: () -> Unit) {
+fun OrderConfirmScreen(viewModel: MainViewModel, onOrderStatusClick: () -> Unit, onBackwardClick: () -> Unit) {
     Column {
         Text("Order Confirm Screen")
         Button(onClick = {onOrderStatusClick()}) {

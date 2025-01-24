@@ -87,7 +87,7 @@ class MainViewModel(
     init {
         setLoading(true)
         viewModelScope.launch {
-            //fetchUserSession()
+            fetchUserSession()
             //fetchUserDetails()
             setLoading(false)
         }
@@ -97,5 +97,12 @@ class MainViewModel(
         _appState.value = _appState.value.copy(isLoading = isLoading)
     }
 
-    //fermi qui
+    // Data Fetching and Updating
+
+    suspend fun fetchUserSession() {
+        val us = userRepository.getUserSession()
+        _sid.value = us.sid
+        _uid.value = us.uid
+
+    }
 }

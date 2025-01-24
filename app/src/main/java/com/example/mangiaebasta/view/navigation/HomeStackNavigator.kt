@@ -7,22 +7,26 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.mangiaebasta.viewmodel.MainViewModel
 
 
-
-fun NavGraphBuilder.homeStack(navController: NavHostController) {
+fun NavGraphBuilder.homeStack(navController: NavHostController, viewModel: MainViewModel) {
     navigation(
         startDestination = "home",
         route = "home_stack"
     ) {
         composable("home") {
-            HomeScreen(onMenuClick = {navController.navigate("menu_detail") })
+            HomeScreen(viewModel, onMenuClick = {navController.navigate("menu_detail") })
         }
         composable("menu_detail") {
-            MenuDetailScreen(onForwardClick = {navController.navigate("order_confirm")}, onBackwardClick = {navController.navigateUp()} )
+            MenuDetailScreen(viewModel, onForwardClick = {navController.navigate("order_confirm")}, onBackwardClick = {navController.navigateUp()} )
         }
         composable("order_confirm") {
-            OrderConfirmScreen(onOrderStatusClick = {navController.navigate("order_screen")}, onBackwardClick = {navController.navigateUp()} )
+            OrderConfirmScreen(viewModel, onOrderStatusClick = {
+                navController.navigate("order") {
+                    popUpTo("home_stack") { inclusive = true } // Pulisce lo stack precedente
+                }
+            }, onBackwardClick = {navController.navigateUp()} )
         }
     }
 }

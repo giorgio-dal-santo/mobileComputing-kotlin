@@ -6,18 +6,19 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.mangiaebasta.view.screens.ProfileScreen
 import com.example.mangiaebasta.view.screens.EditProfileScreen
+import com.example.mangiaebasta.viewmodel.MainViewModel
 
 
-fun NavGraphBuilder.profileStack(navController: NavHostController) {
+fun NavGraphBuilder.profileStack(navController: NavHostController, viewModel: MainViewModel) {
     navigation(
         startDestination = "profile",
         route = "profile_stack"
     ) {
         composable("profile") {
-            ProfileScreen(navController)
+            ProfileScreen(onEditClick = {navController.navigate("edit_profile") })
         }
         composable("edit_profile") {
-            EditProfileScreen(navController)
+            EditProfileScreen(onBackwardClick = {navController.navigateUp()} )
         }
     }
 }

@@ -75,8 +75,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // Ktor
-
-    // Core
     implementation(libs.ktor.ktor.client.core)
     implementation(libs.ktor.client.android)
     // Logging
@@ -91,7 +89,6 @@ dependencies {
 
     // Room DB
     implementation(libs.androidx.room.runtime)
-   // implementation(libs.androidx.room.ktx)
 
     // Pull Refresh
     implementation(libs.material3)

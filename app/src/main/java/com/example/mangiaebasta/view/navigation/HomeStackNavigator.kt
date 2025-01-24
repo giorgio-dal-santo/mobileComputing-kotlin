@@ -16,13 +16,13 @@ fun NavGraphBuilder.homeStack(navController: NavHostController) {
         route = "home_stack"
     ) {
         composable("home") {
-            HomeScreen(navController)
+            HomeScreen(onMenuClick = {navController.navigate("menu_detail") })
         }
         composable("menu_detail") {
-            MenuDetailScreen(navController)
+            MenuDetailScreen(onForwardClick = {navController.navigate("order_confirm")}, onBackwardClick = {navController.navigateUp()} )
         }
         composable("order_confirm") {
-            OrderConfirmScreen(navController)
+            OrderConfirmScreen(onOrderStatusClick = {navController.navigate("order_screen")}, onBackwardClick = {navController.navigateUp()} )
         }
     }
 }

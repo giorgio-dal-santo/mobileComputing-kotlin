@@ -48,19 +48,19 @@ fun BottomNavigationBar(navController: NavController) {
     )
     NavigationBar {
         val currentRoute = currentRoute(navController)
-        items.forEach { item ->
+        items.forEach { screen ->
             NavigationBarItem(
-                icon = { Icon(item.icon, contentDescription = item.label) },
-                label = { Text(item.label) },
-                selected = currentRoute == item.route,
+                icon = { Icon(screen.icon, contentDescription = null) },
+                label = { Text(screen.title) },
+                selected = currentRoute == screen.route,
                 onClick = {
-                    navController.navigate(item.route) {
+                    navController.navigate(screen.route) {
                         popUpTo(navController.graph.startDestinationId) { saveState = true }
                         launchSingleTop = true
                         restoreState = true
                     }
                 },
-                alwaysShowLabel = false // Opzionale: per nascondere etichette non selezionate
+                alwaysShowLabel = false
             )
         }
     }

@@ -3,16 +3,20 @@ package com.example.mangiaebasta.view
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.mangiaebasta.view.navigation.MainNavigator
 import com.example.mangiaebasta.view.navigation.NavigationItem
 import com.example.mangiaebasta.view.styles.MangiaEBastaTheme
 import androidx.compose.material3.*
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 
 class MainActivity : ComponentActivity() {
@@ -30,6 +34,7 @@ class MainActivity : ComponentActivity() {
 fun MainScreen() {
     val navController = rememberNavController()
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
         bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
         MainNavigator(
@@ -46,28 +51,32 @@ fun BottomNavigationBar(navController: NavController) {
         NavigationItem.Order,
         NavigationItem.ProfileStack
     )
+
+    var navBarState by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+
     NavigationBar {
-        val currentRoute = currentRoute(navController)
-        items.forEach { screen ->
+        items.forEachIndexed { index, screen ->
             NavigationBarItem(
-                icon = { Icon(screen.icon, contentDescription = null) },
-                label = { Text(screen.title) },
-                selected = currentRoute == screen.route,
+                selected = navBarState == index,
                 onClick = {
-                    navController.navigate(screen.route) {
-                        popUpTo(navController.graph.startDestinationId) { saveState = true }
-                        launchSingleTop = true
-                        restoreState = true
+                    navBarState = index
+                    when(index){
+                        0 -> navController.navigate("home_stack")
+                        1 -> navController.navigate("order")
+                        2 -> navController.navigate("profile_stack")
                     }
                 },
-                alwaysShowLabel = false
+                icon = {
+                    Icon(
+                        imageVector = if (navBarState == index) screen.selectedIcon
+                        else screen.unselectedIcon,
+                        contentDescription = screen.title
+                    )
+                },
+                label = { Text(screen.title) },
             )
         }
     }
-}
-
-@Composable
-fun currentRoute(navController: NavController): String? {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.destination?.route
 }

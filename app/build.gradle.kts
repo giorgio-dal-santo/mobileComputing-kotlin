@@ -43,6 +43,7 @@ android {
     buildFeatures {
         compose = true
     }
+
 }
 
 dependencies {
@@ -89,12 +90,18 @@ dependencies {
 
     // Room DB
     implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
     // Pull Refresh
     implementation(libs.material3)
 
     //Icons
     implementation(libs.androidx.material.icons.extended)
+
+
+
+
 
 
 }

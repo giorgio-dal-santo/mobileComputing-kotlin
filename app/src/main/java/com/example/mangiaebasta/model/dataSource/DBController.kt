@@ -16,10 +16,11 @@ interface MenuImageDao {
 
 }
 
-@Database(entities = [MenuImageWithVersion::class], version = 1)
+@Database(entities = [MenuImageWithVersion::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun menuImageDao(): MenuImageDao
 }
+
 
 class DBController(
     context: Context

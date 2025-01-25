@@ -31,15 +31,8 @@ class CommunicationController (
 
 ) {
     companion object {
-        private val BASE_URL = "https://develop.ewlab.di.unimi.it/mc/2425/"
+        private val BASE_URL = "https://develop.ewlab.di.unimi.it/mc/2425"
         private val TAG = CommunicationController::class.simpleName
-
-        enum class HttpMethod {
-            GET,
-            POST,
-            DELETE,
-            PUT
-        }
     }
 
 

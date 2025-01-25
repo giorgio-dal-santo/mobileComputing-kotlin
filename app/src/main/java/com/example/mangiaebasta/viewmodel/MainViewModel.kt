@@ -1,5 +1,6 @@
 package com.example.mangiaebasta.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mangiaebasta.model.dataClasses.APILocation
@@ -88,9 +89,10 @@ class MainViewModel(
         setLoading(true)
         viewModelScope.launch {
             fetchUserSession()
-            //fetchUserDetails()
+            fetchUserDetails()
             setLoading(false)
         }
+        Log.d("Init", "INIT")
     }
 
     fun setLoading(isLoading: Boolean) {
@@ -105,4 +107,29 @@ class MainViewModel(
         _uid.value = us.uid
 
     }
+
+    suspend fun fetchUserDetails() {
+        if (!userRepository.isRegistered()) {
+            _userState.value = _userState.value.copy(isUserRegistered = false)
+            Log.d("MainViewModel", "View Model Is registered ${_userState.value.isUserRegistered}")
+            return
+        }
+        val user = userRepository.getUserData(
+            sid = _sid.value!!,
+            uid = _uid.value!!
+        )
+        _userState.value = _userState.value.copy(
+            user = user,
+            isUserRegistered = true
+        )
+
+    }
+
+    suspend fun updateUserData(updatededData : UserDetail) {
+        userRepository.putUserData(_uid.value!!, updatededData)
+    }
+
+     fun getUserRepository() : UserRepository {
+         return userRepository
+     }
 }

@@ -22,7 +22,7 @@ class UserRepository (
     }
 
     suspend fun isRegistered() : Boolean {
-        if  (preferencesController.get(PreferencesController.IS_REGISTERED) != null) {
+        if  (preferencesController.get(PreferencesController.IS_REGISTERED) == true) {
             return true
         }
         return false

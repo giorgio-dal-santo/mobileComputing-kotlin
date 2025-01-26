@@ -45,18 +45,17 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
                 viewModel.userState.value.user
             )
         }
+
     }
+
 
     val formViewModel: ProfileViewModel = viewModel(
         factory = viewModelFactory
     )
 
-    val userState by viewModel.userState.collectAsState()
-    val appState by viewModel.appState.collectAsState()
+
     val formParams by formViewModel.formParams.collectAsState()
     var submitFailed by remember { mutableStateOf(false) }
-
-
 
 
     Column(

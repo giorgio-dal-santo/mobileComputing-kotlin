@@ -126,8 +126,12 @@ class MainViewModel(
 
     }
 
-    suspend fun updateUserData(updatededData : UserUpdateParams) : Boolean {
-        userRepository.putUserData(_uid.value!!, updatededData)
+    suspend fun updateUserData(updatedData : UserUpdateParams) : Boolean {
+        val newUserData = updatedData.copy(sid = _sid.value!!)
+        userRepository.putUserData(_sid.value!!, _uid.value!!, newUserData)
+        Log.d(TAG, "Put user data successfull MVM, sid is ${_sid} , uid is ${_uid}")
+        fetchUserDetails()
+        Log.d(TAG, "Fetched new user data? sid is ${_sid} , uid is ${_uid}")
         return true
     }
 

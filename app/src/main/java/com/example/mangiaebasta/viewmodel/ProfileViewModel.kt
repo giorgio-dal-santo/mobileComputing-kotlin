@@ -1,6 +1,7 @@
 package com.example.mangiaebasta.viewmodel
 
 
+import android.provider.ContactsContract.Profile
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +21,7 @@ class ProfileViewModel(
 
 
 
-    private val TAG = MainViewModel::class.simpleName
+    private val TAG = ProfileViewModel::class.simpleName
     private val _sid = MutableStateFlow<String?>(null)
     private val _uid = MutableStateFlow<Int?>(null)
 
@@ -33,7 +34,7 @@ class ProfileViewModel(
             cardExpireMonth = initValues?.cardExpireMonth ?: 1,
             cardExpireYear = initValues?.cardExpireYear ?: 2025,
             cardCVV = initValues?.cardCVV ?: "",
-            sid = _sid.value!!,
+            sid ="",
         )
     )
 
@@ -43,6 +44,7 @@ class ProfileViewModel(
         viewModelScope.launch {
             fetchSessionData()
         }
+        Log.d(TAG, "INIT ProfileViewModel" )
     }
 
     fun fetchSessionData() {

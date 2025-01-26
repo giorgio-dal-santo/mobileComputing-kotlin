@@ -110,10 +110,14 @@ class CommunicationController (
         return result
     }
 
-    suspend fun putUserData(uid: Int, updateData: UserUpdateParams): HttpResponse {
+    suspend fun putUserData(sid: String, uid: Int, updateData: UserUpdateParams): HttpResponse {
         Log.d(TAG, "putUserData")
         val url = "$BASE_URL/user/$uid"
-        val httpResponse = genericRequest(url, HttpMethod.PUT, bodyParams = updateData)
+        val queryParameters = mapOf("sid" to sid)
+        val httpResponse = genericRequest(url, HttpMethod.PUT, bodyParams = updateData,
+            queryParameters = queryParameters
+        )
+        Log.d(TAG, "Put user data in COmm contr, sid is $sid , uid is $uid")
         return httpResponse
     }
 

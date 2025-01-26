@@ -49,8 +49,8 @@ class UserRepository (
         return communicationController.getUserData(sid,uid)
     }
 
-    suspend fun putUserData(uid: Int, updateData: UserUpdateParams) {
-        communicationController.putUserData(uid, updateData)
+    suspend fun putUserData(sid: String, uid: Int, updateData: UserUpdateParams) {
+        communicationController.putUserData(sid, uid, updateData)
         preferencesController.set(PreferencesController.IS_REGISTERED, true)
     }
 

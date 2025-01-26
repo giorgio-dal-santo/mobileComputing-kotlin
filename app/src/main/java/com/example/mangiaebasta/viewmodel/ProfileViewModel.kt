@@ -4,7 +4,9 @@ package com.example.mangiaebasta.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mangiaebasta.model.dataClasses.User
 import com.example.mangiaebasta.model.dataClasses.UserDetail
+import com.example.mangiaebasta.model.dataClasses.UserUpdateParams
 import com.example.mangiaebasta.model.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +25,7 @@ class ProfileViewModel(
     private val _uid = MutableStateFlow<Int?>(null)
 
     private val _formParams = MutableStateFlow(
-        UserDetail(
+        UserUpdateParams(
             firstName = initValues?.firstName ?: "",
             lastName = initValues?.lastName ?: "",
             cardFullName = initValues?.cardFullName ?: "",
@@ -31,13 +33,11 @@ class ProfileViewModel(
             cardExpireMonth = initValues?.cardExpireMonth ?: 1,
             cardExpireYear = initValues?.cardExpireYear ?: 2025,
             cardCVV = initValues?.cardCVV ?: "",
-            uid = initValues?.uid ?: 1,
-            lastOid = initValues?.lastOid ?: 2,
-            orderStatus = initValues?.orderStatus ?: ""
+            sid = _sid.value!!,
         )
     )
 
-    val formParams : StateFlow<UserDetail> = _formParams
+    val formParams : StateFlow<UserUpdateParams> = _formParams
 
     init {
         viewModelScope.launch {
@@ -82,14 +82,14 @@ class ProfileViewModel(
         return (value.length == 16 && value.toLongOrNull() != null)
     }
 
-    fun onCardExpireMonthChange(value: String) : Boolean {
+    fun onCardExpireMonthChange(value: Int) : Boolean {
         Log.d(TAG, "Card Expire Month Changed: $value")
         _formParams.value = _formParams.value.copy(cardExpireMonth = value)
 
         return (value in 1..12)
     }
 
-    fun onCardExpireYearChange(value: String) : Boolean {
+    fun onCardExpireYearChange(value: Int) : Boolean {
         Log.d(TAG, "Card Expire Year Changed: $value")
         _formParams.value = _formParams.value.copy(cardExpireYear = value)
 
@@ -103,11 +103,11 @@ class ProfileViewModel(
         return (value.length == 3 && value.toIntOrNull() != null)
     }
 
-    suspend fun submit(submitCb : suspend (UserDetail) -> Boolean) : Boolean {
+    suspend fun submit(submitCb : suspend (UserUpdateParams) -> Boolean) : Boolean {
         Log.d(TAG, "Submitting with values: ${_formParams.value}")
-        if (_formParams.value.firstName!!.isEmpty() || _formParams.value.lastName!!.isEmpty() ||
-            _formParams.value.cardFullName!!.isEmpty() || _formParams.value.cardNumber!!.isEmpty() ||
-            _formParams.value.cardCVV!!.isEmpty()) {
+        if (_formParams.value.firstName.isEmpty() || _formParams.value.lastName.isEmpty() ||
+            _formParams.value.cardFullName.isEmpty() || _formParams.value.cardNumber.isEmpty() ||
+            _formParams.value.cardCVV.isEmpty()) {
             Log.d(TAG, "Invalid Form Data")
             return false
         }

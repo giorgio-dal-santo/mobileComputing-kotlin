@@ -3,6 +3,7 @@ package com.example.mangiaebasta.model.repository
 import androidx.core.app.Person
 import com.example.mangiaebasta.model.dataClasses.User
 import com.example.mangiaebasta.model.dataClasses.UserDetail
+import com.example.mangiaebasta.model.dataClasses.UserUpdateParams
 import com.example.mangiaebasta.model.dataSource.CommunicationController
 import com.example.mangiaebasta.model.dataSource.DBController
 import com.example.mangiaebasta.model.dataSource.PreferencesController
@@ -48,7 +49,7 @@ class UserRepository (
         return communicationController.getUserData(sid,uid)
     }
 
-    suspend fun putUserData(uid: Int, updateData: UserDetail) {
+    suspend fun putUserData(uid: Int, updateData: UserUpdateParams) {
         communicationController.putUserData(uid, updateData)
         preferencesController.set(PreferencesController.IS_REGISTERED, true)
     }

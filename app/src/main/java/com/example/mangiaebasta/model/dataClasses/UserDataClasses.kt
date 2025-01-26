@@ -22,3 +22,15 @@ data class UserDetail(
     val orderStatus: String?
 )
 
+@Serializable
+data class UserUpdateParams(
+    var firstName : String,
+    var lastName : String,
+    var cardFullName : String,
+    var cardNumber : String,
+    var cardExpireMonth : Int,
+    var cardExpireYear : Int,
+    var cardCVV : String,
+    var sid : String
+)
+

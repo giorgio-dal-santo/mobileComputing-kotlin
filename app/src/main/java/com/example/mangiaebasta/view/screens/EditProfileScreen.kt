@@ -1,11 +1,17 @@
 package com.example.mangiaebasta.view.screens
 
+import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,9 +26,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.mangiaebasta.view.utils.DropDownField
 import com.example.mangiaebasta.view.utils.FormField
 import com.example.mangiaebasta.viewmodel.MainViewModel
 import com.example.mangiaebasta.viewmodel.ProfileViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.Calendar
 
 @Composable
 fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
@@ -46,13 +57,21 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
     var submitFailed by remember { mutableStateOf(false) }
 
 
-    Column {
-        Text("Edit Profile Screen")
-        //INPUT DELL'UTENTE
+
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text("Edit Profile Screen",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(bottom = 16.dp))
 
         FormField(
             label = "First Name",
-            value = formParams.firstName!!,
+            value = formParams.firstName ?: "",
             onValueChange = { formViewModel.onFirstNameChange(it) },
             errorMessage = "First Name must be between 1 and 15 characters and not empty",
             showError = submitFailed,
@@ -64,7 +83,7 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
 
         FormField(
             label = "Last Name",
-            value = formParams.lastName!!,
+            value = formParams.lastName ?: "",
             onValueChange = { formViewModel.onLastNameChange(it) },
             errorMessage = "Last Name must be between 1 and 15 characters and not empty",
             showError = submitFailed,
@@ -76,7 +95,7 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
 
         FormField(
             label = "Card Full Name",
-            value = formParams.cardFullName!!,
+            value = formParams.cardFullName ?: "",
             onValueChange = { formViewModel.onCardFullNameChange(it) },
             errorMessage = "Credit Card Name should be at most 31 characters and not empty",
             showError = submitFailed,
@@ -87,8 +106,8 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
 
         FormField(
             label = "Card Number",
-            value = formParams.cardNumber!!,
-            onValueChange = { formViewModel.onCardNumberChange(it)},
+            value = formParams.cardNumber ?: "",
+            onValueChange = { formViewModel.onCardNumberChange(it) },
             errorMessage = "Credit Number must be 16 digits",
             showError = submitFailed,
             keyBoardOptions = KeyboardOptions(
@@ -96,30 +115,23 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
             )
         )
 
-        FormField(
-            label = "Card Expire Year",
-            value = formParams.cardExpireYear!!.toString(),
-            onValueChange = { formViewModel.onCardExpireYearChange(it)},
-            errorMessage = "Card Expire Year must be 4 digits and after 2025 ",
-            showError = submitFailed,
-            keyBoardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-            )
+        DropDownField (
+            min = 1,
+            max = 12,
+            value = formParams.cardExpireMonth.toString(),
+            onValueChange = { formViewModel.onCardExpireMonthChange(it.toInt()) },
         )
-        FormField(
-            label = "Card Expire Month",
-            value = formParams.cardExpireMonth!!.toString(),
-            onValueChange = { formViewModel.onCardExpireMonthChange(it)},
-            errorMessage = "Card Expire Year must be 2 digits ",
-            showError = submitFailed,
-            keyBoardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-            )
+
+        DropDownField (
+            min = Calendar.getInstance().get(Calendar.YEAR),
+            max = Calendar.getInstance().get(Calendar.YEAR) + 10,
+            value = formParams.cardExpireYear.toString(),
+            onValueChange = { formViewModel.onCardExpireYearChange(it.toInt()) },
         )
 
         FormField(
             label = "CVV",
-            value = formParams.cardCVV!!,
+            value = formParams.cardCVV ?: "",
             onValueChange = { formViewModel.onCardCVVChange(it) },
             errorMessage = "Card CVV should be 3 digits",
             showError = submitFailed,
@@ -128,38 +140,29 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
             )
         )
 
-
         Spacer(modifier = Modifier.weight(1f))
 
-        //SUMBIT
-        Box(
-            modifier = Modifier.padding(16.dp)
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
         ) {
-/*
-            LargeButton(
-                text = if (newAccount) "Create Account" else "Save",
-                onPress = {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        val ok = formViewModel.submit(viewModel::updateUserData)
-                        Log.d("AddEditAccountScreen", "Submit result is $ok")
-                        if (ok)
-                            onBackClick()
-                        else
-                            submitFailed = true
+            Button(onClick = { onBackwardClick() }) {
+                Text("Back")
+            }
+
+            Button(onClick = {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val ok = formViewModel.submit(viewModel::updateUserData)
+                    Log.d("EditAccountScreen", "Submit result is $ok")
+                    if (ok) {
+                        onBackwardClick()
+                    } else {
+                        submitFailed = true
                     }
                 }
-            )
-            */
-
-        }
-
-
-
-
-
-
-        Button(onClick = {onBackwardClick()}) {
-            Text("Back")
+            }) {
+                Text("Save")
+            }
         }
     }
 }

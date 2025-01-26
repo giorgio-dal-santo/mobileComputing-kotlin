@@ -25,6 +25,7 @@ import kotlinx.serialization.json.Json
 import com.example.mangiaebasta.model.dataClasses.User
 import com.example.mangiaebasta.model.dataClasses.UserDetail
 import com.example.mangiaebasta.model.dataClasses.ResponseError
+import com.example.mangiaebasta.model.dataClasses.UserUpdateParams
 
 
 class CommunicationController (
@@ -109,7 +110,7 @@ class CommunicationController (
         return result
     }
 
-    suspend fun putUserData(uid: Int, updateData: UserDetail): HttpResponse {
+    suspend fun putUserData(uid: Int, updateData: UserUpdateParams): HttpResponse {
         Log.d(TAG, "putUserData")
         val url = "$BASE_URL/user/$uid"
         val httpResponse = genericRequest(url, HttpMethod.PUT, bodyParams = updateData)

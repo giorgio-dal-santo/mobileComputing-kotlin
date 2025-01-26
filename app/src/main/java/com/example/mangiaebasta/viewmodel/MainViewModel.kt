@@ -8,6 +8,7 @@ import com.example.mangiaebasta.model.dataClasses.MenuDetailsWithImage
 import com.example.mangiaebasta.model.dataClasses.MenuWithImage
 import com.example.mangiaebasta.model.dataClasses.Order
 import com.example.mangiaebasta.model.dataClasses.UserDetail
+import com.example.mangiaebasta.model.dataClasses.UserUpdateParams
 import com.example.mangiaebasta.model.repository.MenuRepository
 import com.example.mangiaebasta.model.repository.OrderRepository
 import com.example.mangiaebasta.model.repository.UserRepository
@@ -125,8 +126,9 @@ class MainViewModel(
 
     }
 
-    suspend fun updateUserData(updatededData : UserDetail) {
+    suspend fun updateUserData(updatededData : UserUpdateParams) : Boolean {
         userRepository.putUserData(_uid.value!!, updatededData)
+        return true
     }
 
      fun getUserRepository() : UserRepository {

@@ -114,18 +114,18 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
             )
         )
 
-        DropDownField (
+        DropDownField(
             min = 1,
             max = 12,
             value = formParams.cardExpireMonth.toString(),
-            onValueChange = { formViewModel.onCardExpireMonthChange(it.toInt()) },
+            onValueChange = { formViewModel.onCardExpireMonthChange(it.toInt()) }
         )
 
-        DropDownField (
+        DropDownField(
             min = Calendar.getInstance().get(Calendar.YEAR),
             max = Calendar.getInstance().get(Calendar.YEAR) + 10,
             value = formParams.cardExpireYear.toString(),
-            onValueChange = { formViewModel.onCardExpireYearChange(it.toInt()) },
+            onValueChange = { formViewModel.onCardExpireYearChange(it.toInt()) }
         )
 
         FormField(

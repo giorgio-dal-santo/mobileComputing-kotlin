@@ -11,6 +11,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -31,60 +33,53 @@ fun DropDownField(
     min: Int,
     max: Int,
     value: String,
-    onValueChange: (String) -> Boolean,
+    onValueChange: (String) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier.padding(vertical = 16.dp)) {
-        // Use OutlinedTextField for a Material3 text input style
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp)
+    ) {
         OutlinedTextField(
             value = value,
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { expanded = !expanded },
-            label = { Text("Select a number") },
+                .clickable { expanded = true }, // Apre la tendina
+            label = { Text("Seleziona un numero") },
             readOnly = true,
             trailingIcon = {
                 Icon(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier.clickable { expanded = !expanded } // Interazione con l'icona
                 )
             }
         )
 
-        if (expanded) {
-            Popup(
-                alignment = Alignment.TopStart,
-                onDismissRequest = { expanded = false },
-                properties = PopupProperties(focusable = true)
-            ) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(max = 200.dp),
-                    shape = androidx.compose.material3.MaterialTheme.shapes.medium
-                ) {
-                    LazyColumn {
-                        items((min..max).toList()) { item ->
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        onValueChange(item.toString())
-                                        expanded = false
-                                    }
-                                    .padding(16.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = item.toString(),
-                                    textAlign = TextAlign.Center
-                                )
-                            }
-                        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }, // Chiude la tendina
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            // Crea gli elementi del menu
+            (min..max).forEach { item ->
+                DropdownMenuItem(
+                    onClick = {
+                        onValueChange(item.toString())
+                        expanded = false // Chiude la tendina dopo la selezione
+                    },
+                    text = {
+                        Text(
+                            text = item.toString(),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     }
-                }
+                )
             }
         }
     }

@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Menu (
-    val id : Int,
+    val mid : Int,
     val name : String,
     val price : Float,
     val location : APILocation,
@@ -17,7 +17,7 @@ data class Menu (
 
 @Serializable
 data class MenuDetails (
-    val id : Int,
+    val mid : Int,
     val name : String,
     val price : Float,
     val location : APILocation,
@@ -29,7 +29,7 @@ data class MenuDetails (
 
 @Serializable
 data class MenuImage (
-    var string64 : String,
+    var base64 : String,
 )
 
 @Serializable
@@ -41,7 +41,7 @@ data class MenuDetailsWithImage (
 @Serializable
 data class MenuWithImage (
     val menu : Menu,
-    val image : MenuImage
+    val image : MenuImage ?= null
 )
 
 @Entity

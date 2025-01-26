@@ -14,8 +14,8 @@ data class ResponseError(
 
 @Serializable
 data class APILocation(
-    val latitude: Double,
-    val longitude: Double
+    val lat: Double,
+    val lng: Double
 )
 
 object Timestamps {

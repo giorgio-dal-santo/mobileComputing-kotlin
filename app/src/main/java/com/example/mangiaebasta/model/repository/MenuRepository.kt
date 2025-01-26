@@ -30,12 +30,12 @@ class MenuRepository (
         }
 
         val imageFromServer = communicationController.getMenuImage(mid, sid)
-        if (imageFromServer.string64.startsWith("data:image/jpeg;base64,")) {
-            imageFromServer.string64 = imageFromServer.string64.substring(23)
+        if (imageFromServer.base64.startsWith("data:image/jpeg;base64,")) {
+            imageFromServer.base64 = imageFromServer.base64.substring(23)
         }
 
         dbController.dao.insertMenuImage(
-            MenuImageWithVersion(mid, imageVersion, imageFromServer.string64)
+            MenuImageWithVersion(mid, imageVersion, imageFromServer.base64)
         )
 
         Log.d(TAG, "Image found in server and inserted in store")

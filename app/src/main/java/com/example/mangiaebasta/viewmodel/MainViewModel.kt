@@ -3,6 +3,7 @@ package com.example.mangiaebasta.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mangiaebasta.model.dataClasses.APILocation
 import com.example.mangiaebasta.model.dataClasses.MenuDetailsWithImage
 import com.example.mangiaebasta.model.dataClasses.MenuWithImage
@@ -50,13 +51,13 @@ class MainViewModel(
     private val userRepository: UserRepository,
     private val menuRepository: MenuRepository,
     private val orderRepository: OrderRepository,
-): ViewModel() {
+) : ViewModel() {
 
     //Location di Default se non ho user location
     companion object {
         val DEFAULT_LOCATION = APILocation(
-            latitude = 45.4642,
-            longitude = 9.19,
+            lat = 45.4642,
+            lng = 9.19,
         )
     }
 
@@ -94,6 +95,7 @@ class MainViewModel(
             setLoading(false)
         }
         Log.d("Init", "INIT")
+        Log.d("Init", "sid: $_sid")
     }
 
     fun setLoading(isLoading: Boolean) {
@@ -126,7 +128,7 @@ class MainViewModel(
 
     }
 
-    suspend fun updateUserData(updatedData : UserUpdateParams) : Boolean {
+    suspend fun updateUserData(updatedData: UserUpdateParams): Boolean {
         val newUserData = updatedData.copy(sid = _sid.value!!)
         userRepository.putUserData(_sid.value!!, _uid.value!!, newUserData)
         Log.d(TAG, "Put user data successfull MVM, sid is ${_sid} , uid is ${_uid}")
@@ -135,7 +137,45 @@ class MainViewModel(
         return true
     }
 
-     fun getUserRepository() : UserRepository {
-         return userRepository
-     }
+    fun getUserRepository(): UserRepository {
+        return userRepository
+    }
+
+
+    suspend fun fetchNearbyMenus() {
+        viewModelScope.launch {
+            //val location = DEFAULT_LOCATION
+
+            val menus = menuRepository.getNearbyMenus(
+                sid = _sid.value!!,
+                lat = 45.4642,
+                lng = 9.19
+            )
+            val menusWithNoImages = menus.map { menu ->
+                MenuWithImage(menu, null)
+            }
+            _menusExplorationState.value = _menusExplorationState.value.copy(
+                nearbyMenus = menusWithNoImages,
+                reloadMenus = false
+            )
+
+            menus.forEach { menu ->
+                val image = menuRepository.getMenuImage(
+                    sid = _sid.value!!,
+                    mid = menu.mid,
+                    imageVersion = menu.imageVersion
+                )
+
+                val updatedMenu = MenuWithImage(menu, image)
+
+                _menusExplorationState.value = _menusExplorationState.value.copy(
+                    nearbyMenus = _menusExplorationState.value.nearbyMenus.map {
+                        if (it.menu.mid == menu.mid) updatedMenu else it
+                    }
+                )
+
+            }
+
+        }
+    }
 }

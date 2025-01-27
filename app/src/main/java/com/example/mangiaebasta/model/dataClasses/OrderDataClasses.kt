@@ -1,5 +1,6 @@
 package com.example.mangiaebasta.model.dataClasses
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class OrderStatus(orderStatus: String) {
@@ -9,13 +10,19 @@ enum class OrderStatus(orderStatus: String) {
 
 @Serializable
 data class Order(
-    val id: Int,
-    val menuId: Int,
-    val userId: Int,
-    val status: OrderStatus,
+    val oid: Int,
+    val mid: Int,
+    val uid: Int,
     val creationTimestamp: Timestamp,
+    val status: OrderStatus,
+    val deliveryLocation: APILocation,
     val deliveryTimestamp: Timestamp? = null,
     val expectedDeliveryTimestamp: Timestamp? = null,
-    val deliveryLocation: APILocation,
-    val currentLocation: APILocation,
+    val currentPosition: APILocation,
+)
+
+@Serializable
+data class BuyOrderRequest(
+    @SerialName("sid") val sid : String,
+    @SerialName("deliveryLocation") val deliveryLocation: APILocation
 )

@@ -3,6 +3,7 @@ package com.example.mangiaebasta.model.dataSource
 import android.net.Uri
 import android.util.Log
 import com.example.mangiaebasta.model.dataClasses.APILocation
+import com.example.mangiaebasta.model.dataClasses.BuyOrderRequest
 import com.example.mangiaebasta.model.dataClasses.Menu
 import com.example.mangiaebasta.model.dataClasses.MenuDetails
 import com.example.mangiaebasta.model.dataClasses.MenuImage
@@ -150,9 +151,14 @@ class CommunicationController (
     }
 
     suspend fun buyMenu(sid: String, deliveryLocation: APILocation, mid: Int): Order {
-        Log.d(TAG, "buyMenu")
+        Log.d(TAG, "buyMenu: $deliveryLocation")
         val url = "$BASE_URL/menu/$mid/buy"
-        val bodyParams = mapOf("sid" to sid, "deliveryLocation" to deliveryLocation)
+        //val bodyParams = mapOf("sid" to sid, "deliveryLocation" to deliveryLocation)
+        val bodyParams = BuyOrderRequest(sid, deliveryLocation)
+        Log.d(TAG, "buyMenu: $bodyParams")
+
+
+
         val httpResponse = genericRequest(url, HttpMethod.POST, bodyParams = bodyParams)
         val result: Order = httpResponse.body()
         return result

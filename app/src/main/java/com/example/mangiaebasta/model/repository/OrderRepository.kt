@@ -1,5 +1,6 @@
 package com.example.mangiaebasta.model.repository
 
+import android.util.Log
 import com.example.mangiaebasta.model.dataClasses.APILocation
 import com.example.mangiaebasta.model.dataClasses.Order
 import com.example.mangiaebasta.model.dataSource.CommunicationController
@@ -17,6 +18,7 @@ class OrderRepository (
 
 
     suspend fun newOrder(sid: String, deliveryLocation: APILocation, mid: Int): Order {
+        Log.d(TAG, "New order: $deliveryLocation")
         return communicationController.buyMenu(sid, deliveryLocation, mid)
     }
 

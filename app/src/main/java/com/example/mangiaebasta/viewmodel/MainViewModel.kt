@@ -95,7 +95,6 @@ class MainViewModel(
             setLoading(false)
         }
         Log.d("Init", "INIT")
-        Log.d("Init", "sid: $_sid")
     }
 
     fun setLoading(isLoading: Boolean) {
@@ -108,7 +107,7 @@ class MainViewModel(
         val us = userRepository.getUserSession()
         _sid.value = us.sid
         _uid.value = us.uid
-
+        Log.d("MainViewModel", "Fetched user session, sid is ${_sid.value} , uid is ${_uid.value}")
     }
 
     suspend fun fetchUserDetails() {
@@ -125,15 +124,16 @@ class MainViewModel(
             user = user,
             isUserRegistered = true
         )
+        Log.d("MainViewModel", "fetch user details")
 
     }
 
     suspend fun updateUserData(updatedData: UserUpdateParams): Boolean {
         val newUserData = updatedData.copy(sid = _sid.value!!)
         userRepository.putUserData(_sid.value!!, _uid.value!!, newUserData)
-        Log.d(TAG, "Put user data successfull MVM, sid is ${_sid} , uid is ${_uid}")
+        Log.d(TAG, "Put user data successfull MVM, sid is $_sid , uid is $_uid")
         fetchUserDetails()
-        Log.d(TAG, "Fetched new user data? sid is ${_sid} , uid is ${_uid}")
+        Log.d(TAG, "Fetched new user data? sid is $_sid , uid is $_uid")
         return true
     }
 
@@ -177,5 +177,79 @@ class MainViewModel(
             }
 
         }
+    }
+
+    suspend fun fetchMenuDetail(mid: Int) {
+        val menu = menuRepository.getMenuDetail(
+            sid = _sid.value!!,
+            mid = mid,
+            lat = 45.4642,
+            lng = 9.19
+        )
+        val image = menuRepository.getMenuImage(
+            sid = _sid.value!!,
+            mid = mid,
+            imageVersion = menu.imageVersion
+        )
+        val menuDetailWithImage = MenuDetailsWithImage(menu, image)
+        _menusExplorationState.value = _menusExplorationState.value.copy(
+            selectedMenu = menuDetailWithImage
+        )
+    }
+
+    suspend fun newOrder(deliveryLocation: APILocation, mid: Int?) {
+        if(mid == null) {
+            Log.d(TAG, "Mid is null")
+            return
+        }
+        Log.d(TAG, "New order: $deliveryLocation")
+        val order = orderRepository.newOrder(
+            sid = _sid.value!!,
+            deliveryLocation = deliveryLocation,
+            mid = mid
+        )
+        _lastOrderState.value = _lastOrderState.value.copy(
+            lastOrder = order
+        )
+
+    }
+
+    suspend fun fetchLastOrderedMenu() {
+        val lastOrder = _lastOrderState.value.lastOrder
+        if(lastOrder == null) {
+            Log.d(TAG, "Last order is null")
+            return
+        }
+        val menu = menuRepository.getMenuDetail(
+            sid = _sid.value!!,
+            mid = lastOrder.mid,
+            lat = 45.4642,
+            lng = 9.19
+        )
+        val image = menuRepository.getMenuImage(
+            sid = _sid.value!!,
+            mid = lastOrder.mid,
+            imageVersion = menu.imageVersion
+        )
+        val menuDetailWithImage = MenuDetailsWithImage(menu, image)
+        _lastOrderState.value = _lastOrderState.value.copy(
+            lastOrderMenu = menuDetailWithImage
+        )
+    }
+
+    suspend fun fetchOrderDetail(oid: Int) {
+        val order = orderRepository.getOrderDetail(
+            oid = oid,
+            sid = _sid.value!!
+        )
+        _lastOrderState.value = _lastOrderState.value.copy(
+            lastOrder = order
+        )
+        _userState.value = _userState.value.copy(
+            user = _userState.value.user?.copy(
+                lastOid = oid,
+                orderStatus = order.status.toString()
+            )
+        )
     }
 }

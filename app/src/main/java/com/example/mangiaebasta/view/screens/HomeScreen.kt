@@ -16,7 +16,7 @@ import androidx.compose.foundation.lazy.items
 @Composable
 fun HomeScreen(
     viewModel: MainViewModel,
-    onMenuClick: () -> Unit)
+    onMenuClick: (Int) -> Unit)
 {
 
     val appState by viewModel.appState.collectAsState()
@@ -40,7 +40,7 @@ fun HomeScreen(
                 MenuHomePreview(
                     menu = menu,
                     onPress = {
-                        onMenuClick() // Passa l'id del menu al click
+                        onMenuClick(menu.menu.mid) // Passa l'id del menu al click
                     }
                 )
             }

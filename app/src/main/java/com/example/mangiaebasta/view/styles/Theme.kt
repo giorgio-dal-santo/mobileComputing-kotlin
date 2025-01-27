@@ -13,8 +13,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
+import com.example.mangiaebasta.R
 
-// Definizione dei colori principali
+val PoppinsBlack = FontFamily(Font(R.font.poppins_black))
+val PoppinsBold = FontFamily(Font(R.font.poppins_bold))
+val PoppinsRegular = FontFamily(Font(R.font.poppins_regular))
+
+@Composable
+fun MangiaEBastaTheme(content: @Composable () -> Unit) {
+    MaterialTheme(
+        colorScheme = AppColors,
+        typography = GlobalTypography,
+        shapes = GlobalShapes,
+        content = content
+    )
+}
+
 private val AppColors = lightColorScheme(
     primary = Color(0xFF6200EE),
     onPrimary = Color.White,
@@ -23,40 +40,51 @@ private val AppColors = lightColorScheme(
     onSurface = Color.Black
 )
 
-// Tipografia
-val GlobalTypography = Typography(
-    headlineLarge = TextStyle(
+val GlobalTypography = Typography( // si usa così: style = MaterialTheme.typography.h1
+    headlineLarge = TextStyle( // headerTitleStyle
         fontSize = 28.sp,
-        fontWeight = FontWeight.Black,
-        color = Color(0xFF333333)
+        fontFamily = PoppinsBlack,
+        color = Color(0xFF333333),
+        textAlign = TextAlign.Center
     ),
-    titleLarge = TextStyle(
+    titleLarge = TextStyle( // title
         fontSize = 30.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color(0xFF333333)
+        fontFamily = PoppinsBold,
+        color = Color(0xFF333333),
+        textAlign = TextAlign.Left
     ),
-    titleMedium = TextStyle(
+    titleMedium = TextStyle( // cardTitle
         fontSize = 24.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color(0xFF333333)
+        fontFamily = PoppinsBold,
+        color = Color(0xFF333333),
+        textAlign = TextAlign.Left
     ),
-    bodyLarge = TextStyle(
+    titleSmall = TextStyle( // subTitle
         fontSize = 20.sp,
-        fontWeight = FontWeight.Normal,
-        color = Color(0xFF333333)
+        fontFamily = PoppinsRegular,
+        fontWeight = FontWeight.Light,
+        color = Color(0xFF333333),
+        textAlign = TextAlign.Left
     ),
-    bodyMedium = TextStyle(
+    bodyLarge = TextStyle( // description
         fontSize = 18.sp,
-        color = Color(0xFF000000)
+        color = Color.Black
     ),
-    labelLarge = TextStyle(
+    bodyMedium = TextStyle( // deliveryTime
+        fontSize = 18.sp,
+        color = Color(0xFF888888)
+    ),
+    labelLarge = TextStyle( // price
         fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
         color = Color(0xFF00A86B)
+    ),
+    bodySmall = TextStyle( // profileDetailText
+        fontSize = 16.sp,
+        color = Color(0xFF555555)
     )
 )
 
-// Shapes personalizzate
 val GlobalShapes = Shapes(
     small = RoundedCornerShape(8.dp),
     medium = RoundedCornerShape(16.dp),
@@ -70,6 +98,19 @@ object GlobalDimensions {
     val CardPadding = 12.dp
     val ButtonPadding = 14.dp
 }
+// Card
+object GlobalCardStyles {
+    val CardShape = RoundedCornerShape(16.dp)
+    val CardPadding = PaddingValues(16.dp)
+    val CardElevation = 4.dp
+}
+
+
+
+
+
+
+/*
 
 // Stile per i bottoni
 @Composable
@@ -106,22 +147,8 @@ fun BuyButton(
     }
 }
 
-
-// Card
-object GlobalCardStyles {
-    val CardShape = RoundedCornerShape(16.dp)
-    val CardPadding = PaddingValues(16.dp)
-    val CardElevation = 4.dp
-}
+*/
 
 
-// Definizione del tema globale
-@Composable
-fun MangiaEBastaTheme(content: @Composable () -> Unit) {
-    MaterialTheme(
-        colorScheme = AppColors,
-        typography = GlobalTypography,
-        shapes = GlobalShapes,
-        content = content
-    )
-}
+
+

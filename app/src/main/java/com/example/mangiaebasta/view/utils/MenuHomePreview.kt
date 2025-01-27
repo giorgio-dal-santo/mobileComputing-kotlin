@@ -22,11 +22,12 @@ import androidx.compose.ui.unit.dp
 import com.example.mangiaebasta.model.dataClasses.APILocation
 import com.example.mangiaebasta.model.dataClasses.MenuDetailsWithImage
 import com.example.mangiaebasta.model.dataClasses.MenuWithImage
-import com.example.mangiaebasta.view.styles.BuyButton
-import com.example.mangiaebasta.view.styles.DetailAndBackButton
 import com.example.mangiaebasta.view.styles.GlobalCardStyles
 import com.example.mangiaebasta.view.styles.GlobalDimensions
 import com.example.mangiaebasta.view.styles.GlobalTypography
+import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
+import com.example.mangiaebasta.view.styles.buyButtonModifier
+import com.example.mangiaebasta.view.styles.detailButtonModifier
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
@@ -45,9 +46,12 @@ fun MenuHomePreview (
         onPress = onPress
     )
     // Bottone dei dettagli
-    DetailAndBackButton (onClick = { onPress() }) {
-        Text("Detail")
-    }
+    StyledButton(
+        text = "Details",
+        modifier = detailButtonModifier,
+        textStyle = buttonTextWhiteStyle,
+        onClick = { onPress() },
+    )
 
 
 }
@@ -67,9 +71,12 @@ fun MenuHomePreviewDetailed (
         onPress = onPress
     )
     // Bottone acquista
-    BuyButton (onClick = { onPress() }) {
-        Text("Buy")
-    }
+    StyledButton(
+        text = "Buy",
+        modifier = buyButtonModifier,
+        textStyle = buttonTextWhiteStyle,
+        onClick = { onPress() },
+    )
 
 
 }

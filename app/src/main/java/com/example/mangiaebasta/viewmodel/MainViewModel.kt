@@ -237,7 +237,11 @@ class MainViewModel(
         )
     }
 
-    suspend fun fetchOrderDetail(oid: Int) {
+    suspend fun fetchOrderDetail(oid: Int?) {
+        if(oid==null) {
+            Log.d(TAG, "Oid is null")
+            return
+        }
         val order = orderRepository.getOrderDetail(
             oid = oid,
             sid = _sid.value!!

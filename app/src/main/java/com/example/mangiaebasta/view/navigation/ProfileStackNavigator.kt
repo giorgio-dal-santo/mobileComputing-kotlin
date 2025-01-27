@@ -15,10 +15,19 @@ fun NavGraphBuilder.profileStack(navController: NavHostController, viewModel: Ma
         route = "profile_stack"
     ) {
         composable("profile") {
-            ProfileScreen(viewModel, onEditClick = {navController.navigate("edit_profile") } )
+            ProfileScreen(
+                viewModel,
+                onEditClick = {navController.navigate("edit_profile") },
+                onOrderNowCLick = {
+                    navController.navigate("home_stack") {
+                        popUpTo("profile_stack") { inclusive = true }
+                    }
+                } )
         }
         composable("edit_profile") {
             EditProfileScreen(viewModel,onBackwardClick = {navController.navigateUp()} )
         }
+
+
     }
 }

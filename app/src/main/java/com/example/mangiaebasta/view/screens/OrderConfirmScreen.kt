@@ -19,7 +19,7 @@ fun OrderConfirmScreen(viewModel: MainViewModel, onOrderStatusClick: () -> Unit,
     val menuState by viewModel.menusExplorationState.collectAsState()
     val orderState by viewModel.lastOrderState.collectAsState()
 
-    if(appState.isLoading || orderState.lastOrder == null) {
+    if(appState.isLoading) {
         return Column {
             Text("Loading...")
         }

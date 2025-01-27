@@ -1,6 +1,5 @@
 package com.example.mangiaebasta.view.screens
 
-import android.widget.Button
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -8,8 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.navigation.NavController
-import com.example.mangiaebasta.view.utils.MenuHomePreviewDetailed
+import com.example.mangiaebasta.view.utils.cards.MenuCardWithButtonDetailed
 import com.example.mangiaebasta.viewmodel.MainViewModel
 
 @Composable
@@ -30,12 +28,7 @@ fun MenuDetailScreen(viewModel: MainViewModel, onForwardClick: () -> Unit, onBac
 
     Column {
         Text("Menu Detail Screen")
-        MenuHomePreviewDetailed(menuState.selectedMenu!!, onPress = {onForwardClick()})
+        MenuCardWithButtonDetailed (menuState.selectedMenu!!, onPress = {onForwardClick()}, onBack = {onBackwardClick()})
 
-
-        
-        Button(onClick = {onBackwardClick()}) {
-            Text("Back")
-        }
     }
 }

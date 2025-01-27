@@ -1,4 +1,4 @@
-package com.example.mangiaebasta.view.utils
+package com.example.mangiaebasta.view.utils.button
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

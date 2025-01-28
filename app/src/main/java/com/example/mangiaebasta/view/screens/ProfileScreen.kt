@@ -15,6 +15,7 @@ import com.example.mangiaebasta.view.styles.signUpButtonModifier
 import com.example.mangiaebasta.view.utils.ErrorDialog
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.view.utils.cards.MenuCard
+import com.example.mangiaebasta.view.utils.cards.ProfileCard
 import com.example.mangiaebasta.viewmodel.MainViewModel
 
 @Composable
@@ -53,33 +54,18 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
         }
     }
 
+    val user = userState.user
+
+
+
 
     Column {
         Text("Profile Screen")
 
-        Text(
-            text = "Card full name: ${userState.user?.cardFullName}",
-            style = MaterialTheme.typography.bodySmall
-        )
-        Text(
-            text = "Card number: ${userState.user?.cardNumber}",
-            style = MaterialTheme.typography.bodySmall
-        )
-        Text(
-            text = "Expire Date: ${userState.user?.cardExpireMonth}/${userState.user?.cardExpireYear}",
-            style = MaterialTheme.typography.bodySmall
-        )
-        Text(
-            text = "CVV: ${userState.user?.cardCVV}",
-            style = MaterialTheme.typography.bodySmall
-        )
+        if (user != null) {
+            ProfileCard(user, onEditClick)
+        }
 
-        StyledButton(
-            text = "Edit Profile",
-            modifier = signUpButtonModifier,
-            textStyle = buttonTextWhiteStyle,
-            onClick = { onEditClick() },
-        )
         Text(
             text = "Last Order:",
             style = MaterialTheme.typography.titleSmall

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -231,21 +230,21 @@ fun MenuCardBodyDetailed(
             }
 
 
-                // Bottone acquista
-                StyledButton(
-                    text = "Buy",
-                    modifier = buyButtonModifier,
-                    textStyle = buttonTextWhiteStyle,
-                    onClick = { onPress() },
-                )
-                Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
-                //Bottone per back
-                StyledButton(
-                    text = "Back",
-                    modifier = goBackButtonModifier,
-                    textStyle = buttonTextBlackStyle,
-                    onClick = { onBack() },
-                )
+            // Bottone acquista
+            StyledButton(
+                text = "Buy",
+                modifier = buyButtonModifier,
+                textStyle = buttonTextWhiteStyle,
+                onClick = { onPress() },
+            )
+            Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
+            //Bottone per back
+            StyledButton(
+                text = "Back",
+                modifier = goBackButtonModifier,
+                textStyle = buttonTextBlackStyle,
+                onClick = { onBack() },
+            )
 
 
             Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))

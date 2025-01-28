@@ -1,21 +1,21 @@
 package com.example.mangiaebasta.view.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.example.mangiaebasta.viewmodel.MainViewModel
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import com.example.mangiaebasta.view.utils.cards.MenuCardWithButton
+import com.example.mangiaebasta.viewmodel.MainViewModel
 
 @Composable
 fun HomeScreen(
     viewModel: MainViewModel,
-    onMenuClick: (Int) -> Unit)
-{
+    onMenuClick: (Int) -> Unit
+) {
 
     val appState by viewModel.appState.collectAsState()
     val userState by viewModel.userState.collectAsState()

@@ -64,13 +64,15 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
             .padding(16.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Text("Edit Profile Screen",
+        Text(
+            "Edit Profile Screen",
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 16.dp))
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
 
         FormField(
             label = "First Name",
-            value = formParams.firstName ?: "",
+            value = formParams.firstName,
             onValueChange = { formViewModel.onFirstNameChange(it) },
             errorMessage = "First Name must be between 1 and 15 characters and not empty",
             showError = submitFailed,
@@ -82,7 +84,7 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
 
         FormField(
             label = "Last Name",
-            value = formParams.lastName ?: "",
+            value = formParams.lastName,
             onValueChange = { formViewModel.onLastNameChange(it) },
             errorMessage = "Last Name must be between 1 and 15 characters and not empty",
             showError = submitFailed,
@@ -94,7 +96,7 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
 
         FormField(
             label = "Card Full Name",
-            value = formParams.cardFullName ?: "",
+            value = formParams.cardFullName,
             onValueChange = { formViewModel.onCardFullNameChange(it) },
             errorMessage = "Credit Card Name should be at most 31 characters and not empty",
             showError = submitFailed,
@@ -105,7 +107,7 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
 
         FormField(
             label = "Card Number",
-            value = formParams.cardNumber ?: "",
+            value = formParams.cardNumber,
             onValueChange = { formViewModel.onCardNumberChange(it) },
             errorMessage = "Credit Number must be 16 digits",
             showError = submitFailed,
@@ -130,7 +132,7 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
 
         FormField(
             label = "CVV",
-            value = formParams.cardCVV ?: "",
+            value = formParams.cardCVV,
             onValueChange = { formViewModel.onCardCVVChange(it) },
             errorMessage = "Card CVV should be 3 digits",
             showError = submitFailed,

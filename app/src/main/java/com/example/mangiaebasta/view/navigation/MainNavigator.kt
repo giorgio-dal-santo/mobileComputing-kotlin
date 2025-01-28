@@ -25,13 +25,12 @@ fun MainNavigator(
         // Order tab
         composable("order") {
             OrderScreen(
-                navController,
                 viewModel,
                 onOrderNowCLick = {
                     navController.navigate("home_stack") {
                         popUpTo("order_screen") { inclusive = true }
                     }
-                } )
+                })
         }
 
         // Profile stack

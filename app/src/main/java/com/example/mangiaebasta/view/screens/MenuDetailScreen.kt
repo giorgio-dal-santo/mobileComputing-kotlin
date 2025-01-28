@@ -1,7 +1,6 @@
 package com.example.mangiaebasta.view.screens
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,7 +10,12 @@ import com.example.mangiaebasta.view.utils.cards.MenuCardWithButtonDetailed
 import com.example.mangiaebasta.viewmodel.MainViewModel
 
 @Composable
-fun MenuDetailScreen(viewModel: MainViewModel, onForwardClick: () -> Unit, onBackwardClick: () -> Unit, menuId: Int) {
+fun MenuDetailScreen(
+    viewModel: MainViewModel,
+    onForwardClick: () -> Unit,
+    onBackwardClick: () -> Unit,
+    menuId: Int
+) {
 
     val appState by viewModel.appState.collectAsState()
     val menuState by viewModel.menusExplorationState.collectAsState()
@@ -20,7 +24,7 @@ fun MenuDetailScreen(viewModel: MainViewModel, onForwardClick: () -> Unit, onBac
         viewModel.fetchMenuDetail(menuId)
     }
 
-    if(appState.isLoading || menuState.selectedMenu == null) {
+    if (appState.isLoading || menuState.selectedMenu == null) {
         return Column {
             Text("Loading...")
         }
@@ -28,7 +32,9 @@ fun MenuDetailScreen(viewModel: MainViewModel, onForwardClick: () -> Unit, onBac
 
     Column {
         Text("Menu Detail Screen")
-        MenuCardWithButtonDetailed (menuState.selectedMenu!!, onPress = {onForwardClick()}, onBack = {onBackwardClick()})
-
+        MenuCardWithButtonDetailed(
+            menuState.selectedMenu!!,
+            onPress = { onForwardClick() },
+            onBack = { onBackwardClick() })
     }
 }

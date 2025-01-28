@@ -22,12 +22,12 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun FormField(
-    value : String,
-    label : String,
-    onValueChange : (String) -> Boolean,
-    errorMessage : String,
-    showError : Boolean,
-    keyBoardOptions : KeyboardOptions,
+    value: String,
+    label: String,
+    onValueChange: (String) -> Boolean,
+    errorMessage: String,
+    showError: Boolean,
+    keyBoardOptions: KeyboardOptions,
 ) {
 
     var isValid by remember { mutableStateOf(onValueChange(value)) }
@@ -42,7 +42,8 @@ fun FormField(
         onValueChange = {
             isValid = onValueChange(it)
         },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .height(45.dp)
             .padding(bottom = 12.dp),
         keyboardOptions = keyBoardOptions,
@@ -52,11 +53,11 @@ fun FormField(
         ),
         singleLine = true,
         decorationBox = { innerTextField ->
-            Row (
+            Row(
                 modifier = Modifier.padding(vertical = 6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
-            ){
+            ) {
                 innerTextField()
             }
         }

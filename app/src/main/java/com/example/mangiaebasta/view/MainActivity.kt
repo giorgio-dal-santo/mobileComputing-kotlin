@@ -2,31 +2,34 @@ package com.example.mangiaebasta.view
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.example.mangiaebasta.view.navigation.MainNavigator
-import com.example.mangiaebasta.view.navigation.NavigationItem
-import com.example.mangiaebasta.view.styles.MangiaEBastaTheme
-import androidx.compose.material3.*
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.mangiaebasta.model.dataSource.CommunicationController
 import com.example.mangiaebasta.model.dataSource.DBController
 import com.example.mangiaebasta.model.dataSource.PreferencesController
 import com.example.mangiaebasta.model.repository.MenuRepository
 import com.example.mangiaebasta.model.repository.OrderRepository
 import com.example.mangiaebasta.model.repository.UserRepository
+import com.example.mangiaebasta.view.navigation.MainNavigator
+import com.example.mangiaebasta.view.navigation.NavigationItem
+import com.example.mangiaebasta.view.styles.MangiaEBastaTheme
 import com.example.mangiaebasta.viewmodel.MainViewModel
 
 class MainActivity : ComponentActivity() {
@@ -110,9 +113,17 @@ fun BottomNavigationBar(navController: androidx.navigation.NavController) {
         items.forEach { screen ->
             NavigationBarItem(
                 selected = when (screen) {
-                    is NavigationItem.HomeStack -> currentRoute in listOf("home", "menu_detail", "order_confirm")
+                    is NavigationItem.HomeStack -> currentRoute in listOf(
+                        "home",
+                        "menu_detail",
+                        "order_confirm"
+                    )
+
                     is NavigationItem.Order -> currentRoute == "order"
-                    is NavigationItem.ProfileStack -> currentRoute in listOf("profile", "edit_profile")
+                    is NavigationItem.ProfileStack -> currentRoute in listOf(
+                        "profile",
+                        "edit_profile"
+                    )
                 },
                 onClick = {
                     if (currentRoute != screen.route) {
@@ -128,10 +139,19 @@ fun BottomNavigationBar(navController: androidx.navigation.NavController) {
                 icon = {
                     Icon(
                         imageVector = if (when (screen) {
-                                is NavigationItem.HomeStack -> currentRoute in listOf("home", "menu_detail", "order_confirm")
+                                is NavigationItem.HomeStack -> currentRoute in listOf(
+                                    "home",
+                                    "menu_detail",
+                                    "order_confirm"
+                                )
+
                                 is NavigationItem.Order -> currentRoute == "order"
-                                is NavigationItem.ProfileStack -> currentRoute in listOf("profile", "edit_profile")
-                            }) screen.selectedIcon else screen.unselectedIcon,
+                                is NavigationItem.ProfileStack -> currentRoute in listOf(
+                                    "profile",
+                                    "edit_profile"
+                                )
+                            }
+                        ) screen.selectedIcon else screen.unselectedIcon,
                         contentDescription = screen.title
                     )
                 },

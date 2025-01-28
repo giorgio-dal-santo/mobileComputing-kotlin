@@ -3,7 +3,6 @@ package com.example.mangiaebasta.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mangiaebasta.model.dataClasses.APILocation
 import com.example.mangiaebasta.model.dataClasses.MenuDetailsWithImage
 import com.example.mangiaebasta.model.dataClasses.MenuWithImage
@@ -193,11 +192,11 @@ class MainViewModel(
     }
 
     suspend fun newOrder(deliveryLocation: APILocation, mid: Int?) {
-        if(mid == null) {
+        if (mid == null) {
             Log.d(TAG, "Mid is null")
             return
         }
-        Log.d(TAG, "New order: $deliveryLocation")
+        Log.d(TAG, "New order: $mid")
         val order = orderRepository.newOrder(
             sid = _sid.value!!,
             deliveryLocation = deliveryLocation,
@@ -210,35 +209,38 @@ class MainViewModel(
     }
 
     suspend fun fetchLastOrderedMenu() {
-        val lastOrder = _lastOrderState.value.lastOrder
-        if(lastOrder == null) {
-            Log.d(TAG, "Last order is null")
+        if (_lastOrderState.value.lastOrder?.mid == null) {
+            Log.d(TAG, "Mid is null")
             return
         }
+
+        val mid = _lastOrderState.value.lastOrder!!.mid
+
         val menu = menuRepository.getMenuDetail(
             sid = _sid.value!!,
-            mid = lastOrder.mid,
+            mid = mid,
             lat = 45.4642,
             lng = 9.19
         )
         val image = menuRepository.getMenuImage(
             sid = _sid.value!!,
-            mid = lastOrder.mid,
+            mid = mid,
             imageVersion = menu.imageVersion
         )
         val menuDetailWithImage = MenuDetailsWithImage(menu, image)
         _lastOrderState.value = _lastOrderState.value.copy(
             lastOrderMenu = menuDetailWithImage
         )
+        Log.d(TAG, "fetch last ordered menu: ${_lastOrderState.value.lastOrderMenu?.menuDetails?.name}")
     }
 
-    suspend fun fetchOrderDetail(oid: Int?) {
-        if(oid==null) {
+    suspend fun fetchLastOrderDetail() {
+        if (_userState.value.user?.lastOid == null) {
             Log.d(TAG, "Oid is null")
             return
         }
         val order = orderRepository.getOrderDetail(
-            oid = oid,
+            oid = _userState.value.user!!.lastOid!!,
             sid = _sid.value!!
         )
         _lastOrderState.value = _lastOrderState.value.copy(
@@ -246,9 +248,11 @@ class MainViewModel(
         )
         _userState.value = _userState.value.copy(
             user = _userState.value.user?.copy(
-                lastOid = oid,
+                lastOid = order.oid,
                 orderStatus = order.status.toString()
             )
         )
+        Log.d(TAG, "fetch last order detail: ${_lastOrderState.value.lastOrder?.oid}")
+        fetchLastOrderedMenu()
     }
 }

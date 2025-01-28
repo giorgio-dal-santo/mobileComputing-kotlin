@@ -1,21 +1,20 @@
 package com.example.mangiaebasta.view.styles
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.mangiaebasta.R
 
 val PoppinsBlack = FontFamily(Font(R.font.poppins_black))
@@ -98,6 +97,7 @@ object GlobalDimensions {
     val CardPadding = 12.dp
     val ButtonPadding = 14.dp
 }
+
 // Card
 object GlobalCardStyles {
     val CardShape = RoundedCornerShape(16.dp)

@@ -23,6 +23,6 @@ data class Order(
 
 @Serializable
 data class BuyOrderRequest(
-    @SerialName("sid") val sid : String,
+    @SerialName("sid") val sid: String,
     @SerialName("deliveryLocation") val deliveryLocation: APILocation
 )

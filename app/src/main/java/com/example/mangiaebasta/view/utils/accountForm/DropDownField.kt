@@ -47,7 +47,9 @@ fun DropDownField(
                 Icon(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                     contentDescription = null,
-                    modifier = Modifier.clickable { expanded = !expanded } // Interazione con l'icona
+                    modifier = Modifier.clickable {
+                        expanded = !expanded
+                    } // Interazione con l'icona
                 )
             }
         )

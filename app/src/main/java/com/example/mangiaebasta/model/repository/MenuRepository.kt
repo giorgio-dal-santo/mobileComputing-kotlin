@@ -9,8 +9,8 @@ import com.example.mangiaebasta.model.dataSource.CommunicationController
 import com.example.mangiaebasta.model.dataSource.DBController
 import com.example.mangiaebasta.model.dataSource.PreferencesController
 
-class MenuRepository (
-    private val communicationController : CommunicationController,
+class MenuRepository(
+    private val communicationController: CommunicationController,
     private val dbController: DBController,
     private val preferencesController: PreferencesController
 ) {
@@ -18,8 +18,8 @@ class MenuRepository (
         private val TAG = MenuRepository::class.simpleName
     }
 
-    suspend fun getNearbyMenus(lat : Double, lng : Double, sid : String) : List<Menu> {
-        return communicationController.getNearbyMenus(lat, lng ,sid)
+    suspend fun getNearbyMenus(lat: Double, lng: Double, sid: String): List<Menu> {
+        return communicationController.getNearbyMenus(lat, lng, sid)
     }
 
     suspend fun getMenuImage(mid: Int, sid: String, imageVersion: Int): MenuImage {
@@ -43,7 +43,7 @@ class MenuRepository (
     }
 
     suspend fun getMenuDetail(mid: Int, lat: Double, lng: Double, sid: String): MenuDetails {
-        return communicationController.getMenuDetail(mid,lat,lng,sid)
+        return communicationController.getMenuDetail(mid, lat, lng, sid)
     }
 
 

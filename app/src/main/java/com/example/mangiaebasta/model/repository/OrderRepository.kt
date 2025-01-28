@@ -1,14 +1,13 @@
 package com.example.mangiaebasta.model.repository
 
-import android.util.Log
 import com.example.mangiaebasta.model.dataClasses.APILocation
 import com.example.mangiaebasta.model.dataClasses.Order
 import com.example.mangiaebasta.model.dataSource.CommunicationController
 import com.example.mangiaebasta.model.dataSource.DBController
 import com.example.mangiaebasta.model.dataSource.PreferencesController
 
-class OrderRepository (
-    private val communicationController : CommunicationController,
+class OrderRepository(
+    private val communicationController: CommunicationController,
     private val dbController: DBController,
     private val preferencesController: PreferencesController
 ) {
@@ -21,7 +20,7 @@ class OrderRepository (
         return communicationController.buyMenu(sid, deliveryLocation, mid)
     }
 
-    suspend fun getOrderDetail(oid: Int, sid: String) : Order {
+    suspend fun getOrderDetail(oid: Int, sid: String): Order {
         return communicationController.getOrderDetail(oid, sid)
     }
 

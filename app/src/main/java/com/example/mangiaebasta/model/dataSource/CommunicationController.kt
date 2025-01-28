@@ -8,6 +8,10 @@ import com.example.mangiaebasta.model.dataClasses.Menu
 import com.example.mangiaebasta.model.dataClasses.MenuDetails
 import com.example.mangiaebasta.model.dataClasses.MenuImage
 import com.example.mangiaebasta.model.dataClasses.Order
+import com.example.mangiaebasta.model.dataClasses.ResponseError
+import com.example.mangiaebasta.model.dataClasses.User
+import com.example.mangiaebasta.model.dataClasses.UserDetail
+import com.example.mangiaebasta.model.dataClasses.UserUpdateParams
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
@@ -23,15 +27,9 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import com.example.mangiaebasta.model.dataClasses.User
-import com.example.mangiaebasta.model.dataClasses.UserDetail
-import com.example.mangiaebasta.model.dataClasses.ResponseError
-import com.example.mangiaebasta.model.dataClasses.UserUpdateParams
 
 
-class CommunicationController (
-
-) {
+class CommunicationController {
     companion object {
         private val BASE_URL = "https://develop.ewlab.di.unimi.it/mc/2425"
         private val TAG = CommunicationController::class.simpleName
@@ -115,7 +113,8 @@ class CommunicationController (
         val url = "$BASE_URL/user/$uid"
         val queryParameters = mapOf("sid" to sid)
         Log.d(TAG, "putUserData + query params: $queryParameters")
-        val httpResponse = genericRequest(url, HttpMethod.PUT, bodyParams = updateData,
+        val httpResponse = genericRequest(
+            url, HttpMethod.PUT, bodyParams = updateData,
             queryParameters = queryParameters
         )
         return httpResponse
@@ -159,7 +158,7 @@ class CommunicationController (
     }
 
     // Order data management
-    suspend fun getOrderDetail (oid: Int, sid: String) : Order {
+    suspend fun getOrderDetail(oid: Int, sid: String): Order {
         val url = "$BASE_URL/order/$oid"
         val queryParameters = mapOf("oid" to oid, "sid" to sid)
         Log.d(TAG, "getOrderDetail + query params: $queryParameters")

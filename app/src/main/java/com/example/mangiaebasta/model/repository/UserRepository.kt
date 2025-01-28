@@ -1,6 +1,5 @@
 package com.example.mangiaebasta.model.repository
 
-import androidx.core.app.Person
 import com.example.mangiaebasta.model.dataClasses.User
 import com.example.mangiaebasta.model.dataClasses.UserDetail
 import com.example.mangiaebasta.model.dataClasses.UserUpdateParams
@@ -8,8 +7,8 @@ import com.example.mangiaebasta.model.dataSource.CommunicationController
 import com.example.mangiaebasta.model.dataSource.DBController
 import com.example.mangiaebasta.model.dataSource.PreferencesController
 
-class UserRepository (
-    private val communicationController : CommunicationController,
+class UserRepository(
+    private val communicationController: CommunicationController,
     private val dbController: DBController,
     private val preferencesController: PreferencesController
 ) {
@@ -18,18 +17,15 @@ class UserRepository (
     }
 
 
-    suspend fun isFirstRun() : Boolean {
+    suspend fun isFirstRun(): Boolean {
         return preferencesController.isFirstRun()
     }
 
-    suspend fun isRegistered() : Boolean {
-        if  (preferencesController.get(PreferencesController.IS_REGISTERED) == true) {
-            return true
-        }
-        return false
+    suspend fun isRegistered(): Boolean {
+        return preferencesController.get(PreferencesController.IS_REGISTERED) == true
     }
 
-    suspend fun getUserSession() : User {
+    suspend fun getUserSession(): User {
         val isFirstRun = preferencesController.isFirstRun()
         if (!isFirstRun) {
             val sid = preferencesController.get(PreferencesController.SID)
@@ -39,14 +35,14 @@ class UserRepository (
             }
         }
 
-        val user : User = communicationController.registerUser()
+        val user: User = communicationController.registerUser()
         preferencesController.memorizeSessionKeys(user.sid, user.uid)
         return user
     }
 
 
-    suspend fun getUserData(sid: String ,uid: Int) : UserDetail {
-        return communicationController.getUserData(sid,uid)
+    suspend fun getUserData(sid: String, uid: Int): UserDetail {
+        return communicationController.getUserData(sid, uid)
     }
 
     suspend fun putUserData(sid: String, uid: Int, updateData: UserUpdateParams) {

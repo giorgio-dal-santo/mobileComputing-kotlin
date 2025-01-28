@@ -32,7 +32,6 @@ fun OrderConfirmScreen(
 
     LaunchedEffect(hardCodedLocation, menuState.selectedMenu?.menuDetails?.mid) {
         viewModel.newOrder(hardCodedLocation, menuState.selectedMenu?.menuDetails?.mid)
-        viewModel.fetchLastOrderDetail()
     }
 
 

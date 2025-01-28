@@ -29,7 +29,7 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
     }
 
     LaunchedEffect(Unit) {
-        viewModel.fetchLastOrderedMenu()
+        viewModel.fetchLastOrderDetail()
     }
 
     Log.d("ProfileScreen", "ISREGISTRED in Profile = ${userState.isUserRegistered}")

@@ -205,6 +205,13 @@ class MainViewModel(
         _lastOrderState.value = _lastOrderState.value.copy(
             lastOrder = order
         )
+        _userState.value = _userState.value.copy(
+            user = _userState.value.user?.copy(
+                lastOid = order.oid,
+                orderStatus = order.status.toString()
+            )
+        )
+        fetchLastOrderedMenu()
 
     }
 

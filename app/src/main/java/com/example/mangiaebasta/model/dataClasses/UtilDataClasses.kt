@@ -18,6 +18,12 @@ data class APILocation(
     val lng: Double
 )
 
+
+data class Error(
+    val title : String = "An Unexpected Error Occurred",
+    override val message: String,
+) : Exception(message)
+
 object Timestamps {
 
     fun Timestamp.toMillis(): Long {

@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
 import com.example.mangiaebasta.view.styles.orderButtonModifier
 import com.example.mangiaebasta.view.styles.signUpButtonModifier
+import com.example.mangiaebasta.view.utils.ErrorDialog
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.view.utils.cards.MenuCard
 import com.example.mangiaebasta.viewmodel.MainViewModel
@@ -30,6 +31,17 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
 
     LaunchedEffect(Unit) {
         viewModel.fetchLastOrderDetail()
+    }
+
+    if (appState.error != null) {
+        ErrorDialog(
+            error = appState.error!!,
+            onDismiss = {
+                viewModel.resetError() // Resetta l'errore
+                onEditClick()
+            }
+
+        )
     }
 
     Log.d("ProfileScreen", "ISREGISTRED in Profile = ${userState.isUserRegistered}")
@@ -97,9 +109,13 @@ fun IsNotRegistered(onEditClick: () -> Unit) {
     Column {
         Text("User not registered")
     }
-    Button(onClick = { onEditClick() }) {
-        Text("New Profile")
-    }
+
+    StyledButton(
+        text = "New Profile",
+        modifier = signUpButtonModifier,
+        textStyle = buttonTextWhiteStyle,
+        onClick = { onEditClick() },
+    )
 }
 
 

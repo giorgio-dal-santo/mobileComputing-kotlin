@@ -14,10 +14,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mangiaebasta.model.dataClasses.MenuDetailsWithImage
 import com.example.mangiaebasta.model.dataClasses.MenuWithImage
 import com.example.mangiaebasta.view.styles.GlobalCardStyles
@@ -29,6 +32,7 @@ import com.example.mangiaebasta.view.styles.buyButtonModifier
 import com.example.mangiaebasta.view.styles.detailButtonModifier
 import com.example.mangiaebasta.view.styles.goBackButtonModifier
 import com.example.mangiaebasta.view.utils.button.StyledButton
+import com.example.mangiaebasta.viewmodel.MainViewModel
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
@@ -53,7 +57,8 @@ fun MenuCardWithButton(
 fun MenuCardWithButtonDetailed(
     menuDetails: MenuDetailsWithImage,
     onPress: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    viewModel: MainViewModel
 ) {
     MenuCardBodyDetailed(
         title = menuDetails.menuDetails.name,
@@ -62,7 +67,8 @@ fun MenuCardWithButtonDetailed(
         deliveryTime = menuDetails.menuDetails.deliveryTime,
         image = menuDetails.image.base64,
         onPress = onPress,
-        onBack = onBack
+        onBack = onBack,
+        viewModel = viewModel
     )
 }
 
@@ -165,8 +171,12 @@ fun MenuCardBodyDetailed(
     deliveryTime: Int,
     image: String?,
     onPress: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    viewModel: MainViewModel
 ) {
+
+    val userState by viewModel.userState.collectAsState()
+
     Card(
         modifier = Modifier
             .padding(GlobalCardStyles.CardPadding)
@@ -231,12 +241,18 @@ fun MenuCardBodyDetailed(
 
 
             // Bottone acquista
-            StyledButton(
-                text = "Buy",
-                modifier = buyButtonModifier,
-                textStyle = buttonTextWhiteStyle,
-                onClick = { onPress() },
-            )
+
+            if(userState.isUserRegistered) {
+                StyledButton(
+                    text = "Buy",
+                    modifier = buyButtonModifier,
+                    textStyle = buttonTextWhiteStyle,
+                    onClick = { onPress() },
+                )
+            }
+            
+
+
             Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
             //Bottone per back
             StyledButton(

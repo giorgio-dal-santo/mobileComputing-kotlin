@@ -35,6 +35,8 @@ fun MenuDetailScreen(
         MenuCardWithButtonDetailed(
             menuState.selectedMenu!!,
             onPress = { onForwardClick() },
-            onBack = { onBackwardClick() })
+            onBack = { onBackwardClick() },
+            viewModel = viewModel
+            )
     }
 }

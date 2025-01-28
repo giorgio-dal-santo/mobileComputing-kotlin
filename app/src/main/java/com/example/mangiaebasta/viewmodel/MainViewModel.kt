@@ -15,6 +15,8 @@ import com.example.mangiaebasta.model.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlin.coroutines.cancellation.CancellationException
+import com.example.mangiaebasta.model.dataClasses.Error
 
 
 data class UserState(
@@ -100,6 +102,17 @@ class MainViewModel(
         _appState.value = _appState.value.copy(isLoading = isLoading)
     }
 
+    fun setError(error: Error) {
+        if (_appState.value.error != null) return
+        _appState.value = _appState.value.copy(error = error)
+        Log.d(TAG, "set error: ${_appState.value.error}")
+    }
+
+    fun resetError() {
+        _appState.value = _appState.value.copy(error = null)
+        Log.d(TAG, "reset error: ${_appState.value.error}")
+    }
+
     // Data Fetching and Updating
 
     suspend fun fetchUserSession() {
@@ -125,10 +138,34 @@ class MainViewModel(
     }
 
     suspend fun updateUserData(updatedData: UserUpdateParams): Boolean {
-        val newUserData = updatedData.copy(sid = _sid.value!!)
-        userRepository.putUserData(_sid.value!!, _uid.value!!, newUserData)
-        fetchUserDetails()
-        return true
+
+        try {
+            Log.d(TAG, "Update user data")
+
+            val newUserData = updatedData.copy(sid = _sid.value!!)
+            userRepository.putUserData(_sid.value!!, _uid.value!!, newUserData)
+        } catch (e: Error) {
+            Log.e(TAG, "Error: ${e.message}")
+            setError(e)
+        } catch (e: CancellationException) {
+            Log.w(TAG, "Error: $e")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error: $e")
+            setError(
+                error = Error(
+                    title = "Error",
+                    message = "Account validation failed",
+                )
+            )
+        }
+
+        val success = _appState.value.error == null
+
+        if (success) {
+            fetchUserDetails()
+        }
+
+        return success
     }
 
     fun getUserRepository(): UserRepository {
@@ -191,27 +228,50 @@ class MainViewModel(
         )
     }
 
-    suspend fun newOrder(deliveryLocation: APILocation, mid: Int?) {
+    suspend fun newOrder(deliveryLocation: APILocation, mid: Int?): Boolean {
+
         if (mid == null) {
             Log.d(TAG, "Mid is null")
-            return
+            return false
         }
-        Log.d(TAG, "New order: $mid")
-        val order = orderRepository.newOrder(
-            sid = _sid.value!!,
-            deliveryLocation = deliveryLocation,
-            mid = mid
-        )
-        _lastOrderState.value = _lastOrderState.value.copy(
-            lastOrder = order
-        )
-        _userState.value = _userState.value.copy(
-            user = _userState.value.user?.copy(
-                lastOid = order.oid,
-                orderStatus = order.status.toString()
+
+        try {
+            Log.d(TAG, "New order: $mid")
+
+            val order = orderRepository.newOrder(
+                sid = _sid.value!!,
+                deliveryLocation = deliveryLocation,
+                mid = mid
             )
-        )
-        fetchLastOrderedMenu()
+            _lastOrderState.value = _lastOrderState.value.copy(
+                lastOrder = order
+            )
+            _userState.value = _userState.value.copy(
+                user = _userState.value.user?.copy(
+                    lastOid = order.oid,
+                    orderStatus = order.status.toString()
+                )
+            )
+        } catch (e: Error) {
+            Log.e(TAG, "Error: ${e.message}")
+            setError(e)
+        } catch (e: CancellationException) {
+            Log.w(TAG, "Error: $e")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error: $e")
+            setError(
+                error = Error(
+                    title = "Error",
+                    message = "You already have an active order",
+                )
+            )
+        }
+
+        val success = _appState.value.error == null
+        if (success) {
+            fetchLastOrderedMenu()
+        }
+        return success
 
     }
 
@@ -238,7 +298,10 @@ class MainViewModel(
         _lastOrderState.value = _lastOrderState.value.copy(
             lastOrderMenu = menuDetailWithImage
         )
-        Log.d(TAG, "fetch last ordered menu: ${_lastOrderState.value.lastOrderMenu?.menuDetails?.name}")
+        Log.d(
+            TAG,
+            "fetch last ordered menu: ${_lastOrderState.value.lastOrderMenu?.menuDetails?.name}"
+        )
     }
 
     suspend fun fetchLastOrderDetail() {

@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.example.mangiaebasta.model.dataClasses.APILocation
+import com.example.mangiaebasta.view.utils.ErrorDialog
 import com.example.mangiaebasta.viewmodel.MainViewModel
 
 @Composable
@@ -27,12 +27,18 @@ fun OrderConfirmScreen(
         }
     }
 
-    val hardCodedLocation = APILocation(45.4642, 9.19)
+    if (appState.error != null) {
+        ErrorDialog(
+            error = appState.error!!,
+            onDismiss = {
+                viewModel.resetError() // Resetta l'errore
+                onBackwardClick()
+            }
 
-
-    LaunchedEffect(hardCodedLocation, menuState.selectedMenu?.menuDetails?.mid) {
-        viewModel.newOrder(hardCodedLocation, menuState.selectedMenu?.menuDetails?.mid)
+        )
     }
+
+
 
 
     Column {

@@ -25,8 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.mangiaebasta.view.styles.buttonTextBlackStyle
+import com.example.mangiaebasta.view.styles.goBackButtonModifier
+import com.example.mangiaebasta.view.styles.signUpButtonModifier
 import com.example.mangiaebasta.view.utils.accountForm.DropDownField
 import com.example.mangiaebasta.view.utils.accountForm.FormField
+import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.viewmodel.MainViewModel
 import com.example.mangiaebasta.viewmodel.ProfileViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -37,6 +41,7 @@ import java.util.Calendar
 @Composable
 fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
 
+    val userState by viewModel.userState.collectAsState()
 
     val viewModelFactory = viewModelFactory {
         initializer {
@@ -143,27 +148,35 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
+        Column (
             modifier = Modifier.fillMaxWidth()
         ) {
-            Button(onClick = { onBackwardClick() }) {
-                Text("Back")
-            }
 
-            Button(onClick = {
-                CoroutineScope(Dispatchers.Main).launch {
-                    val ok = formViewModel.submit(viewModel::updateUserData)
-                    Log.d("EditAccountScreen", "Submit result is $ok")
-                    if (ok) {
-                        onBackwardClick()
-                    } else {
-                        submitFailed = true
+            StyledButton(
+                text = "Back",
+                modifier = goBackButtonModifier,
+                textStyle = buttonTextBlackStyle,
+                onClick = { onBackwardClick() },
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            StyledButton(
+                text = if (userState.isUserRegistered) "Save" else "Register",
+                modifier = signUpButtonModifier,
+                textStyle = buttonTextBlackStyle,
+                onClick = {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val ok = formViewModel.submit(viewModel::updateUserData)
+                        Log.d("EditAccountScreen", "Submit result is $ok")
+                        if (ok) {
+                            onBackwardClick()
+                        } else {
+                            submitFailed = true
+                        }
                     }
-                }
-            }) {
-                Text("Save")
-            }
+                 },
+            )
         }
     }
 }

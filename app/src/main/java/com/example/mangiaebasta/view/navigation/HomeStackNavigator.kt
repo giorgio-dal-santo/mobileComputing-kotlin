@@ -6,10 +6,14 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.example.mangiaebasta.model.dataClasses.APILocation
 import com.example.mangiaebasta.view.screens.HomeScreen
 import com.example.mangiaebasta.view.screens.MenuDetailScreen
 import com.example.mangiaebasta.view.screens.OrderConfirmScreen
 import com.example.mangiaebasta.viewmodel.MainViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 fun NavGraphBuilder.homeStack(navController: NavHostController, viewModel: MainViewModel) {
@@ -33,7 +37,13 @@ fun NavGraphBuilder.homeStack(navController: NavHostController, viewModel: MainV
             val menuId = backStackEntry.arguments?.getString("menuId") ?: ""
             MenuDetailScreen(
                 viewModel,
-                onForwardClick = { navController.navigate("order_confirm") },
+                onForwardClick = {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val hardCodedLocation = APILocation(45.4642, 9.19)
+                        viewModel.newOrder(hardCodedLocation, menuId.toInt())
+                        navController.navigate("order_confirm")
+                    }
+                },
                 onBackwardClick = { navController.navigateUp() },
                 menuId = menuId.toInt()
             )

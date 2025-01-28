@@ -103,62 +103,56 @@ class CommunicationController (
     }
 
     suspend fun getUserData(sid: String, uid: Int): UserDetail {
-        Log.d(TAG, "getUserData")
         val url = "$BASE_URL/user/$uid"
         val queryParameters = mapOf("sid" to sid, "uid" to uid)
+        Log.d(TAG, "getUserData + query params: $queryParameters")
         val httpResponse = genericRequest(url, HttpMethod.GET, queryParameters)
         val result: UserDetail = httpResponse.body()
         return result
     }
 
     suspend fun putUserData(sid: String, uid: Int, updateData: UserUpdateParams): HttpResponse {
-        Log.d(TAG, "putUserData")
         val url = "$BASE_URL/user/$uid"
         val queryParameters = mapOf("sid" to sid)
+        Log.d(TAG, "putUserData + query params: $queryParameters")
         val httpResponse = genericRequest(url, HttpMethod.PUT, bodyParams = updateData,
             queryParameters = queryParameters
         )
-        Log.d(TAG, "Put user data in COmm contr, sid is $sid , uid is $uid")
         return httpResponse
     }
 
     // Menu data management
     suspend fun getNearbyMenus(lat: Double, lng: Double, sid: String): List<Menu> {
-        Log.d(TAG, "getNearbyMenus")
         val url = "$BASE_URL/menu"
         val queryParameters = mapOf("lat" to lat, "lng" to lng, "sid" to sid)
+        Log.d(TAG, "getNearbyMenus + query params: $queryParameters")
         val httpResponse = genericRequest(url, HttpMethod.GET, queryParameters)
         val result: List<Menu> = httpResponse.body()
         return result
     }
 
     suspend fun getMenuImage(mid: Int, sid: String): MenuImage {
-        Log.d(TAG, "getMenuImage")
         val url = "$BASE_URL/menu/$mid/image"
         val queryParameters = mapOf("sid" to sid)
+        Log.d(TAG, "getMenuImage + query params: $queryParameters")
         val httpResponse = genericRequest(url, HttpMethod.GET, queryParameters)
         val result: MenuImage = httpResponse.body()
         return result
     }
 
     suspend fun getMenuDetail(mid: Int, lat: Double, lng: Double, sid: String): MenuDetails {
-        Log.d(TAG, "getMenuDetail")
         val url = "$BASE_URL/menu/$mid"
         val queryParameters = mapOf("lat" to lat, "lng" to lng, "sid" to sid)
+        Log.d(TAG, "getMenuDetail + query params: $queryParameters")
         val httpResponse = genericRequest(url, HttpMethod.GET, queryParameters)
         val result: MenuDetails = httpResponse.body()
         return result
     }
 
     suspend fun buyMenu(sid: String, deliveryLocation: APILocation, mid: Int): Order {
-        Log.d(TAG, "buyMenu: $deliveryLocation")
         val url = "$BASE_URL/menu/$mid/buy"
-        //val bodyParams = mapOf("sid" to sid, "deliveryLocation" to deliveryLocation)
         val bodyParams = BuyOrderRequest(sid, deliveryLocation)
-        Log.d(TAG, "buyMenu: $bodyParams")
-
-
-
+        Log.d(TAG, "buyMenu + body params: $bodyParams")
         val httpResponse = genericRequest(url, HttpMethod.POST, bodyParams = bodyParams)
         val result: Order = httpResponse.body()
         return result
@@ -166,9 +160,9 @@ class CommunicationController (
 
     // Order data management
     suspend fun getOrderDetail (oid: Int, sid: String) : Order {
-        Log.d(TAG, "getOrderDetail")
         val url = "$BASE_URL/order/$oid"
         val queryParameters = mapOf("oid" to oid, "sid" to sid)
+        Log.d(TAG, "getOrderDetail + query params: $queryParameters")
         val httpResponse = genericRequest(url, HttpMethod.GET, queryParameters)
         val result: Order = httpResponse.body()
         return result

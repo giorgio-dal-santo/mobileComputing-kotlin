@@ -44,7 +44,7 @@ class ProfileViewModel(
         viewModelScope.launch {
             fetchSessionData()
         }
-        Log.d(TAG, "INIT ProfileViewModel" )
+        Log.d(TAG, "INIT ProfileViewModel")
     }
 
     fun fetchSessionData() {
@@ -52,54 +52,46 @@ class ProfileViewModel(
             val us = userRepository.getUserSession()
             _sid.value = us.sid
             _uid.value = us.uid
-            Log.d(TAG, "SID is ${_sid.value} and UID is ${_uid.value}")
         }
     }
 
     fun onFirstNameChange(value : String) : Boolean {
-        Log.d(TAG, "First Name Changed: $value")
         _formParams.value = _formParams.value.copy(firstName = value)
 
         return !(value.length > 15 || value.isEmpty())
     }
 
     fun onLastNameChange(value : String) : Boolean {
-        Log.d(TAG, "Last Name Changed: $value")
         _formParams.value = _formParams.value.copy(lastName = value)
 
         return !(value.length > 15 || value.isEmpty())
     }
 
     fun onCardFullNameChange(value : String) : Boolean {
-        Log.d(TAG, "Card Full Name Changed: $value")
         _formParams.value = _formParams.value.copy(cardFullName = value)
 
         return !(value.length > 31 || value.isEmpty())
     }
 
     fun onCardNumberChange(value : String) : Boolean {
-        Log.d(TAG, "Card Number Changed: $value")
         _formParams.value = _formParams.value.copy(cardNumber = value)
 
         return (value.length == 16 && value.toLongOrNull() != null)
     }
 
     fun onCardExpireMonthChange(value: Int) : Boolean {
-        Log.d(TAG, "Card Expire Month Changed: $value")
         _formParams.value = _formParams.value.copy(cardExpireMonth = value)
 
         return (value in 1..12)
     }
 
     fun onCardExpireYearChange(value: Int) : Boolean {
-        Log.d(TAG, "Card Expire Year Changed: $value")
         _formParams.value = _formParams.value.copy(cardExpireYear = value)
 
         return (value >= Calendar.getInstance().get(Calendar.YEAR))
     }
 
     fun onCardCVVChange(value : String) : Boolean {
-        Log.d(TAG, "Card CVV Changed: $value")
         _formParams.value = _formParams.value.copy(cardCVV = value)
 
         return (value.length == 3 && value.toIntOrNull() != null)

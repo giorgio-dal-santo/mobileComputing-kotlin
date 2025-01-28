@@ -94,7 +94,7 @@ class MainViewModel(
             fetchUserDetails()
             setLoading(false)
         }
-        Log.d("Init", "INIT")
+        Log.d(TAG, "INIT MainViewModel")
     }
 
     fun setLoading(isLoading: Boolean) {
@@ -107,13 +107,12 @@ class MainViewModel(
         val us = userRepository.getUserSession()
         _sid.value = us.sid
         _uid.value = us.uid
-        Log.d("MainViewModel", "Fetched user session, sid is ${_sid.value} , uid is ${_uid.value}")
     }
 
     suspend fun fetchUserDetails() {
         if (!userRepository.isRegistered()) {
             _userState.value = _userState.value.copy(isUserRegistered = false)
-            Log.d("MainViewModel", "View Model Is registered ${_userState.value.isUserRegistered}")
+            Log.d(TAG, "View Model Is registered ${_userState.value.isUserRegistered}")
             return
         }
         val user = userRepository.getUserData(
@@ -124,16 +123,12 @@ class MainViewModel(
             user = user,
             isUserRegistered = true
         )
-        Log.d("MainViewModel", "fetch user details")
-
     }
 
     suspend fun updateUserData(updatedData: UserUpdateParams): Boolean {
         val newUserData = updatedData.copy(sid = _sid.value!!)
         userRepository.putUserData(_sid.value!!, _uid.value!!, newUserData)
-        Log.d(TAG, "Put user data successfull MVM, sid is $_sid , uid is $_uid")
         fetchUserDetails()
-        Log.d(TAG, "Fetched new user data? sid is $_sid , uid is $_uid")
         return true
     }
 

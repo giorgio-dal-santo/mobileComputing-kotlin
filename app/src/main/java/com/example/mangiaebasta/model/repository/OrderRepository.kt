@@ -18,7 +18,6 @@ class OrderRepository (
 
 
     suspend fun newOrder(sid: String, deliveryLocation: APILocation, mid: Int): Order {
-        Log.d(TAG, "New order: $deliveryLocation")
         return communicationController.buyMenu(sid, deliveryLocation, mid)
     }
 

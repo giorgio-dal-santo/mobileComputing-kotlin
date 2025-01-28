@@ -16,6 +16,7 @@ class PreferencesController private constructor(
 ) {
 
     companion object {
+        private val TAG = PreferencesController::class.simpleName
         val SID = stringPreferencesKey("sid")
         val UID = intPreferencesKey("uid")
         val HAS_ALREADY_RUN = booleanPreferencesKey("has_already_run")
@@ -36,7 +37,7 @@ class PreferencesController private constructor(
 
     suspend fun <T> get(prefKey: Key<T>): T? {
         val prefs = dataStore.data.first()
-        Log.d("Preference", "get: ${prefs[prefKey]}")
+        Log.d(TAG, "get: ${prefs[prefKey]}")
         return prefs[prefKey]
     }
 
@@ -44,7 +45,7 @@ class PreferencesController private constructor(
         dataStore.edit { prefs ->
             prefs[prefKey] = value
         }
-        Log.d("Preference", "set: $value")
+        Log.d(TAG, "set: $value")
     }
 
     suspend fun memorizeSessionKeys(sid: String, uid: Int) {

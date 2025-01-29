@@ -20,8 +20,9 @@ fun HomeScreen(
     val appState by viewModel.appState.collectAsState()
     val userState by viewModel.userState.collectAsState()
     val menusState by viewModel.menusExplorationState.collectAsState()
+    val locationState by viewModel.locationState.collectAsState()
 
-    LaunchedEffect(menusState.reloadMenus, appState.isLoading) {
+    LaunchedEffect(menusState.reloadMenus, appState.isLoading, locationState.lastKnownLocation) {
         if (appState.isLoading) return@LaunchedEffect
         if (menusState.nearbyMenus.isEmpty() || menusState.reloadMenus) {
             viewModel.fetchNearbyMenus()

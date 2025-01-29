@@ -48,9 +48,7 @@ fun HomeScreen(
 
     LaunchedEffect(menusState.reloadMenus, appState.isLoading, locationState.lastKnownLocation, locationState.isLocationAllowed) {
         if (appState.isLoading) return@LaunchedEffect
-        if (menusState.nearbyMenus.isEmpty() || menusState.reloadMenus) {
             viewModel.fetchNearbyMenus()
-        }
     }
 
     Column {

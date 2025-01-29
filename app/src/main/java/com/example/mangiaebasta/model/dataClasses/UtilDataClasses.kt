@@ -1,5 +1,6 @@
 package com.example.mangiaebasta.model.dataClasses
 
+import android.location.Location
 import kotlinx.serialization.Serializable
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -17,6 +18,15 @@ data class APILocation(
     val lat: Double,
     val lng: Double
 )
+
+
+//fun APILocation.toPoint(): Point {
+//    return Point.fromLngLat(this.longitude, this.latitude)
+//}
+
+fun Location.toAPILocation(): APILocation {
+    return APILocation(this.latitude, this.longitude)
+}
 
 
 data class Error(
@@ -40,3 +50,4 @@ object Timestamps {
         return prettyFormat.format(date)
     }
 }
+

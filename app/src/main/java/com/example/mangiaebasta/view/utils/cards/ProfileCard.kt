@@ -78,7 +78,6 @@ fun ProfileCardBody(
             .fillMaxWidth(),
         shape = GlobalCardStyles.CardShape,
         elevation = CardDefaults.cardElevation(GlobalCardStyles.CardElevation),
-        onClick = onPress
     ) {
         Column(
             modifier = Modifier.padding(GlobalCardStyles.CardPadding)

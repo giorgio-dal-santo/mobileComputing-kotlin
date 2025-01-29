@@ -34,16 +34,6 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
         viewModel.fetchLastOrderDetail()
     }
 
-    if (appState.error != null) {
-        ErrorDialog(
-            error = appState.error!!,
-            onDismiss = {
-                viewModel.resetError() // Resetta l'errore
-                onEditClick()
-            }
-
-        )
-    }
 
     Log.d("ProfileScreen", "ISREGISTRED in Profile = ${userState.isUserRegistered}")
 

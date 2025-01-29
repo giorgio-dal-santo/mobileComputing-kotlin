@@ -89,7 +89,6 @@ fun MenuCardBody(
             .fillMaxWidth(),
         shape = GlobalCardStyles.CardShape,
         elevation = CardDefaults.cardElevation(GlobalCardStyles.CardElevation),
-        onClick = onPress
     ) {
         Column(
             modifier = Modifier.padding(GlobalCardStyles.CardPadding)
@@ -183,7 +182,6 @@ fun MenuCardBodyDetailed(
             .fillMaxWidth(),
         shape = GlobalCardStyles.CardShape,
         elevation = CardDefaults.cardElevation(GlobalCardStyles.CardElevation),
-        onClick = onPress
     ) {
         Column(
             modifier = Modifier.padding(GlobalCardStyles.CardPadding)

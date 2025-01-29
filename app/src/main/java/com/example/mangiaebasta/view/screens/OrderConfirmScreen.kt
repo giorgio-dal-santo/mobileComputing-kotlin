@@ -7,7 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.example.mangiaebasta.view.styles.buttonTextBlackStyle
+import com.example.mangiaebasta.view.styles.goBackButtonModifier
 import com.example.mangiaebasta.view.utils.ErrorDialog
+import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.viewmodel.MainViewModel
 
 @Composable
@@ -28,18 +31,20 @@ fun OrderConfirmScreen(
     }
 
     if (appState.error != null) {
-        ErrorDialog(
-            error = appState.error!!,
-            onDismiss = {
-                viewModel.resetError() // Resetta l'errore
-                onBackwardClick()
-            }
+        return Column {
+            Text(appState.error!!.message)
+            StyledButton(
+                text = "Got it!",
+                modifier = goBackButtonModifier,
+                textStyle = buttonTextBlackStyle,
+                onClick = {
+                    viewModel.resetError() // Resetta l'errore
+                    onBackwardClick()
+                }
+            )
+        }
 
-        )
     }
-
-
-
 
     Column {
         Text("Order Confirm Screen")

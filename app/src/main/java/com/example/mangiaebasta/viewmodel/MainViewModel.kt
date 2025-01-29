@@ -17,6 +17,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
 import com.example.mangiaebasta.model.dataClasses.Error
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.location.Location
+import com.example.mangiaebasta.model.dataClasses.toAPILocation
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.Priority
 
 
 data class UserState(
@@ -52,6 +63,7 @@ class MainViewModel(
     private val userRepository: UserRepository,
     private val menuRepository: MenuRepository,
     private val orderRepository: OrderRepository,
+    private val locationClient: FusedLocationProviderClient
 ) : ViewModel() {
 
     //Location di Default se non ho user location
@@ -175,12 +187,13 @@ class MainViewModel(
 
     suspend fun fetchNearbyMenus() {
         viewModelScope.launch {
-            //val location = DEFAULT_LOCATION
+
+            val location = getCurrentAPILocation()
 
             val menus = menuRepository.getNearbyMenus(
                 sid = _sid.value!!,
-                lat = 45.4642,
-                lng = 9.19
+                lat = location.lat,
+                lng = location.lng,
             )
             val menusWithNoImages = menus.map { menu ->
                 MenuWithImage(menu, null)
@@ -211,11 +224,12 @@ class MainViewModel(
     }
 
     suspend fun fetchMenuDetail(mid: Int) {
+        val location = getCurrentAPILocation()
         val menu = menuRepository.getMenuDetail(
             sid = _sid.value!!,
             mid = mid,
-            lat = 45.4642,
-            lng = 9.19
+            lat = location.lat,
+            lng = location.lng,
         )
         val image = menuRepository.getMenuImage(
             sid = _sid.value!!,
@@ -262,7 +276,7 @@ class MainViewModel(
             setError(
                 error = Error(
                     title = "Error",
-                    message = "You already have an active order",
+                    message = "Error: ${e.message}",
                 )
             )
         }
@@ -283,11 +297,13 @@ class MainViewModel(
 
         val mid = _lastOrderState.value.lastOrder!!.mid
 
+        val location = getCurrentAPILocation()
+
         val menu = menuRepository.getMenuDetail(
             sid = _sid.value!!,
             mid = mid,
-            lat = 45.4642,
-            lng = 9.19
+            lat = location.lat,
+            lng = location.lng,
         )
         val image = menuRepository.getMenuImage(
             sid = _sid.value!!,
@@ -325,4 +341,61 @@ class MainViewModel(
         Log.d(TAG, "fetch last order detail: ${_lastOrderState.value.lastOrder?.oid}")
         fetchLastOrderedMenu()
     }
+
+
+    //LOCATION
+    fun disallowLocation() {
+        _locationState.value = _locationState.value.copy(isLocationAllowed = false)
+    }
+
+    fun allowLocation(location: Location) {
+        setLastKnownLocation(location)
+        if (_locationState.value.isLocationAllowed) return
+        _locationState.value = _locationState.value.copy(
+            isLocationAllowed = true,
+        )
+        _menusExplorationState.value = _menusExplorationState.value.copy(
+            reloadMenus = true
+        )
+    }
+
+    private fun setLastKnownLocation(location: Location) {
+        val loc = location.toAPILocation()
+        _locationState.value =
+            _locationState.value.copy(lastKnownLocation = loc)
+    }
+
+    fun checkLocationPermission(context: Context) : Boolean {
+        return ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED;
+    }
+
+
+    @SuppressLint("MissingPermission")
+    fun subscribeToLocationUpdates(
+        locationCallback: LocationCallback
+    ) {
+        val locationRequest = LocationRequest
+            .Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000L)
+            .setMinUpdateIntervalMillis(2000L) // Minimum interval between updates
+            .setMinUpdateDistanceMeters(1.0F) // Minimum distance between updates
+            .build()
+
+        locationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+    }
+
+
+    fun getCurrentAPILocation(): APILocation {
+        val location = _locationState.value.lastKnownLocation
+        if (location != null && _locationState.value.isLocationAllowed) {
+            return APILocation(
+                lat = location.lat,
+                lng = location.lng
+            )
+        }
+        return DEFAULT_LOCATION
+    }
+
 }

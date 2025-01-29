@@ -83,7 +83,7 @@ class CommunicationController {
                 return response
             } else {
                 val error = response.body<ResponseError>()
-                throw Exception("HTTP Error: ${response.status.value}, Message: ${error.message}")
+                throw Exception(error.message)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error in request: $e")

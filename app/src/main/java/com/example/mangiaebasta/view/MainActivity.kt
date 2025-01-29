@@ -1,10 +1,14 @@
 package com.example.mangiaebasta.view
 
+import android.Manifest
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,8 +18,11 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -31,6 +38,8 @@ import com.example.mangiaebasta.view.navigation.MainNavigator
 import com.example.mangiaebasta.view.navigation.NavigationItem
 import com.example.mangiaebasta.view.styles.MangiaEBastaTheme
 import com.example.mangiaebasta.viewmodel.MainViewModel
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationServices
 
 class MainActivity : ComponentActivity() {
     private val Context.dataStore by preferencesDataStore(name = "appStatus")
@@ -60,12 +69,15 @@ class MainActivity : ComponentActivity() {
             preferencesController = preferencesController
         )
 
+        val locationClient = LocationServices.getFusedLocationProviderClient(this)
+
         val viewModelFactory = viewModelFactory {
             initializer {
                 MainViewModel(
                     userRepository = userRepository,
                     menuRepository = menuRepository,
                     orderRepository = orderRepository,
+                    locationClient = locationClient
                 )
             }
         }
@@ -84,6 +96,47 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
     val navController = rememberNavController()
+    val context = LocalContext.current
+
+    val locationCallback = remember {
+        object : LocationCallback() {
+            override fun onLocationResult(locationResult: com.google.android.gms.location.LocationResult) {
+                super.onLocationResult(locationResult)
+                val location = locationResult.lastLocation
+                if (location != null) {
+                    Log.d("MainActivity", "Saved new Location $location")
+                    viewModel.allowLocation(location)
+                }
+            }
+
+            override fun onLocationAvailability(availability: com.google.android.gms.location.LocationAvailability) {
+                super.onLocationAvailability(availability)
+                if (!availability.isLocationAvailable) {
+                    Log.w("MainActivity", "Location not available")
+                }
+            }
+        }
+    }
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            viewModel.subscribeToLocationUpdates(locationCallback)
+            Log.d("MainActivity", "Permission granted: $isGranted")
+        } else {
+            Log.d("MainActivity", "Permission not granted: $isGranted")
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        val hasPermission = viewModel.checkLocationPermission(context)
+        if (!hasPermission) {
+            Log.d("MainActivity", "Richiedo i permessi")
+            permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        } else {
+            viewModel.subscribeToLocationUpdates(locationCallback)
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -109,13 +162,14 @@ fun BottomNavigationBar(navController: androidx.navigation.NavController) {
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route // Ottieni la route attuale
 
+
     NavigationBar {
         items.forEach { screen ->
             NavigationBarItem(
                 selected = when (screen) {
                     is NavigationItem.HomeStack -> currentRoute in listOf(
                         "home",
-                        "menu_detail",
+                        "menu_detail/{menuId}",
                         "order_confirm"
                     )
 
@@ -141,7 +195,7 @@ fun BottomNavigationBar(navController: androidx.navigation.NavController) {
                         imageVector = if (when (screen) {
                                 is NavigationItem.HomeStack -> currentRoute in listOf(
                                     "home",
-                                    "menu_detail",
+                                    "menu_detail/{menuId}",
                                     "order_confirm"
                                 )
 

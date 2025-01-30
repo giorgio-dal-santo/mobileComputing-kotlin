@@ -13,6 +13,7 @@ import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
 import com.example.mangiaebasta.view.styles.orderButtonModifier
 import com.example.mangiaebasta.view.styles.signUpButtonModifier
 import com.example.mangiaebasta.view.utils.ErrorDialog
+import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.view.utils.cards.MenuCard
 import com.example.mangiaebasta.view.utils.cards.ProfileCard
@@ -39,7 +40,7 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
 
     if (userState.isUserRegistered == false) {
         return Column {
-            Text("Profile Screen")
+            Header("Profile")
             IsNotRegistered(onEditClick)
         }
     }
@@ -50,7 +51,7 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
 
 
     Column {
-        Text("Profile Screen")
+        Header("Profile")
 
         if (user != null) {
             ProfileCard(user, onEditClick)

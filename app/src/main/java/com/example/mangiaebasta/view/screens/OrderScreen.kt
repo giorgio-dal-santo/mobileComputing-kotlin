@@ -1,6 +1,5 @@
 package com.example.mangiaebasta.view.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,19 +21,17 @@ import com.example.mangiaebasta.R
 import com.example.mangiaebasta.model.dataClasses.OrderStatus
 import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
 import com.example.mangiaebasta.view.styles.orderButtonModifier
+import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.view.utils.cards.MenuCard
 import com.example.mangiaebasta.viewmodel.MainViewModel
 import com.mapbox.geojson.Point
-import com.mapbox.maps.CameraOptions
-import com.mapbox.maps.CoordinateBounds
 import com.mapbox.maps.EdgeInsets
 import com.mapbox.maps.extension.compose.MapEffect
 import com.mapbox.maps.extension.compose.MapboxMap
 import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 import com.mapbox.maps.extension.compose.annotation.generated.PointAnnotation
 import com.mapbox.maps.extension.compose.annotation.rememberIconImage
-import com.mapbox.maps.plugin.animation.camera
 import com.mapbox.maps.plugin.animation.easeTo
 import java.time.Instant
 import java.time.ZoneId
@@ -72,6 +69,7 @@ fun OrderScreen(
 
     if (orderState.lastOrder == null || orderState.lastOrderMenu == null) {
         return Column {
+            Header("Order")
             Text("Order Screen")
             Text("No order yet")
             StyledButton(
@@ -89,7 +87,7 @@ fun OrderScreen(
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        Text("Order Screen")
+        Header("Order")
 
         if (orderState.lastOrder!!.status == OrderStatus.ON_DELIVERY) {
             val instant = Instant.parse(orderState.lastOrder?.expectedDeliveryTimestamp)
@@ -126,8 +124,8 @@ fun OrderScreen(
                 .height(500.dp)
         ) {
             val menuLocationMarker = rememberIconImage(
-                key = R.drawable.fast_food_outline,
-                painter = painterResource(R.drawable.fast_food_outline)
+                key = R.drawable.menu,
+                painter = painterResource(R.drawable.menu)
             )
             if (orderState.lastOrder!!.status == OrderStatus.ON_DELIVERY) {
                 PointAnnotation(point = Point.fromLngLat(menuLocation.lng, menuLocation.lat)) {
@@ -136,16 +134,16 @@ fun OrderScreen(
                 }
             }
             val deliveryLocationMarker = rememberIconImage(
-                key = R.drawable.location_outline,
-                painter = painterResource(R.drawable.location_outline)
+                key = R.drawable.user,
+                painter = painterResource(R.drawable.user)
             )
             PointAnnotation(point = Point.fromLngLat(deliveryLocation.lng, deliveryLocation.lat)) {
                 iconImage = deliveryLocationMarker
                 iconSize = 0.25
             }
             val droneMarker = rememberIconImage(
-                key = R.drawable.locate_outline,
-                painter = painterResource(R.drawable.locate_outline)
+                key = R.drawable.drone,
+                painter = painterResource(R.drawable.drone)
             )
 
             if (orderState.lastOrder!!.status == OrderStatus.ON_DELIVERY) {

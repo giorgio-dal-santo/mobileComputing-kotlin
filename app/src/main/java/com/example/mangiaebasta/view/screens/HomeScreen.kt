@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,6 +27,7 @@ import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
 import com.example.mangiaebasta.view.styles.buyButtonModifier
 import com.example.mangiaebasta.view.styles.enableLocationButtonModifier
 import com.example.mangiaebasta.view.utils.ErrorDialog
+import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.view.utils.cards.MenuCardWithButton
 import com.example.mangiaebasta.viewmodel.MainViewModel
@@ -52,8 +54,11 @@ fun HomeScreen(
     }
 
     Column {
-        Text("Home Screen")
-        Text("Nearby Menus")
+        Header("Mangia e Basta")
+        Text(
+            text = "Nearby Menus",
+            style = MaterialTheme.typography.titleLarge
+        )
 
         LazyColumn {
             items(menusState.nearbyMenus) { menu ->

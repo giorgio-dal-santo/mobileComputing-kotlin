@@ -3,6 +3,7 @@ package com.example.mangiaebasta.view.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import com.example.mangiaebasta.view.styles.buttonTextBlackStyle
 import com.example.mangiaebasta.view.styles.goBackButtonModifier
 import com.example.mangiaebasta.view.utils.ErrorDialog
+import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.viewmodel.MainViewModel
 import com.mapbox.geojson.Point
@@ -53,9 +55,10 @@ fun OrderConfirmScreen(
     }
 
     Column {
-        Text("Order Confirm Screen")
-        Text("Thank you for your order!")
-        Text("map here")
+        Header("Mangia e Basta")
+
+        Text("Thank you for your order!",  style = MaterialTheme.typography.titleLarge)
+
         Button(onClick = { onOrderStatusClick() }) {
             Text("Go to Order Status")
         }

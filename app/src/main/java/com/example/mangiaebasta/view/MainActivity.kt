@@ -24,8 +24,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.mangiaebasta.model.dataSource.CommunicationController
@@ -40,16 +42,21 @@ import com.example.mangiaebasta.view.styles.MangiaEBastaTheme
 import com.example.mangiaebasta.viewmodel.MainViewModel
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     private val Context.dataStore by preferencesDataStore(name = "appStatus")
+
+    private lateinit var preferencesController: PreferencesController
+
+    private lateinit var navController: NavHostController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val apiController = CommunicationController()
         val dbController = DBController(this)
-        val preferencesController = PreferencesController.getInstance(dataStore)
+        preferencesController = PreferencesController.getInstance(dataStore)
 
         val userRepository = UserRepository(
             communicationController = apiController,
@@ -84,18 +91,50 @@ class MainActivity : ComponentActivity() {
         val viewModel by viewModels<MainViewModel> { viewModelFactory }
 
         enableEdgeToEdge()
-
-        setContent {
-            MangiaEBastaTheme {
-                MainScreen(viewModel)
+        // Recupera l'ultima schermata salvata
+        lifecycleScope.launch {
+            val lastScreen = preferencesController.getLastScreen()
+            setContent {
+                MangiaEBastaTheme {
+                    navController = rememberNavController()
+                    MainScreen(
+                        viewModel,
+                        navController,
+                        lastScreen
+                    )
+                }
             }
         }
+
     }
+
+    //On pause x salvataggio schermate
+    // Metodo per salvare l'intero stack di navigazione
+    override fun onPause() {
+        super.onPause()
+        lifecycleScope.launch {
+            val currentRoute =
+                navController.currentDestination?.route  // Ottieni la route attuale
+            val stackRoute = when (currentRoute) {
+                "profile", "edit_profile" -> "profile_stack"
+                "home", "menu_detail/{menuId}", "order_confirm" -> "home_stack"
+                "order" -> "order"
+                else -> "home_stack"  // Default di sicurezza
+            }
+            preferencesController.setLastScreen(stackRoute)  // Salva la route completa
+            Log.d("MainActivity", "Current Screen Saved is: $stackRoute")
+        }
+    }
+
 }
 
+
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
-    val navController = rememberNavController()
+fun MainScreen(
+    viewModel: MainViewModel,
+    navController: NavHostController,
+    startDestination: String
+) {
     val context = LocalContext.current
 
     val locationCallback = remember {
@@ -145,7 +184,8 @@ fun MainScreen(viewModel: MainViewModel) {
         MainNavigator(
             navController = navController,
             modifier = Modifier.padding(innerPadding),
-            viewModel = viewModel
+            viewModel = viewModel,
+            startDestination = startDestination  // 🔹 Passiamo la destinazione iniziale
         )
     }
 }

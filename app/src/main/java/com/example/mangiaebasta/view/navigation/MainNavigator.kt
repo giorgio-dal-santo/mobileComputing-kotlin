@@ -12,11 +12,12 @@ import com.example.mangiaebasta.viewmodel.MainViewModel
 fun MainNavigator(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    startDestination: String
 ) {
     NavHost(
         navController = navController,
-        startDestination = "home_stack",
+        startDestination = startDestination,
         modifier = modifier
     ) {
         // Home stack

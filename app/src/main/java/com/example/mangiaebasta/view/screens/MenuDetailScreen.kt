@@ -1,11 +1,13 @@
 package com.example.mangiaebasta.view.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.cards.MenuCardWithButtonDetailed
 import com.example.mangiaebasta.viewmodel.MainViewModel
 
@@ -31,7 +33,10 @@ fun MenuDetailScreen(
     }
 
     Column {
-        Text("Menu Detail Screen")
+        Header("Mangia e Basta")
+
+        Text(text= "Menu Detail",  style = MaterialTheme.typography.titleLarge)
+
         MenuCardWithButtonDetailed(
             menuState.selectedMenu!!,
             onPress = { onForwardClick() },

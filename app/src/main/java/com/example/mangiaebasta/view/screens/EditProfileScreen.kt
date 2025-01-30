@@ -28,6 +28,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.mangiaebasta.view.styles.buttonTextBlackStyle
 import com.example.mangiaebasta.view.styles.goBackButtonModifier
 import com.example.mangiaebasta.view.styles.signUpButtonModifier
+import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.accountForm.DropDownField
 import com.example.mangiaebasta.view.utils.accountForm.FormField
 import com.example.mangiaebasta.view.utils.button.StyledButton
@@ -69,8 +70,10 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
             .padding(16.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
+
+        Header("Profile")
         Text(
-            "Edit Profile Screen",
+            "Edit Profile",
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 16.dp)
         )

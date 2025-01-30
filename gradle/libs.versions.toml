@@ -1,6 +1,8 @@
 [versions]
 agp = "8.6.0"
 android = "11.9.0"
+androidVersion = "10.15.1"
+compose = "1.0.0-beta03"
 datastorePreferences = "1.1.1"
 kotlin = "2.0.0"
 coreKtx = "1.10.1"
@@ -32,6 +34,7 @@ swiperefreshlayout = "1.1.0"
 
 [libraries]
 android = { module = "com.mapbox.maps:android", version.ref = "android" }
+android-v10151 = { module = "com.mapbox.maps:android", version.ref = "androidVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
@@ -45,6 +48,7 @@ androidx-room-ktx-v252 = { module = "androidx.room:room-ktx", version.ref = "roo
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-room-runtime-v252 = { module = "androidx.room:room-runtime", version.ref = "roomRuntimeVersion" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+compose = { module = "com.mapbox.maps.extension:compose", version.ref = "compose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

@@ -1,17 +1,23 @@
 package com.example.mangiaebasta.view.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import com.example.mangiaebasta.view.styles.buttonTextBlackStyle
 import com.example.mangiaebasta.view.styles.goBackButtonModifier
 import com.example.mangiaebasta.view.utils.ErrorDialog
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.viewmodel.MainViewModel
+import com.mapbox.geojson.Point
+import com.mapbox.maps.extension.compose.MapboxMap
+import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
+
 
 @Composable
 fun OrderConfirmScreen(
@@ -56,6 +62,9 @@ fun OrderConfirmScreen(
         Button(onClick = { onBackwardClick() }) {
             Text("Back")
         }
+
+        // se abbiamo tempo mettere mappa
+
     }
 
 }

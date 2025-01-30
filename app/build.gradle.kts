@@ -69,8 +69,11 @@ dependencies {
     implementation(libs.kotlinx.coroutines.play.services)
 
     // Mapbox
-    //implementation(libs.android)
-    //implementation(libs.maps.compose)
+    implementation(libs.android)
+    implementation(libs.maps.compose)
+
+    //implementation(libs.android.v10151)
+    //implementation(libs.compose)
 
     // Compose Navigation
     implementation(libs.androidx.navigation.compose)

@@ -62,7 +62,6 @@ fun ProfileCard(
 
 
 //BODY CON BOTTONE DETAIL
-@OptIn(ExperimentalEncodingApi::class)
 @Composable
 fun ProfileCardBody(
     cardFullName: String?,
@@ -82,11 +81,7 @@ fun ProfileCardBody(
         Column(
             modifier = Modifier.padding(GlobalCardStyles.CardPadding)
         ) {
-            // Icona del profilo
-            Icon(
-                imageVector = Icons.Filled.Person,
-                contentDescription = "Person Circle"
-            )
+
 
             Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
 

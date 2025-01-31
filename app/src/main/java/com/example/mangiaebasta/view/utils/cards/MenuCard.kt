@@ -63,7 +63,9 @@ fun MenuCardBodySimple(
                 Image(
                     bitmap = bitmap.asImageBitmap(),
                     contentDescription = title,
-                    modifier = Modifier.size(120.dp, 120.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()  // Adatta l'immagine alla larghezza della Card
+                        .height(120.dp), // Altezza fissa per mantenere un aspetto rettangolare
                     contentScale = ContentScale.Crop
                 )
             } else {

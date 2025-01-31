@@ -1,9 +1,15 @@
 package com.example.mangiaebasta.view.utils.accountForm
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -17,9 +23,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.mangiaebasta.view.styles.GlobalTypography
 
 @Composable
 fun DropDownField(
@@ -33,34 +44,45 @@ fun DropDownField(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 16.dp)
+            .padding(bottom = 16.dp)
     ) {
-        OutlinedTextField(
-            value = value,
-            onValueChange = {},
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { expanded = true }, // Apre la tendina
-            label = { Text("Seleziona un numero") },
-            readOnly = true,
-            trailingIcon = {
+                .border(1.dp, Color.Gray, RoundedCornerShape(8.dp)) // Bordo arrotondato
+                .clickable { expanded = true } // Apre la tendina al click
+                .padding(12.dp) // Padding interno per il testo e l'icona
+        ) {
+
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
+                Text(
+                    text = value.ifEmpty { "Select month and year" }, // Testo predefinito se non selezionato
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Black
+                )
+
                 Icon(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                     contentDescription = null,
-                    modifier = Modifier.clickable {
-                        expanded = !expanded
-                    } // Interazione con l'icona
+                    modifier = Modifier.size(24.dp) // Grandezza icona migliorata
                 )
             }
-        )
+        }
 
         DropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false }, // Chiude la tendina
+            onDismissRequest = { expanded = false },
             modifier = Modifier
                 .fillMaxWidth()
+                .background(Color.White) // Sfondo bianco per un look pulito
         ) {
-            // Crea gli elementi del menu
             (min..max).forEach { item ->
                 DropdownMenuItem(
                     onClick = {
@@ -70,12 +92,15 @@ fun DropDownField(
                     text = {
                         Text(
                             text = item.toString(),
+                            fontSize = 16.sp,
                             textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            color = Color.Black,
                         )
                     }
                 )
             }
         }
     }
+
 }

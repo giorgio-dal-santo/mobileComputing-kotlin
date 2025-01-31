@@ -12,6 +12,5 @@ fun Header(text : String) {
     Text(
         text = text,
         style = MaterialTheme.typography.headlineLarge,
-        modifier = Modifier.padding(16.dp)
     )
 }

@@ -11,6 +11,7 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -20,7 +21,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import com.example.mangiaebasta.model.dataClasses.Error
 import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
@@ -44,8 +47,14 @@ fun HomeScreen(
     val menusState by viewModel.menusExplorationState.collectAsState()
     val locationState by viewModel.locationState.collectAsState()
 
+    if (appState.isLoading) {
+        return Column {
+            Text("Loading...", style = MaterialTheme.typography.titleSmall)
+        }
+    }
+
     if (!locationState.isLocationAllowed) {
-        return Text("NO LOCATION ALLOWED, GO TO SETTINGS")
+        return Text("Location access is denied. To enable location services, go to Settings and grant the necessary permissions.", style = MaterialTheme.typography.titleLarge)
     }
 
     LaunchedEffect(menusState.reloadMenus, appState.isLoading, locationState.lastKnownLocation, locationState.isLocationAllowed) {
@@ -55,12 +64,16 @@ fun HomeScreen(
 
     Column {
         Header("Mangia e Basta")
-        Text(
-            text = "Nearby Menus",
-            style = MaterialTheme.typography.titleLarge
-        )
 
         LazyColumn {
+            item {
+                Text(
+                    text = "Nearby Menus",
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(start = 16.dp, top = 16.dp) // Puoi aggiungere padding se necessario
+                )
+            }
+
             items(menusState.nearbyMenus) { menu ->
                 MenuCardWithButton(
                     menu = menu,
@@ -74,6 +87,11 @@ fun HomeScreen(
 
     }
 }
+
+
+
+
+
 
 fun showSettingsDialog(context: Context) {
     AlertDialog.Builder(context)

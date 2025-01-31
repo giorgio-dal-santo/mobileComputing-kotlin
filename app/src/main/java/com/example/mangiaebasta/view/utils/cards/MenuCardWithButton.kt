@@ -102,7 +102,9 @@ fun MenuCardBody(
                 Image(
                     bitmap = bitmap.asImageBitmap(),
                     contentDescription = title,
-                    modifier = Modifier.size(120.dp, 120.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()  // Adatta l'immagine alla larghezza della Card
+                        .height(150.dp), // Altezza fissa per mantenere un aspetto rettangolare
                     contentScale = ContentScale.Crop
                 )
             } else {
@@ -143,6 +145,8 @@ fun MenuCardBody(
                     style = GlobalTypography.bodyMedium
                 )
             }
+
+            Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
 
             // Bottone dei dettagli
             StyledButton(
@@ -195,7 +199,9 @@ fun MenuCardBodyDetailed(
                 Image(
                     bitmap = bitmap.asImageBitmap(),
                     contentDescription = title,
-                    modifier = Modifier.size(120.dp, 120.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()  // Adatta l'immagine alla larghezza della Card
+                        .height(200.dp), // Altezza fissa per mantenere un aspetto rettangolare
                     contentScale = ContentScale.Crop
                 )
             } else {
@@ -237,8 +243,7 @@ fun MenuCardBodyDetailed(
                 )
             }
 
-
-            // Bottone acquista
+            Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
 
             if(userState.isUserRegistered) {
                 StyledButton(
@@ -248,11 +253,9 @@ fun MenuCardBodyDetailed(
                     onClick = { onPress() },
                 )
             }
-            
-
 
             Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
-            //Bottone per back
+
             StyledButton(
                 text = "Back",
                 modifier = goBackButtonModifier,

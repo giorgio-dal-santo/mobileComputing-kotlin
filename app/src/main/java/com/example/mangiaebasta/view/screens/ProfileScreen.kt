@@ -3,9 +3,12 @@ package com.example.mangiaebasta.view.screens
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Person
@@ -39,6 +42,8 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
     val userState by viewModel.userState.collectAsState()
     val orderState by viewModel.lastOrderState.collectAsState()
 
+    val scrollState = rememberScrollState()
+
     if (appState.isLoading) {
         return Column {
             Text("Loading...")
@@ -61,7 +66,11 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
 
     val user = userState.user
 
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+    ) {
         Header("Profile")
 
         if (user != null) {

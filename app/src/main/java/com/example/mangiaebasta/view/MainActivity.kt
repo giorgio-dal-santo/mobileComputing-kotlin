@@ -10,8 +10,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -22,6 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.preferencesDataStore
@@ -206,7 +209,9 @@ fun BottomNavigationBar(navController: androidx.navigation.NavController) {
     val currentRoute = currentBackStackEntry?.destination?.route // Ottieni la route attuale
 
 
-    NavigationBar {
+    NavigationBar(
+        modifier = Modifier.background(Color.White)
+    ) {
         items.forEach { screen ->
             NavigationBarItem(
                 selected = when (screen) {
@@ -249,10 +254,11 @@ fun BottomNavigationBar(navController: androidx.navigation.NavController) {
                                 )
                             }
                         ) screen.selectedIcon else screen.unselectedIcon,
-                        contentDescription = screen.title
+                        contentDescription = screen.title,
+                        modifier = Modifier.size(35.dp)
                     )
                 },
-                label = { Text(screen.title) }
+                label = null
             )
         }
     }

@@ -2,6 +2,7 @@ package com.example.mangiaebasta.view.utils.cards
 
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -35,7 +37,6 @@ fun MenuCard(
     )
 }
 
-
 //BODY CON BOTTONE DETAIL
 @OptIn(ExperimentalEncodingApi::class)
 @Composable
@@ -50,6 +51,7 @@ fun MenuCardBodySimple(
             .fillMaxWidth(),
         shape = GlobalCardStyles.CardShape,
         elevation = CardDefaults.cardElevation(GlobalCardStyles.CardElevation),
+        colors = GlobalCardStyles.CardColors
     ) {
         Column(
             modifier = Modifier.padding(GlobalCardStyles.CardPadding)
@@ -69,24 +71,19 @@ fun MenuCardBodySimple(
                     contentScale = ContentScale.Crop
                 )
             } else {
-
                 Text(text = "No image")
-
             }
-
 
             Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
 
-            // Titolo del menu
             Text(
                 text = title,
                 style = GlobalTypography.titleLarge
             )
 
-            // Descrizione breve
             Text(
                 text = description,
-                style = GlobalTypography.bodyMedium,
+                style = GlobalTypography.bodyLarge,
                 modifier = Modifier.padding(top = 8.dp)
             )
 
@@ -94,5 +91,3 @@ fun MenuCardBodySimple(
         }
     }
 }
-
-

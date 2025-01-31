@@ -1,7 +1,9 @@
 package com.example.mangiaebasta.view.styles
 
+import android.provider.CalendarContract.Colors
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Typography
@@ -103,6 +105,12 @@ object GlobalCardStyles {
     val CardShape = RoundedCornerShape(16.dp)
     val CardPadding = PaddingValues(16.dp)
     val CardElevation = 4.dp
+    val CardColors = CardColors(
+        contentColor = Color.Black,
+        containerColor = Color.White,
+        disabledContainerColor = Color.White,
+        disabledContentColor = Color.Black,
+    )
 }
 
 

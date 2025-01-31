@@ -77,11 +77,11 @@ fun ProfileCardBody(
             .fillMaxWidth(),
         shape = GlobalCardStyles.CardShape,
         elevation = CardDefaults.cardElevation(GlobalCardStyles.CardElevation),
+        colors = GlobalCardStyles.CardColors
     ) {
         Column(
             modifier = Modifier.padding(GlobalCardStyles.CardPadding)
         ) {
-
 
             Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
 
@@ -90,7 +90,7 @@ fun ProfileCardBody(
                     Text(text = "Card full name: ", fontWeight = FontWeight.Bold)
                     Text(
                         text = cardFullName,
-                        style = GlobalTypography.bodySmall
+                        style = GlobalTypography.bodyLarge
                     )
                 }
             }
@@ -101,7 +101,7 @@ fun ProfileCardBody(
 
                     Text(
                         text = cardNumber,
-                        style = GlobalTypography.bodySmall
+                        style = GlobalTypography.bodyLarge
                     )
                 }
             }
@@ -112,7 +112,7 @@ fun ProfileCardBody(
 
                     Text(
                         text = "$expireMonth/$expireYear",
-                        style = GlobalTypography.bodySmall
+                        style = GlobalTypography.bodyLarge
                     )
                 }
             }
@@ -123,7 +123,7 @@ fun ProfileCardBody(
 
                     Text(
                         text = cvv,
-                        style = GlobalTypography.bodySmall
+                        style = GlobalTypography.bodyLarge
                     )
                 }
             }

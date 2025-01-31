@@ -89,6 +89,7 @@ fun MenuCardBody(
             .fillMaxWidth(),
         shape = GlobalCardStyles.CardShape,
         elevation = CardDefaults.cardElevation(GlobalCardStyles.CardElevation),
+        colors = GlobalCardStyles.CardColors
     ) {
         Column(
             modifier = Modifier.padding(GlobalCardStyles.CardPadding)
@@ -103,16 +104,13 @@ fun MenuCardBody(
                     bitmap = bitmap.asImageBitmap(),
                     contentDescription = title,
                     modifier = Modifier
-                        .fillMaxWidth()  // Adatta l'immagine alla larghezza della Card
-                        .height(150.dp), // Altezza fissa per mantenere un aspetto rettangolare
+                        .fillMaxWidth()
+                        .height(150.dp),
                     contentScale = ContentScale.Crop
                 )
             } else {
-
                 Text(text = "No image")
-
             }
-
 
             Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
 
@@ -125,7 +123,7 @@ fun MenuCardBody(
             // Descrizione breve
             Text(
                 text = description,
-                style = GlobalTypography.bodyMedium,
+                style = GlobalTypography.bodyLarge,
                 modifier = Modifier.padding(top = 8.dp)
             )
 
@@ -158,13 +156,10 @@ fun MenuCardBody(
 
             Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
 
-
         }
     }
 }
 
-
-//BODY CON BOTTONE BUY E BACK
 @OptIn(ExperimentalEncodingApi::class)
 @Composable
 fun MenuCardBodyDetailed(
@@ -186,6 +181,7 @@ fun MenuCardBodyDetailed(
             .fillMaxWidth(),
         shape = GlobalCardStyles.CardShape,
         elevation = CardDefaults.cardElevation(GlobalCardStyles.CardElevation),
+        colors = GlobalCardStyles.CardColors
     ) {
         Column(
             modifier = Modifier.padding(GlobalCardStyles.CardPadding)
@@ -210,7 +206,6 @@ fun MenuCardBodyDetailed(
 
             }
 
-
             Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
 
             // Titolo del menu
@@ -222,7 +217,7 @@ fun MenuCardBodyDetailed(
             // Descrizione breve
             Text(
                 text = description,
-                style = GlobalTypography.bodyMedium,
+                style = GlobalTypography.bodyLarge,
                 modifier = Modifier.padding(top = 8.dp)
             )
 

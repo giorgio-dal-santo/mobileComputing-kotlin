@@ -1,5 +1,6 @@
 package com.example.mangiaebasta.view.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,7 +41,6 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-
 @Composable
 fun OrderScreen(
     viewModel: MainViewModel,
@@ -51,8 +51,15 @@ fun OrderScreen(
 
     val appState by viewModel.appState.collectAsState()
     val orderState by viewModel.lastOrderState.collectAsState()
+    val userState by viewModel.userState.collectAsState()
 
     val lifecycleOwner = LocalLifecycleOwner.current
+
+    if (appState.isLoading || userState.user == null) {
+        return Column {
+            Text("Loading...", style = MaterialTheme.typography.titleSmall)
+        }
+    }
 
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -60,12 +67,6 @@ fun OrderScreen(
                 viewModel.fetchLastOrderDetail()
                 kotlinx.coroutines.delay(5000)
             }
-        }
-    }
-
-    if (appState.isLoading) {
-        return Column {
-            Text("Loading...", style = MaterialTheme.typography.titleSmall)
         }
     }
 

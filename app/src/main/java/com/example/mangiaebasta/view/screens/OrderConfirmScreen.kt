@@ -61,41 +61,39 @@ fun OrderConfirmScreen(
 
     }
 
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(GlobalDimensions.DefaultPadding)
+            .padding(GlobalDimensions.DefaultPadding),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Thank you for your order!", style = MaterialTheme.typography.titleLarge)
+        Text(
+            text = "Thank you for your order!",
+            style = MaterialTheme.typography.titleLarge,
+        )
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            StyledButton(
+                text = "Go to Order Status",
+                modifier = detailButtonModifier,
+                textStyle = buttonTextWhiteStyle,
+                onClick = { onOrderStatusClick() },
             )
-            {
-                StyledButton(
-                    text = "Go to Order Status",
-                    modifier = detailButtonModifier,
-                    textStyle = buttonTextWhiteStyle,
-                    onClick = { onOrderStatusClick() },
-                )
 
-                StyledButton(
-                    text = "Back",
-                    modifier = goBackButtonModifier,
-                    textStyle = buttonTextBlackStyle,
-                    onClick = { onBackwardClick() },
-                )
-            }
+            StyledButton(
+                text = "Back",
+                modifier = goBackButtonModifier,
+                textStyle = buttonTextBlackStyle,
+                onClick = { onBackwardClick() },
+            )
         }
     }
+
 
 }

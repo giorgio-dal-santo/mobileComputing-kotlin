@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -19,6 +20,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.mangiaebasta.view.styles.GlobalDimensions
+import com.example.mangiaebasta.view.styles.GlobalShapes
 import com.example.mangiaebasta.view.utils.cards.MenuCardWithButton
 import com.example.mangiaebasta.viewmodel.MainViewModel
 
@@ -41,17 +44,22 @@ fun HomeScreen(
         return Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    top = 25.dp,
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 12.dp
-                )
+                .padding(GlobalDimensions.DefaultPadding),
         ) {
-            Text(
-                text = "Location access is denied. To enable location services, go to Settings and grant the necessary permissions.",
-                style = MaterialTheme.typography.titleLarge,
-            )
+            Column (
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    text = "Location access is denied",
+                    style = MaterialTheme.typography.titleLarge,
+                )
+                Text(
+                    text = "To enable location services, go to Settings and grant the necessary permissions.",
+                    style = MaterialTheme.typography.titleSmall,
+                )
+            }
+
         }
     }
 

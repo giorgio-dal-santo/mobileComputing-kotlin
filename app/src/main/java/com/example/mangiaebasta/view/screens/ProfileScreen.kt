@@ -166,9 +166,9 @@ fun IsNotRegistered(onEditClick: () -> Unit) {
             )
         }
 
-        Row(
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             StyledButton(
                 text = "New Profile",

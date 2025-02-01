@@ -30,7 +30,7 @@ fun Location.toAPILocation(): APILocation {
 
 
 data class Error(
-    val title : String = "An Unexpected Error Occurred",
+    val title: String = "An Unexpected Error Occurred",
     override val message: String,
 ) : Exception(message)
 

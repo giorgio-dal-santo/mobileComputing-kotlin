@@ -1,33 +1,33 @@
 package com.example.mangiaebasta.viewmodel
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mangiaebasta.model.dataClasses.APILocation
+import com.example.mangiaebasta.model.dataClasses.Error
 import com.example.mangiaebasta.model.dataClasses.MenuDetailsWithImage
 import com.example.mangiaebasta.model.dataClasses.MenuWithImage
 import com.example.mangiaebasta.model.dataClasses.Order
 import com.example.mangiaebasta.model.dataClasses.UserDetail
 import com.example.mangiaebasta.model.dataClasses.UserUpdateParams
+import com.example.mangiaebasta.model.dataClasses.toAPILocation
 import com.example.mangiaebasta.model.repository.MenuRepository
 import com.example.mangiaebasta.model.repository.OrderRepository
 import com.example.mangiaebasta.model.repository.UserRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import kotlin.coroutines.cancellation.CancellationException
-import com.example.mangiaebasta.model.dataClasses.Error
-import android.content.pm.PackageManager
-import androidx.core.content.ContextCompat
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
-import android.location.Location
-import com.example.mangiaebasta.model.dataClasses.toAPILocation
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.Priority
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlin.coroutines.cancellation.CancellationException
 
 
 data class UserState(
@@ -365,11 +365,11 @@ class MainViewModel(
             _locationState.value.copy(lastKnownLocation = loc)
     }
 
-    fun checkLocationPermission(context: Context) : Boolean {
+    fun checkLocationPermission(context: Context): Boolean {
         return ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED;
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
 

@@ -18,7 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,6 +42,7 @@ import com.example.mangiaebasta.model.repository.UserRepository
 import com.example.mangiaebasta.view.navigation.MainNavigator
 import com.example.mangiaebasta.view.navigation.NavigationItem
 import com.example.mangiaebasta.view.styles.MangiaEBastaTheme
+import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.viewmodel.MainViewModel
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationServices
@@ -92,10 +92,11 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+
         val viewModel by viewModels<MainViewModel> { viewModelFactory }
 
         enableEdgeToEdge()
-        // Recupera l'ultima schermata salvata
+
         lifecycleScope.launch {
             val lastScreen = preferencesController.getLastScreen()
             setContent {
@@ -109,29 +110,24 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
     }
 
-    //On pause x salvataggio schermate
-    // Metodo per salvare l'intero stack di navigazione
     override fun onPause() {
         super.onPause()
         lifecycleScope.launch {
             val currentRoute =
-                navController.currentDestination?.route  // Ottieni la route attuale
+                navController.currentDestination?.route
             val stackRoute = when (currentRoute) {
                 "profile", "edit_profile" -> "profile_stack"
                 "home", "menu_detail/{menuId}", "order_confirm" -> "home_stack"
                 "order" -> "order"
-                else -> "home_stack"  // Default di sicurezza
+                else -> "home_stack"
             }
-            preferencesController.setLastScreen(stackRoute)  // Salva la route completa
+            preferencesController.setLastScreen(stackRoute)
             Log.d("MainActivity", "Current Screen Saved is: $stackRoute")
         }
     }
-
 }
-
 
 @Composable
 fun MainScreen(
@@ -160,6 +156,7 @@ fun MainScreen(
             }
         }
     }
+
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -170,6 +167,16 @@ fun MainScreen(
             Log.d("MainActivity", "Permission not granted: $isGranted")
         }
     }
+
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route ?: startDestination
+
+    val screenTitles = mapOf(
+        "order" to "Order",
+        "profile" to "Profile",
+    )
+
+    val headerTitle = screenTitles[currentRoute] ?: "Mangia e Basta"
 
     LaunchedEffect(Unit) {
         val hasPermission = viewModel.checkLocationPermission(context)
@@ -183,15 +190,15 @@ fun MainScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        bottomBar = { BottomNavigationBar(navController) } // Passa il NavController alla barra di navigazione
+        topBar = { Header(title = headerTitle) },
+        bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
         MainNavigator(
             navController = navController,
             modifier = Modifier
-                .padding(innerPadding)
-                .padding(16.dp),
+                .padding(innerPadding),
             viewModel = viewModel,
-            startDestination = startDestination  // 🔹 Passiamo la destinazione iniziale
+            startDestination = startDestination
         )
     }
 }
@@ -204,10 +211,8 @@ fun BottomNavigationBar(navController: androidx.navigation.NavController) {
         NavigationItem.ProfileStack
     )
 
-    // Stato corrente del back stack
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = currentBackStackEntry?.destination?.route // Ottieni la route attuale
-
+    val currentRoute = currentBackStackEntry?.destination?.route
 
     NavigationBar(
         modifier = Modifier.background(Color.White)
@@ -263,4 +268,3 @@ fun BottomNavigationBar(navController: androidx.navigation.NavController) {
         }
     }
 }
-

@@ -1,6 +1,5 @@
 package com.example.mangiaebasta.view.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,7 +32,6 @@ import com.mapbox.geojson.Point
 import com.mapbox.maps.EdgeInsets
 import com.mapbox.maps.extension.compose.MapEffect
 import com.mapbox.maps.extension.compose.MapboxMap
-import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 import com.mapbox.maps.extension.compose.annotation.generated.PointAnnotation
 import com.mapbox.maps.extension.compose.annotation.rememberIconImage
 import com.mapbox.maps.plugin.animation.easeTo
@@ -97,7 +95,10 @@ fun OrderScreen(
                 .withZone(zoneId)
             val formattedDate = formatter.format(instant)
 
-            Text("your order will arrive at: $formattedDate", style = MaterialTheme.typography.titleSmall)
+            Text(
+                "your order will arrive at: $formattedDate",
+                style = MaterialTheme.typography.titleSmall
+            )
         } else {
             val instant = Instant.parse(orderState.lastOrder?.deliveryTimestamp)
             val zoneId = ZoneId.of("UTC+1")
@@ -105,7 +106,10 @@ fun OrderScreen(
                 .withZone(zoneId)
             val formattedDate = formatter.format(instant)
 
-            Text("Your order has been delivered at: $formattedDate", style = MaterialTheme.typography.titleSmall)
+            Text(
+                "Your order has been delivered at: $formattedDate",
+                style = MaterialTheme.typography.titleSmall
+            )
         }
 
         Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))

@@ -11,9 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,7 +26,6 @@ import com.example.mangiaebasta.view.styles.GlobalDimensions
 import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
 import com.example.mangiaebasta.view.styles.orderButtonModifier
 import com.example.mangiaebasta.view.styles.signUpButtonModifier
-import com.example.mangiaebasta.view.utils.ErrorDialog
 import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.view.utils.cards.MenuCard

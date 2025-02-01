@@ -44,13 +44,13 @@ fun MenuDetailScreen(
     ) {
         Header("Mangia e Basta")
 
-        Text(text= "Menu Detail",  style = MaterialTheme.typography.titleLarge)
+        Text(text = "Menu Detail", style = MaterialTheme.typography.titleLarge)
 
         MenuCardWithButtonDetailed(
             menuState.selectedMenu!!,
             onPress = { onForwardClick() },
             onBack = { onBackwardClick() },
             viewModel = viewModel
-            )
+        )
     }
 }

@@ -1,6 +1,5 @@
 package com.example.mangiaebasta.view.styles
 
-import android.provider.CalendarContract.Colors
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardColors
@@ -43,7 +42,7 @@ private val AppColors = lightColorScheme(
 
 val GlobalTypography = Typography( // si usa così: style = MaterialTheme.typography.h1
     headlineLarge = TextStyle( // headerTitleStyle
-        fontSize = 28.sp,
+        fontSize = 32.sp,
         fontFamily = PoppinsBlack,
         color = Color(0xFF333333),
         textAlign = TextAlign.Center

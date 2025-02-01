@@ -1,11 +1,15 @@
 package com.example.mangiaebasta.view.screens
 
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -26,7 +30,6 @@ import com.example.mangiaebasta.view.styles.GlobalDimensions
 import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
 import com.example.mangiaebasta.view.styles.orderButtonModifier
 import com.example.mangiaebasta.view.styles.signUpButtonModifier
-import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.view.utils.cards.MenuCard
 import com.example.mangiaebasta.view.utils.cards.ProfileCard
@@ -50,12 +53,10 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
         viewModel.fetchLastOrderDetail()
     }
 
-
     Log.d("ProfileScreen", "ISREGISTRED in Profile = ${userState.isUserRegistered}")
 
-    if (userState.isUserRegistered == false) {
+    if (!userState.isUserRegistered) {
         return Column {
-            Header("Profile")
             IsNotRegistered(onEditClick)
         }
     }
@@ -66,69 +67,115 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
+            .padding(GlobalDimensions.DefaultPadding)
     ) {
-        Header("Profile")
-
         if (user != null) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally // Centra orizzontalmente
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(modifier = Modifier.height(16.dp))
                 Icon(
-                    imageVector = Icons.Filled.AccountCircle, // Icona stile "person-circle-outline"
+                    imageVector = Icons.Filled.AccountCircle,
                     contentDescription = "Profile Icon",
-                    modifier = Modifier.size(64.dp), // Ingrandisce l'icona
+                    modifier = Modifier.size(64.dp),
                 )
-                Spacer(modifier = Modifier.height(8.dp)) // Aggiunge spazio tra icona e testo
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "${user.firstName} ${user.lastName}",
-                    style = MaterialTheme.typography.titleLarge, // Testo più grande
-                    textAlign = TextAlign.Center // Centra il testo
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center
                 )
-                Spacer(modifier = Modifier.height(16.dp)) // Aggiunge spazio tra testo e card
+                Spacer(modifier = Modifier.height(16.dp))
                 ProfileCard(user, onEditClick)
             }
         }
 
-        Text(
-            text = "Last Order:",
-            style = MaterialTheme.typography.titleLarge
-        )
+        if (orderState.lastOrderMenu == null) {
 
-        return if (orderState.lastOrderMenu == null) {
-            Column {
-                Text("No order yet", style = MaterialTheme.typography.titleSmall)
-
-                Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
-
-                StyledButton(
-                    text = "Order Now",
-                    modifier = orderButtonModifier,
-                    textStyle = buttonTextWhiteStyle,
-                    onClick = { onOrderNowCLick() },
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 )
+
+                {
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = "It seems like you haven’t placed any orders yet.",
+                        style = MaterialTheme.typography.titleSmall,
+                        textAlign = TextAlign.Center
+                    )
+
+                    Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
+
+                    StyledButton(
+                        text = "Order now",
+                        modifier = orderButtonModifier,
+                        textStyle = buttonTextWhiteStyle,
+                        onClick = { onOrderNowCLick() }
+                    )
+                }
             }
         } else {
-            Column {
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Last Order:",
+                    style = MaterialTheme.typography.titleLarge
+                )
                 MenuCard(orderState.lastOrderMenu!!)
             }
         }
-
     }
 }
 
 @Composable
 fun IsNotRegistered(onEditClick: () -> Unit) {
-    Column {
-        Text("User not registered", style = MaterialTheme.typography.titleSmall)
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = 25.dp,
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 12.dp
+            ),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Row {
+            Text(
+                text = "Complete your profile",
+                style = MaterialTheme.typography.titleLarge,
+            )
+        }
+
+        Row {
+            Text(
+                text = "To access your profile and manage your orders, please sign up.",
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            StyledButton(
+                text = "New Profile",
+                modifier = signUpButtonModifier,
+                textStyle = buttonTextWhiteStyle,
+                onClick = { onEditClick() },
+            )
+        }
     }
-
-    StyledButton(
-        text = "New Profile",
-        modifier = signUpButtonModifier,
-        textStyle = buttonTextWhiteStyle,
-        onClick = { onEditClick() },
-    )
 }
-
-

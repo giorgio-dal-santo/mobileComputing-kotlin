@@ -1,5 +1,6 @@
 package com.example.mangiaebasta.view.utils.cards
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,10 +18,10 @@ import com.example.mangiaebasta.view.styles.GlobalCardStyles
 import com.example.mangiaebasta.view.styles.GlobalDimensions
 import com.example.mangiaebasta.view.styles.GlobalTypography
 import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
+import com.example.mangiaebasta.view.styles.editProfileButtonModifier
 import com.example.mangiaebasta.view.styles.signUpButtonModifier
 import com.example.mangiaebasta.view.utils.button.StyledButton
 
-//PREVIEW MENU NON DETTAGLIATO
 @Composable
 fun ProfileCard(
     user: UserDetail,
@@ -36,8 +37,6 @@ fun ProfileCard(
     )
 }
 
-
-//BODY CON BOTTONE DETAIL
 @Composable
 fun ProfileCardBody(
     cardFullName: String?,
@@ -58,11 +57,12 @@ fun ProfileCardBody(
         Column(
             modifier = Modifier.padding(GlobalCardStyles.CardPadding)
         ) {
-
-            Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
-
             if (cardFullName != null) {
-                Row {
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = GlobalDimensions.CardPadding),
+                ) {
                     Text(text = "Card full name: ", fontWeight = FontWeight.Bold)
                     Text(
                         text = cardFullName,
@@ -72,8 +72,12 @@ fun ProfileCardBody(
             }
 
             if (cardNumber != null) {
-                Row {
-                    Text(text = "Card Number: ", fontWeight = FontWeight.Bold)
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = GlobalDimensions.CardPadding),
+                ) {
+                    Text(text = "Card number: ", fontWeight = FontWeight.Bold)
 
                     Text(
                         text = cardNumber,
@@ -83,8 +87,12 @@ fun ProfileCardBody(
             }
 
             if (expireMonth != null && expireYear != null) {
-                Row {
-                    Text(text = "Card Expire: ", fontWeight = FontWeight.Bold)
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = GlobalDimensions.CardPadding),
+                ) {
+                    Text(text = "Expire Date: ", fontWeight = FontWeight.Bold)
 
                     Text(
                         text = "$expireMonth/$expireYear",
@@ -94,7 +102,10 @@ fun ProfileCardBody(
             }
 
             if (cvv != null) {
-                Row {
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
                     Text(text = "CVV: ", fontWeight = FontWeight.Bold)
 
                     Text(
@@ -106,16 +117,17 @@ fun ProfileCardBody(
 
             Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
 
-            // Bottone edit
-            StyledButton(
-                text = "Edit Profile",
-                modifier = signUpButtonModifier,
-                textStyle = buttonTextWhiteStyle,
-                onClick = { onPress() },
-            )
-
-            Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                StyledButton(
+                    text = "Edit profile",
+                    modifier = editProfileButtonModifier,
+                    textStyle = buttonTextWhiteStyle,
+                    onClick = { onPress() },
+                )
+            }
         }
     }
 }
-

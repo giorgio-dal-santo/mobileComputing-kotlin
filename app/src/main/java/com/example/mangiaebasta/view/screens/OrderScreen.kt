@@ -1,10 +1,13 @@
 package com.example.mangiaebasta.view.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -13,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -24,6 +28,7 @@ import com.example.mangiaebasta.model.dataClasses.OrderStatus
 import com.example.mangiaebasta.view.styles.GlobalDimensions
 import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
 import com.example.mangiaebasta.view.styles.orderButtonModifier
+import com.example.mangiaebasta.view.styles.signUpButtonModifier
 import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.view.utils.cards.MenuCard
@@ -42,9 +47,9 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun OrderScreen(
     viewModel: MainViewModel,
-    onOrderNowCLick: () -> Unit
+    onGoToProfile: () -> Unit,
+    onGoToOrder: () -> Unit
 ) {
-
     val scrollState = rememberScrollState()
 
     val appState by viewModel.appState.collectAsState()
@@ -53,7 +58,7 @@ fun OrderScreen(
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    if (appState.isLoading || userState.user == null) {
+    if (appState.isLoading || userState.user == null && userState.isUserRegistered) {
         return Column {
             Text("Loading...", style = MaterialTheme.typography.titleSmall)
         }
@@ -68,16 +73,80 @@ fun OrderScreen(
         }
     }
 
+    if (!userState.isUserRegistered) {
+        return Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    top = 25.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 12.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Row {
+                Text(
+                    text = "Sign up to start ordering",
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            }
+
+            Row {
+                Text(
+                    text = "You need to sign up to place an order. Get started and enjoy delicious meals delivered quickly to your location.",
+                    style = MaterialTheme.typography.titleSmall,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                StyledButton(
+                    text = "Go to profile",
+                    modifier = signUpButtonModifier,
+                    textStyle = buttonTextWhiteStyle,
+                    onClick = { onGoToProfile() },
+                )
+            }
+        }
+    }
+
     if (orderState.lastOrder == null || orderState.lastOrderMenu == null) {
-        return Column {
-            Header("Order")
-            Text("No order yet", style = MaterialTheme.typography.titleSmall)
-            StyledButton(
-                text = "Order Now",
-                modifier = orderButtonModifier,
-                textStyle = buttonTextWhiteStyle,
-                onClick = { onOrderNowCLick() },
-            )
+        return Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    top = 25.dp,
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 12.dp
+                ),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "No order yet",
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            }
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                StyledButton(
+                    text = "Order now",
+                    modifier = orderButtonModifier,
+                    textStyle = buttonTextWhiteStyle,
+                    onClick = { onGoToOrder() },
+                )
+            }
         }
     }
 
@@ -85,36 +154,34 @@ fun OrderScreen(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
+            .padding(GlobalDimensions.DefaultPadding)
     ) {
-        Header("Order")
-
         if (orderState.lastOrder!!.status == OrderStatus.ON_DELIVERY) {
             val instant = Instant.parse(orderState.lastOrder?.expectedDeliveryTimestamp)
             val zoneId = ZoneId.of("UTC+1")
-            val formatter = DateTimeFormatter.ofPattern("HH:mm, dd MMMM yyyy")
+            val formatter = DateTimeFormatter.ofPattern("HH:mm")
                 .withZone(zoneId)
             val formattedDate = formatter.format(instant)
 
             Text(
-                "your order will arrive at: $formattedDate",
-                style = MaterialTheme.typography.titleSmall
+                "Your order will arrive at: $formattedDate",
+                style = MaterialTheme.typography.titleLarge
             )
         } else {
             val instant = Instant.parse(orderState.lastOrder?.deliveryTimestamp)
             val zoneId = ZoneId.of("UTC+1")
-            val formatter = DateTimeFormatter.ofPattern("HH:mm, dd MMMM yyyy")
+            val formatter = DateTimeFormatter.ofPattern("HH:mm")
                 .withZone(zoneId)
             val formattedDate = formatter.format(instant)
 
             Text(
                 "Your order has been delivered at: $formattedDate",
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.titleLarge
             )
         }
 
         Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
 
-        // mappa
         val deliveryLocation = orderState.lastOrder!!.deliveryLocation
         val menuLocation = orderState.lastOrderMenu!!.menuDetails.location
         val droneLocation = orderState.lastOrder!!.currentPosition
@@ -164,12 +231,11 @@ fun OrderScreen(
 
                 val cameraOptions = mapView.mapboxMap.cameraForCoordinates(
                     points,
-                    EdgeInsets(100.0, 100.0, 100.0, 100.0), // Padding
-                    0.0, // Bearing (0 significa nessuna rotazione)
-                    0.0  // Pitch (0 significa vista dall'alto)
+                    EdgeInsets(100.0, 100.0, 100.0, 100.0),
+                    0.0,
+                    0.0
                 )
 
-                // Animiamo la transizione della camera
                 mapView.mapboxMap.easeTo(cameraOptions)
             }
         }

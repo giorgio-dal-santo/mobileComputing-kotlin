@@ -27,11 +27,17 @@ fun MainNavigator(
         composable("order") {
             OrderScreen(
                 viewModel,
-                onOrderNowCLick = {
+                onGoToProfile = {
+                    navController.navigate("profile_stack") {
+                        popUpTo("order_screen") { inclusive = true }
+                    }
+                },
+                onGoToOrder = {
                     navController.navigate("home_stack") {
                         popUpTo("order_screen") { inclusive = true }
                     }
-                })
+                }
+                )
         }
 
         // Profile stack

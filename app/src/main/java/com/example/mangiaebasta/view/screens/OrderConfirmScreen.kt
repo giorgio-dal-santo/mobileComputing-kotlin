@@ -1,14 +1,21 @@
 package com.example.mangiaebasta.view.screens
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.example.mangiaebasta.view.styles.GlobalDimensions
 import com.example.mangiaebasta.view.styles.buttonTextBlackStyle
 import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
@@ -18,7 +25,6 @@ import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.viewmodel.MainViewModel
 
-
 @Composable
 fun OrderConfirmScreen(
     viewModel: MainViewModel,
@@ -27,8 +33,6 @@ fun OrderConfirmScreen(
 ) {
 
     val appState by viewModel.appState.collectAsState()
-    val menuState by viewModel.menusExplorationState.collectAsState()
-    val orderState by viewModel.lastOrderState.collectAsState()
 
     if (appState.isLoading) {
         return Column {
@@ -37,14 +41,19 @@ fun OrderConfirmScreen(
     }
 
     if (appState.error != null) {
-        return Column {
+        return Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(GlobalDimensions.DefaultPadding)
+        ) {
             Text(appState.error!!.message, style = MaterialTheme.typography.titleLarge)
+            Spacer(modifier = Modifier.height(16.dp))
             StyledButton(
                 text = "Got it!",
                 modifier = goBackButtonModifier,
                 textStyle = buttonTextBlackStyle,
                 onClick = {
-                    viewModel.resetError() // Resetta l'errore
+                    viewModel.resetError()
                     onBackwardClick()
                 }
             )
@@ -52,29 +61,41 @@ fun OrderConfirmScreen(
 
     }
 
-    Column {
-        Header("Mangia e Basta")
-
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(GlobalDimensions.DefaultPadding)
+    ) {
         Text("Thank you for your order!", style = MaterialTheme.typography.titleLarge)
 
-        StyledButton(
-            text = "Go to Order Status",
-            modifier = detailButtonModifier,
-            textStyle = buttonTextWhiteStyle,
-            onClick = { onOrderStatusClick() },
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            )
+            {
+                StyledButton(
+                    text = "Go to Order Status",
+                    modifier = detailButtonModifier,
+                    textStyle = buttonTextWhiteStyle,
+                    onClick = { onOrderStatusClick() },
+                )
 
-        Spacer(modifier = Modifier.height(GlobalDimensions.DefaultPadding))
-
-        StyledButton(
-            text = "Back",
-            modifier = goBackButtonModifier,
-            textStyle = buttonTextBlackStyle,
-            onClick = { onBackwardClick() },
-        )
-
-        // se abbiamo tempo mettere mappa
-
+                StyledButton(
+                    text = "Back",
+                    modifier = goBackButtonModifier,
+                    textStyle = buttonTextBlackStyle,
+                    onClick = { onBackwardClick() },
+                )
+            }
+        }
     }
 
 }

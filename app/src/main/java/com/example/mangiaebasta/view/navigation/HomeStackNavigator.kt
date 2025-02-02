@@ -39,8 +39,8 @@ fun NavGraphBuilder.homeStack(navController: NavHostController, viewModel: MainV
                 viewModel,
                 onForwardClick = {
                     CoroutineScope(Dispatchers.Main).launch {
-                        val hardCodedLocation = APILocation(45.4642, 9.19)
-                        viewModel.newOrder(hardCodedLocation, menuId.toInt())
+                        //val hardCodedLocation = APILocation(45.4642, 9.19)
+                        viewModel.newOrder(viewModel.getCurrentAPILocation(), menuId.toInt())
                         navController.navigate("order_confirm")
                     }
                 },

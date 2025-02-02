@@ -33,7 +33,11 @@ fun OrderConfirmScreen(
     val appState by viewModel.appState.collectAsState()
 
     if (appState.isLoading) {
-        return Column {
+        return Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(GlobalDimensions.DefaultPadding),
+        ) {
             Text("Loading...", style = MaterialTheme.typography.titleSmall)
         }
     }

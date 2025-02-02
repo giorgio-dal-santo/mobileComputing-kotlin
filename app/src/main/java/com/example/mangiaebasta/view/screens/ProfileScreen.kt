@@ -1,6 +1,5 @@
 package com.example.mangiaebasta.view.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,16 +43,18 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
     val scrollState = rememberScrollState()
 
     if (appState.isLoading) {
-        return Column {
-            Text("Loading...")
+        return Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(GlobalDimensions.DefaultPadding),
+        ) {
+            Text("Loading...", style = MaterialTheme.typography.titleSmall)
         }
     }
 
     LaunchedEffect(Unit) {
         viewModel.fetchLastOrderDetail()
     }
-
-    Log.d("ProfileScreen", "ISREGISTRED in Profile = ${userState.isUserRegistered}")
 
     if (!userState.isUserRegistered) {
         return Column {

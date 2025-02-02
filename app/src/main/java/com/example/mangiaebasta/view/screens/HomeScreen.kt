@@ -30,7 +30,11 @@ fun HomeScreen(
     val locationState by viewModel.locationState.collectAsState()
 
     if (appState.isLoading) {
-        return Column {
+        return Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(GlobalDimensions.DefaultPadding),
+        ) {
             Text("Loading...", style = MaterialTheme.typography.titleSmall)
         }
     }

@@ -58,7 +58,11 @@ fun OrderScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     if (appState.isLoading || userState.user == null && userState.isUserRegistered) {
-        return Column {
+        return Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(GlobalDimensions.DefaultPadding),
+        ) {
             Text("Loading...", style = MaterialTheme.typography.titleSmall)
         }
     }

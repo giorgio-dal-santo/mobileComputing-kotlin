@@ -230,8 +230,9 @@ fun OrderScreen(
 
                 val cameraOptions = mapView.mapboxMap.cameraForCoordinates(
                     points,
-                    camera, EdgeInsets(100.0, 100.0, 100.0, 100.0),
-                    maxZoom, offset, result
+                    EdgeInsets(100.0, 100.0, 100.0, 100.0),
+                    0.0,
+                    0.0
                 )
 
                 mapView.mapboxMap.easeTo(cameraOptions)

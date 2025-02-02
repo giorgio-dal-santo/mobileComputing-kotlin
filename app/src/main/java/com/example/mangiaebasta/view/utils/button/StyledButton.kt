@@ -14,13 +14,13 @@ fun StyledButton(
     text: String,
     modifier: Modifier,
     textStyle: TextStyle,
-    onClick: () -> Unit // Qui accetti una funzione lambda
+    onClick: () -> Unit
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick() } // Esegui la lambda quando cliccato
+            .clickable { onClick() }
     ) {
         BasicText(
             text = text,

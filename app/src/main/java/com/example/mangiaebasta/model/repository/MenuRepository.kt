@@ -7,12 +7,10 @@ import com.example.mangiaebasta.model.dataClasses.MenuImage
 import com.example.mangiaebasta.model.dataClasses.MenuImageWithVersion
 import com.example.mangiaebasta.model.dataSource.CommunicationController
 import com.example.mangiaebasta.model.dataSource.DBController
-import com.example.mangiaebasta.model.dataSource.PreferencesController
 
 class MenuRepository(
     private val communicationController: CommunicationController,
     private val dbController: DBController,
-    private val preferencesController: PreferencesController
 ) {
     companion object {
         private val TAG = MenuRepository::class.simpleName
@@ -45,6 +43,4 @@ class MenuRepository(
     suspend fun getMenuDetail(mid: Int, lat: Double, lng: Double, sid: String): MenuDetails {
         return communicationController.getMenuDetail(mid, lat, lng, sid)
     }
-
-
 }

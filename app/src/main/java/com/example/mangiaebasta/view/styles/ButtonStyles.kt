@@ -35,27 +35,26 @@ val editProfileButtonModifier = baseButtonModifier(
 ).width(150.dp)
 
 val signUpButtonModifier = baseButtonModifier(
-    backgroundColor = Color(0xFF2196F3), // Blu
+    backgroundColor = Color(0xFF2196F3),
     paddingVertical = 14,
 ).width(300.dp)
 
 val buyButtonModifier = baseButtonModifier(
-    backgroundColor = Color(0xFFFF5722), // Arancione
+    backgroundColor = Color(0xFFFF5722),
     paddingVertical = 14,
 ).width(300.dp)
 
 val detailButtonModifier = baseButtonModifier(
-    backgroundColor = Color(0xFFFFC107), // Giallo
+    backgroundColor = Color(0xFFFFC107),
     paddingVertical = 10,
     paddingHorizontal = 10
 ).width(200.dp)
 
 val orderButtonModifier = baseButtonModifier(
-    backgroundColor = Color(0xFFFF5733), // Rosso scuro
+    backgroundColor = Color(0xFFFF5733),
     paddingVertical = 14
 ).width(300.dp)
 
-// Stili dei testi
 val buttonTextWhiteStyle = TextStyle(
     color = Color.White,
     fontSize = 18.sp,

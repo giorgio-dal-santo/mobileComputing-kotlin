@@ -8,7 +8,6 @@ import com.example.mangiaebasta.view.screens.EditProfileScreen
 import com.example.mangiaebasta.view.screens.ProfileScreen
 import com.example.mangiaebasta.viewmodel.MainViewModel
 
-
 fun NavGraphBuilder.profileStack(navController: NavHostController, viewModel: MainViewModel) {
     navigation(
         startDestination = "profile",
@@ -24,10 +23,9 @@ fun NavGraphBuilder.profileStack(navController: NavHostController, viewModel: Ma
                     }
                 })
         }
+
         composable("edit_profile") {
             EditProfileScreen(viewModel, onBackwardClick = { navController.navigateUp() })
         }
-
-
     }
 }

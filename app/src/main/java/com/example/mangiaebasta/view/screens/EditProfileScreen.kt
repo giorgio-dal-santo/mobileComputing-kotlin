@@ -4,11 +4,8 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -36,7 +33,6 @@ import com.example.mangiaebasta.view.styles.buttonTextBlackStyle
 import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
 import com.example.mangiaebasta.view.styles.goBackButtonModifier
 import com.example.mangiaebasta.view.styles.signUpButtonModifier
-import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.accountForm.DropDownField
 import com.example.mangiaebasta.view.utils.accountForm.FormField
 import com.example.mangiaebasta.view.utils.button.StyledButton
@@ -76,14 +72,12 @@ fun EditProfileScreen(viewModel: MainViewModel, onBackwardClick: () -> Unit) {
             .padding(GlobalDimensions.DefaultPadding)
     ) {
 
-        // Title Row
         Text(
             text = if (userState.isUserRegistered) "Edit profile" else "New profile",
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        // Form Fields Section
         Column(modifier = Modifier.fillMaxWidth()) {
 
             FormField(

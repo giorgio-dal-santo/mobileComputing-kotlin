@@ -1,7 +1,6 @@
 package com.example.mangiaebasta.view.screens
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +20,6 @@ import com.example.mangiaebasta.view.styles.buttonTextBlackStyle
 import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
 import com.example.mangiaebasta.view.styles.detailButtonModifier
 import com.example.mangiaebasta.view.styles.goBackButtonModifier
-import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.viewmodel.MainViewModel
 
@@ -41,7 +39,7 @@ fun OrderConfirmScreen(
     }
 
     if (appState.error != null) {
-        return Column (
+        return Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(GlobalDimensions.DefaultPadding)
@@ -94,6 +92,4 @@ fun OrderConfirmScreen(
             )
         }
     }
-
-
 }

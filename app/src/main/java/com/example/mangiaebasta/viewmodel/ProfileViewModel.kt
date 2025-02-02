@@ -17,7 +17,6 @@ class ProfileViewModel(
     initValues: UserDetail? = null,
 ) : ViewModel() {
 
-
     private val TAG = ProfileViewModel::class.simpleName
     private val _sid = MutableStateFlow<String?>(null)
     private val _uid = MutableStateFlow<Int?>(null)
@@ -106,6 +105,4 @@ class ProfileViewModel(
 
         return submitCb(_formParams.value)
     }
-
-
 }

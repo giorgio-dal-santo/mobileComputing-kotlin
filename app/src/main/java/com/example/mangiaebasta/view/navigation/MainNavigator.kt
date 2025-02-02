@@ -20,10 +20,8 @@ fun MainNavigator(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        // Home stack
         homeStack(navController, viewModel)
 
-        // Order tab
         composable("order") {
             OrderScreen(
                 viewModel,
@@ -37,10 +35,9 @@ fun MainNavigator(
                         popUpTo("order_screen") { inclusive = true }
                     }
                 }
-                )
+            )
         }
 
-        // Profile stack
         profileStack(navController, viewModel)
     }
 }

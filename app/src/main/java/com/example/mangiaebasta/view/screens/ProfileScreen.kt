@@ -92,7 +92,6 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
         }
 
         if (orderState.lastOrderMenu == null) {
-
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -103,7 +102,6 @@ fun ProfileScreen(viewModel: MainViewModel, onEditClick: () -> Unit, onOrderNowC
                         .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 )
-
                 {
                     Spacer(modifier = Modifier.height(16.dp))
 

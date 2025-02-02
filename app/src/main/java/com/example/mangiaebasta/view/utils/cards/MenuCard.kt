@@ -22,7 +22,6 @@ import com.example.mangiaebasta.view.styles.GlobalTypography
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
-//PREVIEW MENU SENZA BOTTONI E SEMPLICE
 @Composable
 fun MenuCard(
     menu: MenuDetailsWithImage,
@@ -34,7 +33,6 @@ fun MenuCard(
     )
 }
 
-//BODY CON BOTTONE DETAIL
 @OptIn(ExperimentalEncodingApi::class)
 @Composable
 fun MenuCardBodySimple(
@@ -53,7 +51,6 @@ fun MenuCardBodySimple(
         Column(
             modifier = Modifier.padding(GlobalCardStyles.CardPadding)
         ) {
-            // Immagine del menu
             if (image != null) {
                 val byteArray = Base64.decode(image)
                 val bitmap =
@@ -63,8 +60,8 @@ fun MenuCardBodySimple(
                     bitmap = bitmap.asImageBitmap(),
                     contentDescription = title,
                     modifier = Modifier
-                        .fillMaxWidth()  // Adatta l'immagine alla larghezza della Card
-                        .height(120.dp), // Altezza fissa per mantenere un aspetto rettangolare
+                        .fillMaxWidth()
+                        .height(120.dp),
                     contentScale = ContentScale.Crop
                 )
             } else {

@@ -10,30 +10,24 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.first
 
-
 class PreferencesController private constructor(
     private val dataStore: DataStore<Preferences>
 ) {
-
     companion object {
         private val TAG = PreferencesController::class.simpleName
         val SID = stringPreferencesKey("sid")
         val UID = intPreferencesKey("uid")
         val HAS_ALREADY_RUN = booleanPreferencesKey("has_already_run")
         val IS_REGISTERED = booleanPreferencesKey("is_registered")
-        private val KEY_LAST_SCREEN = stringPreferencesKey("last_screen") //per salvare schermata
-        val CAN_USE_LOCATION = booleanPreferencesKey("can_use_location")
-
+        private val KEY_LAST_SCREEN = stringPreferencesKey("last_screen")
 
         private var INSTANCE: PreferencesController? = null
 
-        // Avoids the creation of multiple instances of the PreferencesController when the App is restarted via code
         fun getInstance(dataStore: DataStore<Preferences>): PreferencesController {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: PreferencesController(dataStore).also { INSTANCE = it }
             }
         }
-
     }
 
     suspend fun <T> get(prefKey: Key<T>): T? {
@@ -64,17 +58,14 @@ class PreferencesController private constructor(
         return false
     }
 
-    // Metodo specifico per ottenere l'ultima schermata
     suspend fun getLastScreen(): String {
         val currentScreen = get(KEY_LAST_SCREEN) ?: "home_stack"
         Log.d(TAG, "getLastScreen: $currentScreen")
         return currentScreen
     }
 
-    // Metodo specifico per salvare l'ultima schermata
     suspend fun setLastScreen(screen: String) {
         set(KEY_LAST_SCREEN, screen)
         Log.d(TAG, "setLastScreen to: $screen")
     }
-
 }

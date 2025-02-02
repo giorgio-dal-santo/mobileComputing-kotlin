@@ -19,7 +19,6 @@ import com.example.mangiaebasta.view.styles.GlobalDimensions
 import com.example.mangiaebasta.view.styles.GlobalTypography
 import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
 import com.example.mangiaebasta.view.styles.editProfileButtonModifier
-import com.example.mangiaebasta.view.styles.signUpButtonModifier
 import com.example.mangiaebasta.view.utils.button.StyledButton
 
 @Composable
@@ -58,7 +57,7 @@ fun ProfileCardBody(
             modifier = Modifier.padding(GlobalCardStyles.CardPadding)
         ) {
             if (cardFullName != null) {
-                Row (
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = GlobalDimensions.CardPadding),
@@ -72,7 +71,7 @@ fun ProfileCardBody(
             }
 
             if (cardNumber != null) {
-                Row (
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = GlobalDimensions.CardPadding),
@@ -87,7 +86,7 @@ fun ProfileCardBody(
             }
 
             if (expireMonth != null && expireYear != null) {
-                Row (
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = GlobalDimensions.CardPadding),
@@ -102,7 +101,7 @@ fun ProfileCardBody(
             }
 
             if (cvv != null) {
-                Row (
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {

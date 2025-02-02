@@ -47,20 +47,17 @@ fun DropDownField(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(1.dp, Color.Gray, RoundedCornerShape(8.dp)) // Bordo arrotondato
-                .clickable { expanded = true } // Apre la tendina al click
-                .padding(12.dp) // Padding interno per il testo e l'icona
+                .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
+                .clickable { expanded = true }
+                .padding(12.dp)
         ) {
-
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-
                 Text(
-                    text = value.ifEmpty { "Select month and year" }, // Testo predefinito se non selezionato
+                    text = value.ifEmpty { "Select month and year" },
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color.Black
@@ -69,7 +66,7 @@ fun DropDownField(
                 Icon(
                     imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp) // Grandezza icona migliorata
+                    modifier = Modifier.size(24.dp)
                 )
             }
         }
@@ -79,13 +76,13 @@ fun DropDownField(
             onDismissRequest = { expanded = false },
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.White) // Sfondo bianco per un look pulito
+                .background(Color.White)
         ) {
             (min..max).forEach { item ->
                 DropdownMenuItem(
                     onClick = {
                         onValueChange(item.toString())
-                        expanded = false // Chiude la tendina dopo la selezione
+                        expanded = false
                     },
                     text = {
                         Text(
@@ -100,5 +97,4 @@ fun DropDownField(
             }
         }
     }
-
 }

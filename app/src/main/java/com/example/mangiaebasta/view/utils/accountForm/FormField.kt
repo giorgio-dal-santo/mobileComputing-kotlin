@@ -50,12 +50,12 @@ fun FormField(
         },
         modifier = Modifier
             .fillMaxWidth()
-            .height(60.dp) // Altezza leggermente aumentata
+            .height(60.dp)
             .padding(bottom = 12.dp),
         keyboardOptions = keyBoardOptions,
         textStyle = TextStyle(
-            fontSize = 20.sp, // Testo più grande
-            fontWeight = FontWeight.Medium, // Testo leggermente più marcato
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Start,
             color = Color.Black
         ),
@@ -64,15 +64,14 @@ fun FormField(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .border(1.dp, Color.Gray, RoundedCornerShape(8.dp)) // Bordo arrotondato
-                    .padding(8.dp), // Padding interno per il testo
+                    .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
+                    .padding(8.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
                 innerTextField()
             }
         }
     )
-
 
     if (!isValid && showError) {
         Text(
@@ -81,5 +80,4 @@ fun FormField(
             modifier = Modifier.padding(bottom = 6.dp)
         )
     }
-
 }

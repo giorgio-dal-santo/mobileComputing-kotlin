@@ -58,7 +58,6 @@ data class AppState(
     val error: Error? = null
 )
 
-
 class MainViewModel(
     private val userRepository: UserRepository,
     private val menuRepository: MenuRepository,
@@ -66,7 +65,6 @@ class MainViewModel(
     private val locationClient: FusedLocationProviderClient
 ) : ViewModel() {
 
-    //Location di Default se non ho user location
     companion object {
         val DEFAULT_LOCATION = APILocation(
             lat = 45.4642,
@@ -74,12 +72,7 @@ class MainViewModel(
         )
     }
 
-    //TAG per Log
     private val TAG = MainViewModel::class.simpleName
-
-    //Mutable State Flow o State Flow
-    //_ se privata --> che può essere modificata all'interno della classe o dell'oggetto.
-    //se non _ allora è pubblica e stato immutabile
 
     private val _sid = MutableStateFlow<String?>(null)
     private val _uid = MutableStateFlow<Int?>(null)
@@ -126,7 +119,6 @@ class MainViewModel(
     }
 
     // Data Fetching and Updating
-
     suspend fun fetchUserSession() {
         val us = userRepository.getUserSession()
         _sid.value = us.sid
@@ -150,7 +142,6 @@ class MainViewModel(
     }
 
     suspend fun updateUserData(updatedData: UserUpdateParams): Boolean {
-
         try {
             Log.d(TAG, "Update user data")
 
@@ -184,7 +175,6 @@ class MainViewModel(
         return userRepository
     }
 
-
     suspend fun fetchNearbyMenus() {
         viewModelScope.launch {
 
@@ -217,9 +207,7 @@ class MainViewModel(
                         if (it.menu.mid == menu.mid) updatedMenu else it
                     }
                 )
-
             }
-
         }
     }
 
@@ -243,7 +231,6 @@ class MainViewModel(
     }
 
     suspend fun newOrder(deliveryLocation: APILocation, mid: Int?): Boolean {
-
         if (mid == null) {
             Log.d(TAG, "Mid is null")
             return false
@@ -282,11 +269,12 @@ class MainViewModel(
         }
 
         val success = _appState.value.error == null
+
         if (success) {
             fetchLastOrderedMenu()
         }
-        return success
 
+        return success
     }
 
     suspend fun fetchLastOrderedMenu() {
@@ -342,12 +330,7 @@ class MainViewModel(
         fetchLastOrderedMenu()
     }
 
-
-    //LOCATION
-    fun disallowLocation() {
-        _locationState.value = _locationState.value.copy(isLocationAllowed = false)
-    }
-
+    //Location Management
     fun allowLocation(location: Location) {
         setLastKnownLocation(location)
         if (_locationState.value.isLocationAllowed) return
@@ -372,20 +355,18 @@ class MainViewModel(
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-
     @SuppressLint("MissingPermission")
     fun subscribeToLocationUpdates(
         locationCallback: LocationCallback
     ) {
         val locationRequest = LocationRequest
             .Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000L)
-            .setMinUpdateIntervalMillis(2000L) // Minimum interval between updates
-            .setMinUpdateDistanceMeters(1.0F) // Minimum distance between updates
+            .setMinUpdateIntervalMillis(2000L)
+            .setMinUpdateDistanceMeters(1.0F)
             .build()
 
         locationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
-
 
     fun getCurrentAPILocation(): APILocation {
         val location = _locationState.value.lastKnownLocation
@@ -397,5 +378,4 @@ class MainViewModel(
         }
         return DEFAULT_LOCATION
     }
-
 }

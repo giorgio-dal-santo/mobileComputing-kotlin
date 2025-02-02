@@ -71,13 +71,10 @@ class MainActivity : ComponentActivity() {
         val menuRepository = MenuRepository(
             communicationController = apiController,
             dbController = dbController,
-            preferencesController = preferencesController
         )
 
         val orderRepository = OrderRepository(
             communicationController = apiController,
-            dbController = dbController,
-            preferencesController = preferencesController
         )
 
         val locationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -162,9 +159,9 @@ fun MainScreen(
     ) { isGranted ->
         if (isGranted) {
             viewModel.subscribeToLocationUpdates(locationCallback)
-            Log.d("MainActivity", "Permission granted: $isGranted")
+            Log.d("MainActivity", "Permission granted")
         } else {
-            Log.d("MainActivity", "Permission not granted: $isGranted")
+            Log.d("MainActivity", "Permission not granted")
         }
     }
 

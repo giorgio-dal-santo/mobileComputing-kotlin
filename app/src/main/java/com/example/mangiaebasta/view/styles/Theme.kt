@@ -40,46 +40,46 @@ private val AppColors = lightColorScheme(
     onSurface = Color.Black
 )
 
-val GlobalTypography = Typography( // si usa così: style = MaterialTheme.typography.h1
-    headlineLarge = TextStyle( // headerTitleStyle
+val GlobalTypography = Typography(
+    headlineLarge = TextStyle(
         fontSize = 32.sp,
         fontFamily = PoppinsBlack,
         color = Color(0xFF333333),
         textAlign = TextAlign.Center
     ),
-    titleLarge = TextStyle( // title
+    titleLarge = TextStyle(
         fontSize = 30.sp,
         fontFamily = PoppinsBold,
         color = Color(0xFF333333),
         textAlign = TextAlign.Left
     ),
-    titleMedium = TextStyle( // cardTitle
+    titleMedium = TextStyle(
         fontSize = 24.sp,
         fontFamily = PoppinsBold,
         color = Color(0xFF333333),
         textAlign = TextAlign.Left
     ),
-    titleSmall = TextStyle( // subTitle
+    titleSmall = TextStyle(
         fontSize = 20.sp,
         fontFamily = PoppinsRegular,
         fontWeight = FontWeight.Light,
         color = Color(0xFF333333),
         textAlign = TextAlign.Left
     ),
-    bodyLarge = TextStyle( // description
+    bodyLarge = TextStyle(
         fontSize = 18.sp,
         color = Color.Black
     ),
-    bodyMedium = TextStyle( // deliveryTime
+    bodyMedium = TextStyle(
         fontSize = 18.sp,
         color = Color(0xFF888888)
     ),
-    labelLarge = TextStyle( // price
+    labelLarge = TextStyle(
         fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
         color = Color(0xFF00A86B)
     ),
-    bodySmall = TextStyle( // profileDetailText
+    bodySmall = TextStyle(
         fontSize = 16.sp,
         color = Color(0xFF555555)
     )
@@ -91,15 +91,12 @@ val GlobalShapes = Shapes(
     large = RoundedCornerShape(24.dp)
 )
 
-
-// Spaziature e padding
 object GlobalDimensions {
     val DefaultPadding = 16.dp
     val CardPadding = 12.dp
     val ButtonPadding = 14.dp
 }
 
-// Card
 object GlobalCardStyles {
     val CardShape = RoundedCornerShape(16.dp)
     val CardPadding = PaddingValues(16.dp)
@@ -111,5 +108,3 @@ object GlobalCardStyles {
         disabledContentColor = Color.Black,
     )
 }
-
-

@@ -16,7 +16,6 @@ class UserRepository(
         private val TAG = UserRepository::class.simpleName
     }
 
-
     suspend fun isFirstRun(): Boolean {
         return preferencesController.isFirstRun()
     }
@@ -34,12 +33,10 @@ class UserRepository(
                 return User(sid, uid)
             }
         }
-
         val user: User = communicationController.registerUser()
         preferencesController.memorizeSessionKeys(user.sid, user.uid)
         return user
     }
-
 
     suspend fun getUserData(sid: String, uid: Int): UserDetail {
         return communicationController.getUserData(sid, uid)
@@ -49,7 +46,4 @@ class UserRepository(
         communicationController.putUserData(sid, uid, updateData)
         preferencesController.set(PreferencesController.IS_REGISTERED, true)
     }
-
-    //NAV STACK
-
 }

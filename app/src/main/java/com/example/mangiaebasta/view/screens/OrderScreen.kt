@@ -29,7 +29,6 @@ import com.example.mangiaebasta.view.styles.GlobalDimensions
 import com.example.mangiaebasta.view.styles.buttonTextWhiteStyle
 import com.example.mangiaebasta.view.styles.orderButtonModifier
 import com.example.mangiaebasta.view.styles.signUpButtonModifier
-import com.example.mangiaebasta.view.utils.Header
 import com.example.mangiaebasta.view.utils.button.StyledButton
 import com.example.mangiaebasta.view.utils.cards.MenuCard
 import com.example.mangiaebasta.viewmodel.MainViewModel
@@ -231,16 +230,13 @@ fun OrderScreen(
 
                 val cameraOptions = mapView.mapboxMap.cameraForCoordinates(
                     points,
-                    EdgeInsets(100.0, 100.0, 100.0, 100.0),
-                    0.0,
-                    0.0
+                    camera, EdgeInsets(100.0, 100.0, 100.0, 100.0),
+                    maxZoom, offset, result
                 )
 
                 mapView.mapboxMap.easeTo(cameraOptions)
             }
         }
-
         MenuCard(orderState.lastOrderMenu!!)
     }
-
 }

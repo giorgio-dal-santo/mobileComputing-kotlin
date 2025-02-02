@@ -28,13 +28,11 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-
 class CommunicationController {
     companion object {
         private val BASE_URL = "https://develop.ewlab.di.unimi.it/mc/2425"
         private val TAG = CommunicationController::class.simpleName
     }
-
 
     private val client = HttpClient(Android) {
         install(ContentNegotiation) {
@@ -166,6 +164,4 @@ class CommunicationController {
         val result: Order = httpResponse.body()
         return result
     }
-
-
 }

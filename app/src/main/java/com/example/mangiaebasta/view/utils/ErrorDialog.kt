@@ -12,11 +12,11 @@ fun ErrorDialog(
 ) {
     androidx.compose.material3.AlertDialog(
         onDismissRequest = {
-            onDismiss() // Chiamato quando l'utente chiude il dialogo
+            onDismiss()
         },
         confirmButton = {
-            Button(onClick = onDismiss) { // Bottone "Chiudi"
-                Text("Chiudi")
+            Button(onClick = onDismiss) {
+                Text("Close")
             }
         },
         title = {

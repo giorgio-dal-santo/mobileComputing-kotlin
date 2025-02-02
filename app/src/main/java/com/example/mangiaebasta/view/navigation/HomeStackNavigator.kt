@@ -15,7 +15,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 fun NavGraphBuilder.homeStack(navController: NavHostController, viewModel: MainViewModel) {
     navigation(
         startDestination = "home",
@@ -26,6 +25,7 @@ fun NavGraphBuilder.homeStack(navController: NavHostController, viewModel: MainV
                 navController.navigate("menu_detail/$menuId")
             })
         }
+
         composable(
             route = "menu_detail/{menuId}",
             arguments = listOf(
